@@ -32,24 +32,28 @@
         <div class="app">
             <h1>Welcome to the Rock Check-In App</h1>
             
-            <a href="#" id="tag-click">Click me to print a label</a>
-            
+            <p>Where printing is easy and the labels are free!</p>            
         </div>
         <script type="text/javascript" src="cordova-2.4.0.js"></script>
         <script type="text/javascript" src="js/index.js"></script>
         <script type="text/javascript">
-            //app.initialize();
             
-            $("#tag-click").click(function() {
-	            
-	            var labelData = [
-	            	{"PrinterAddress":"255.255.255.255","LabelFile":"file1","LabelKey":"00000000-0000-0000-0000-000000000000","MergeFields":{"CF0":"DHP","CF1":"Alex","CF2":"Edmiston"}},
-	            	{"PrinterAddress":"255.255.255.255","LabelFile":"file2","LabelKey":"00000000-0000-0000-0000-000000000000","MergeFields":{"CF0":"DHP","CF1":"Alex","CF2":"Edmiston"}},
-	            	{"PrinterAddress":"255.255.255.255","LabelFile":"file3","LabelKey":"00000000-0000-0000-0000-000000000000","MergeFields":{"CF0":"DHP","CF1":"Alex","CF2":"Edmiston"}}
-	            ];
-	            
-	            
-	            ZebraPrintPlugin.printTags(
+            
+            // label data
+            var labelData = [
+            	{"PrinterAddress":"255.255.255.255","LabelFile":"file1","LabelKey":"00000000-0000-0000-0000-000000000000","MergeFields":{"CF0":"DHP","CF1":"Alex","CF2":"Edmiston"}},
+            	{"PrinterAddress":"255.255.255.255","LabelFile":"file2","LabelKey":"00000000-0000-0000-0000-000000000000","MergeFields":{"CF0":"DHP","CF1":"Alex","CF2":"Edmiston"}},
+            	{"PrinterAddress":"255.255.255.255","LabelFile":"file3","LabelKey":"00000000-0000-0000-0000-000000000000","MergeFields":{"CF0":"DHP","CF1":"Alex","CF2":"Edmiston"}}
+            ];
+            
+            // setup deviceready event to wait for cordova
+	        document.addEventListener("deviceready", onDeviceReady, false);
+
+
+		    function onDeviceReady() {
+
+		        // send label data to the zebra plugin for printing
+		        ZebraPrintPlugin.printTags(
 	            	JSON.stringify(labelData), 
 	            	function(result) { 
 				        console.log("I printed that tag like a champ!!!");
@@ -58,7 +62,9 @@
 				        alert("An error occurred: " + error);
 				    }
 	            );
-	        });
+	            
+		    }
+
         </script>
     </body>
 </html>
