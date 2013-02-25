@@ -27,7 +27,7 @@
     // if no json data sent return error
     if (jsonString == nil || [jsonString length] == 0) {
         NSLog(@"[ERROR] No label data sent to print");
-        pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"No label data sent to print"];
+        pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsArray:[NSArray arrayWithObjects:@"No label data sent to print", @"false", nil]];
     } else {
         // we have something, let's parse the json
         SBJsonParser *parser = [[SBJsonParser alloc] init];
@@ -37,11 +37,14 @@
         if (labels == nil || [labels count] == 0) {
             // json was not able to be parsed
             NSLog(@"[ERROR] JSON was not able to be parsed: %@", parser.error);
-            pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:[NSString stringWithFormat:@"An error occurred: %@", parser.error]];
+            pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsArray:[NSArray arrayWithObjects:[NSString stringWithFormat:@"An error occurred: %@", parser.error], @"false", nil]];
             
         } else {
             // we have parsed successfully
-            NSLog(@"[Log] ZebraPrint plugin has parsed %d labels", [labels count]);
+            NSLog(@"[LOG] ZebraPrint plugin has parsed %d labels", [labels count]);
+            
+            // create reusable printer connection
+            id<ZebraPrinterConnection, NSObject> printerConn = nil;
             
             // iterate through labels
             for (id label in labels) {
@@ -53,9 +56,9 @@
                 NSDictionary *mergeFields = [label objectForKey:@"MergeFields"];
                 
                 // create connection to the printer
-                id<ZebraPrinterConnection, NSObject> printerConn = [[TcpPrinterConnection alloc] initWithAddress:printerIP andWithPort:9100];
+                printerConn = [[TcpPrinterConnection alloc] initWithAddress:printerIP andWithPort:9100];
                 
-                BOOL success = [printerConn open];
+                /*BOOL success = [printerConn open];
                 
                 NSString *zplData = @"^XA^FO20,20^A0N,25,25^FDThis is a ZPL test.^FS^XZ";
                 
@@ -68,22 +71,24 @@
                     [errorAlert show];
                     [errorAlert release];
                 }
+                
                 // Close the connection to release resources.
                 [printerConn close];
-                
                 [printerConn release];
                 
                 
-                //file:///Users/jedmiston/Applications/zebralink_sdk/iOS/v1.0.214/doc/html/index.html
-                [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+                //file:///Users/jedmiston/Applications/zebralink_sdk/iOS/v1.0.214/doc/html/index.html*/
+
+                pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
                 
             }
         }
         
         [parser release], parser = nil;
     }
-    
-    
+
+    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+
     
 }
 
