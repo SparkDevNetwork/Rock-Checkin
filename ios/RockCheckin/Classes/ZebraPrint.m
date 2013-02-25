@@ -58,7 +58,7 @@
                 // create connection to the printer
                 printerConn = [[TcpPrinterConnection alloc] initWithAddress:printerIP andWithPort:9100];
                 
-                /*BOOL success = [printerConn open];
+                BOOL success = [printerConn open];
                 
                 NSString *zplData = @"^XA^FO20,20^A0N,25,25^FDThis is a ZPL test.^FS^XZ";
                 
@@ -77,7 +77,7 @@
                 [printerConn release];
                 
                 
-                //file:///Users/jedmiston/Applications/zebralink_sdk/iOS/v1.0.214/doc/html/index.html*/
+                //file:///Users/jedmiston/Applications/zebralink_sdk/iOS/v1.0.214/doc/html/index.html
 
                 pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
                 
