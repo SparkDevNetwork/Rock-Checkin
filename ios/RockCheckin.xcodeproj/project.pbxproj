@@ -56,6 +56,7 @@
 		9E55AE4C16D88BD700C2CBB1 /* SBJsonWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E55AE4016D88BD700C2CBB1 /* SBJsonWriter.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		9E55AE5B16D88D6200C2CBB1 /* Readme.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 9E55AE5A16D88D6200C2CBB1 /* Readme.rtf */; };
 		9EE5B81316E44DA300D0D311 /* ApplicationPreferences.m in Sources */ = {isa = PBXBuildFile; fileRef = 9EE5B81216E44DA300D0D311 /* ApplicationPreferences.m */; };
+		9EE5B81E16E457CB00D0D311 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 9EE5B81D16E457CB00D0D311 /* Settings.bundle */; };
 		D4A0D8761607E02300AEF8BB /* Default-568h@2x~iphone.png in Resources */ = {isa = PBXBuildFile; fileRef = D4A0D8751607E02300AEF8BB /* Default-568h@2x~iphone.png */; };
 		F840E1F1165FE0F500CFE078 /* config.xml in Resources */ = {isa = PBXBuildFile; fileRef = F840E1F0165FE0F500CFE078 /* config.xml */; };
 /* End PBXBuildFile section */
@@ -81,7 +82,7 @@
 		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		1D3623240D0F684500981E51 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		1D3623250D0F684500981E51 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		1D6058910D05DD3D006BFB54 /* RockCheckin.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RockCheckin.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		1D6058910D05DD3D006BFB54 /* Rock Check-in.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Rock Check-in.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		1F766FDD13BBADB100FB74C0 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = Localizable.strings; sourceTree = "<group>"; };
 		1F766FE013BBADB100FB74C0 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = Localizable.strings; sourceTree = "<group>"; };
@@ -147,6 +148,7 @@
 		9E55AE5A16D88D6200C2CBB1 /* Readme.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = Readme.rtf; sourceTree = "<group>"; };
 		9EE5B81116E44DA300D0D311 /* ApplicationPreferences.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ApplicationPreferences.h; sourceTree = "<group>"; };
 		9EE5B81216E44DA300D0D311 /* ApplicationPreferences.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ApplicationPreferences.m; sourceTree = "<group>"; };
+		9EE5B81D16E457CB00D0D311 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		D4A0D8751607E02300AEF8BB /* Default-568h@2x~iphone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x~iphone.png"; sourceTree = "<group>"; };
 		F840E1F0165FE0F500CFE078 /* config.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = config.xml; path = RockCheckin/config.xml; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -198,7 +200,7 @@
 		19C28FACFE9D520D11CA2CBB /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				1D6058910D05DD3D006BFB54 /* RockCheckin.app */,
+				1D6058910D05DD3D006BFB54 /* Rock Check-in.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -222,6 +224,7 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
+				9EE5B81D16E457CB00D0D311 /* Settings.bundle */,
 				9E55AE5A16D88D6200C2CBB1 /* Readme.rtf */,
 				F840E1F0165FE0F500CFE078 /* config.xml */,
 				301BF56E109A69640062928A /* www */,
@@ -390,7 +393,7 @@
 			);
 			name = RockCheckin;
 			productName = RockCheckin;
-			productReference = 1D6058910D05DD3D006BFB54 /* RockCheckin.app */;
+			productReference = 1D6058910D05DD3D006BFB54 /* Rock Check-in.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -464,6 +467,7 @@
 				3088BBC2154F3926009F9C59 /* Default~iphone.png in Resources */,
 				D4A0D8761607E02300AEF8BB /* Default-568h@2x~iphone.png in Resources */,
 				9E55AE5B16D88D6200C2CBB1 /* Readme.rtf in Resources */,
+				9EE5B81E16E457CB00D0D311 /* Settings.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -594,7 +598,7 @@
 					"-Obj-C",
 					"-lZSDK_API",
 				);
-				PRODUCT_NAME = RockCheckin;
+				PRODUCT_NAME = "Rock Check-in";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -634,7 +638,7 @@
 					"-Obj-C",
 					"-lZSDK_API",
 				);
-				PRODUCT_NAME = RockCheckin;
+				PRODUCT_NAME = "Rock Check-in";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
