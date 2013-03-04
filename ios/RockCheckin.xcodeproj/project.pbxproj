@@ -55,6 +55,7 @@
 		9E55AE4B16D88BD700C2CBB1 /* SBJsonUTF8Stream.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E55AE3E16D88BD700C2CBB1 /* SBJsonUTF8Stream.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		9E55AE4C16D88BD700C2CBB1 /* SBJsonWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E55AE4016D88BD700C2CBB1 /* SBJsonWriter.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		9E55AE5B16D88D6200C2CBB1 /* Readme.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 9E55AE5A16D88D6200C2CBB1 /* Readme.rtf */; };
+		9EE5B81316E44DA300D0D311 /* ApplicationPreferences.m in Sources */ = {isa = PBXBuildFile; fileRef = 9EE5B81216E44DA300D0D311 /* ApplicationPreferences.m */; };
 		D4A0D8761607E02300AEF8BB /* Default-568h@2x~iphone.png in Resources */ = {isa = PBXBuildFile; fileRef = D4A0D8751607E02300AEF8BB /* Default-568h@2x~iphone.png */; };
 		F840E1F1165FE0F500CFE078 /* config.xml in Resources */ = {isa = PBXBuildFile; fileRef = F840E1F0165FE0F500CFE078 /* config.xml */; };
 /* End PBXBuildFile section */
@@ -144,6 +145,8 @@
 		9E55AE3F16D88BD700C2CBB1 /* SBJsonWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SBJsonWriter.h; path = ../../SBJsonWriter.h; sourceTree = "<group>"; };
 		9E55AE4016D88BD700C2CBB1 /* SBJsonWriter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SBJsonWriter.m; path = ../../SBJsonWriter.m; sourceTree = "<group>"; };
 		9E55AE5A16D88D6200C2CBB1 /* Readme.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = Readme.rtf; sourceTree = "<group>"; };
+		9EE5B81116E44DA300D0D311 /* ApplicationPreferences.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ApplicationPreferences.h; sourceTree = "<group>"; };
+		9EE5B81216E44DA300D0D311 /* ApplicationPreferences.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ApplicationPreferences.m; sourceTree = "<group>"; };
 		D4A0D8751607E02300AEF8BB /* Default-568h@2x~iphone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x~iphone.png"; sourceTree = "<group>"; };
 		F840E1F0165FE0F500CFE078 /* config.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = config.xml; path = RockCheckin/config.xml; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -177,6 +180,8 @@
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				9EE5B81116E44DA300D0D311 /* ApplicationPreferences.h */,
+				9EE5B81216E44DA300D0D311 /* ApplicationPreferences.m */,
 				9E55AE5916D88C2400C2CBB1 /* SBJson */,
 				302D95EE14D2391D003F00A1 /* MainViewController.h */,
 				302D95EF14D2391D003F00A1 /* MainViewController.m */,
@@ -502,6 +507,7 @@
 				9E55AE4A16D88BD700C2CBB1 /* SBJsonTokeniser.m in Sources */,
 				9E55AE4B16D88BD700C2CBB1 /* SBJsonUTF8Stream.m in Sources */,
 				9E55AE4C16D88BD700C2CBB1 /* SBJsonWriter.m in Sources */,
+				9EE5B81316E44DA300D0D311 /* ApplicationPreferences.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

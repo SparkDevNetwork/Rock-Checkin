@@ -27,6 +27,7 @@
         
         <script src="js/jquery.min.js" type="text/javascript"></script>
         <script src="js/ZebraPrint.js" type="text/javascript"></script>
+        <script src="js/ApplicationPreferences.js" type="text/javascript"></script>
     </head>
     <body>
         <div class="app">
@@ -52,8 +53,32 @@
 
 		    function onDeviceReady() {
 
+                // check for church's rock server setting
+                /*console.log("Let's try getting a setting");
+                ApplicationPreferencesPlugin.setApplicationSetting(
+                    'RockServer',
+                    'http://rock.ccvonline.com/',
+                    function(result) {
+                        console.log("Saving the setting: " + result);
+                    },
+                    function(error) {
+                        console.log("Error on saving setting");
+                    }
+                );*/
+                
+                console.log("Let's try getting a setting");
+                ApplicationPreferencesPlugin.getApplicationSetting(
+                    'RockServer',
+                    function(result) {
+                        console.log("The Rock server setting is: " + result);
+                    },
+                    function(error) {
+                        console.log("Getting the setting... yeah not working too well");
+                    }
+                );
+                
 		        // send label data to the zebra plugin for printing
-		        printLabels();
+		        //printLabels();
 	            
 		    }
 		    

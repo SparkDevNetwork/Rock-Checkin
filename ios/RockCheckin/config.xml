@@ -56,6 +56,7 @@
         <plugin name="InAppBrowser" value="CDVInAppBrowser" />
         
         <plugin name="ZebraPrint" value="ZebraPrint" />
+        <plugin name="ApplicationPreferences" value="ApplicationPreferences" />
     </plugins>
 
     <access origin="*" />
