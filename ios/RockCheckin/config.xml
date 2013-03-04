@@ -60,4 +60,6 @@
     </plugins>
 
     <access origin="*" />
+    <access uri="*" subdomains="true" />
+
 </cordova>
