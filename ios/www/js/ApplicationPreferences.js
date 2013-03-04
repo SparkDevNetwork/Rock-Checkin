@@ -4,7 +4,6 @@ var ApplicationPreferencesPlugin = {
     // get setting
     getApplicationSetting: function (key, success, fail)
     {
-        console.log("We be here where we need to be");
         var args = {};
         args.key = key;
         Cordova.exec(success,fail,"ApplicationPreferences","getSetting",[args]);

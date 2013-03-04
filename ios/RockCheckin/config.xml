@@ -59,7 +59,7 @@
         <plugin name="ApplicationPreferences" value="ApplicationPreferences" />
     </plugins>
 
-    <access origin="*" />
-    <access uri="*" subdomains="true" />
+    <access origin="*" subdomains="true" />
+    
 
 </cordova>

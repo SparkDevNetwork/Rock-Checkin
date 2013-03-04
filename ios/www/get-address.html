@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <meta name="format-detection" content="telephone=no" />
+        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
+        
+        <title>Rock Check-in - Get Address</title>
+        
+        <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
+        <link rel="stylesheet" type="text/css" href="css/bootstrap-responsive.min.css" />
+        <link rel="stylesheet" type="text/css" href="css/font-awesome.min.css" />
+        <link rel="stylesheet" type="text/css" href="css/rock-checkin-app.css" />
+        
+        <script src="js/jquery.min.js" type="text/javascript"></script>
+        <script src="js/ApplicationPreferences.js" type="text/javascript"></script>
+        <script src="js/bootstrap.min.js" type="text/javascript"></script>
+        <script src="cordova-2.4.0.js" type="text/javascript"></script>
+    </head>
+    <body>
+        <div class="content container-fluid">
+            
+                <div class="row-fluid">
+	                <div class="span12">
+		                <img src="img/rock-logo.svg" class="logo" />
+                        <h1>Welcome...</h1>
+            
+		                <p>Before we get started, let's configure a few settings.</p> 
+		                
+		                <form class="form">
+							<div class="control-group">
+								<label class="control-label" for="inputEmail">Check-in Address</label>
+								
+								<div class="controls">
+									<input type="text" class="input-xlarge" id="checkin-address" placeholder="http://yourserver.com/checkin">
+									</div>
+							</div>
+							
+							<div class="alert alert-info">
+			                	<strong>Just In Case.</strong> You can change this address later by using your device's Settings application.
+			                </div>
+							
+							
+		                </form>
+		                <div class="form-actions">
+							<button type="submit" id="save-settings" class="btn btn-primary">Save Settings</button>
+						</div>
+		                
+		                
+	                </div>
+	            </div>
+            
+                       
+        </div>
+        
+        <script type="text/javascript">
+
+            // setup deviceready event to wait for cordova
+	        document.addEventListener("deviceready", onDeviceReady, false);
+
+
+		    function onDeviceReady() {
+
+                $("#save-settings").click(function() {
+	                
+	                // get settings
+	                var checkinAddress = $.trim($('#checkin-address').val());
+	                
+	                // validate address
+	                if (checkinAddress.length == 0 ) {
+	  					
+	  					navigator.notification.alert("Please enter your check-in address.", alertDismissed, 'Warning', 'Continue');
+	  					e.prevendDefault();
+	  					return;
+  					}
+	                
+	                // save settings
+	                ApplicationPreferencesPlugin.setApplicationSetting(
+	                    'checkin_address',
+	                    checkinAddress,
+	                    function(result) {
+	                        window.location.href = checkinAddress;
+	                    },
+	                    function(error) {
+	                        navigator.notification.alert("An error occurred while trying to save this setting.", alertDismissed, 'Warning', 'Continue');
+	                    }
+	                );
+	            });
+	            
+		    }
+		    
+		    function alertDismissed() {
+					// do something
+			}
+
+        </script>
+    </body>
+</html>

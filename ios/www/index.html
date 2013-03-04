@@ -1,42 +1,25 @@
 <!DOCTYPE html>
-<!--
-    Licensed to the Apache Software Foundation (ASF) under one
-    or more contributor license agreements.  See the NOTICE file
-    distributed with this work for additional information
-    regarding copyright ownership.  The ASF licenses this file
-    to you under the Apache License, Version 2.0 (the
-    "License"); you may not use this file except in compliance
-    with the License.  You may obtain a copy of the License at
 
-    http://www.apache.org/licenses/LICENSE-2.0
-
-    Unless required by applicable law or agreed to in writing,
-    software distributed under the License is distributed on an
-    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-     KIND, either express or implied.  See the License for the
-    specific language governing permissions and limitations
-    under the License.
--->
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta name="format-detection" content="telephone=no" />
         <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
-        <link rel="stylesheet" type="text/css" href="css/index.css" />
-        <title>Hello World</title>
+
+        <title>Rock Check-in</title>
+        
+        <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
+        <link rel="stylesheet" type="text/css" href="css/bootstrap-responsive.min.css" />
+        <link rel="stylesheet" type="text/css" href="css/font-awesome.min.css" />
+        <link rel="stylesheet" type="text/css" href="css/rock-checkin-app.css" />
         
         <script src="js/jquery.min.js" type="text/javascript"></script>
-        <script src="js/ZebraPrint.js" type="text/javascript"></script>
         <script src="js/ApplicationPreferences.js" type="text/javascript"></script>
+        <script src="js/bootstrap.min.js" type="text/javascript"></script>
+        <script src="cordova-2.4.0.js" type="text/javascript"></script>
     </head>
     <body>
-        <div class="app">
-            <h1>Welcome to the Rock Check-In App</h1>
-            
-            <p>Where printing is easy and the labels are free!</p>            
-        </div>
-        <script type="text/javascript" src="cordova-2.4.0.js"></script>
-        <script type="text/javascript" src="js/index.js"></script>
+                
         <script type="text/javascript">
             
             
@@ -53,27 +36,22 @@
 
 		    function onDeviceReady() {
 
-                // check for church's rock server setting
-                /*console.log("Let's try getting a setting");
-                ApplicationPreferencesPlugin.setApplicationSetting(
-                    'RockServer',
-                    'http://rock.ccvonline.com/',
-                    function(result) {
-                        console.log("Saving the setting: " + result);
-                    },
-                    function(error) {
-                        console.log("Error on saving setting");
-                    }
-                );*/
                 
-                console.log("Let's try getting a setting");
+                // get the rock server from setting
                 ApplicationPreferencesPlugin.getApplicationSetting(
                     'checkin_address',
                     function(result) {
-                        console.log("The Rock server setting is: " + result);
+                        // if setting is empty prompt user for the setting
+                        if (result == '') {
+	                        window.location.href = "get-address.html";
+                        } else {
+	                        console.log("Lets go visit " + result);
+	                        window.location = result;
+                        }
                     },
                     function(error) {
-                        console.log("Getting the setting... yeah not working too well");
+                        // TODO error processing?
+                        alert("An error occurred getting the check-in address.")                                           
                     }
                 );
                 
