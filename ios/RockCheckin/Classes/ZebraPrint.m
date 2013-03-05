@@ -12,6 +12,7 @@
 #import "TcpPrinterConnection.h"
 #import "ZebraPrinterConnection.h"
 #import "SBJson.h"
+#import "EGOCache.h"
 
 
 @implementation ZebraPrint
@@ -55,6 +56,9 @@
                 
                 NSDictionary *mergeFields = [label objectForKey:@"MergeFields"];
                 
+                // get label contents
+                NSString *labelContents = [self getLabelContents:labelKey labelLocation:labelFile];
+                
                 // create connection to the printer
                 printerConn = [[TcpPrinterConnection alloc] initWithAddress:printerIP andWithPort:9100];
                 
@@ -90,6 +94,19 @@
     [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
 
     
+}
+
+- (NSString*)getLabelContents:(NSString*)labelKey labelLocation:(NSString*)labelFile
+{
+    // get label contents from cache
+    NSString *labelContents = [[EGOCache currentCache] dataForKey:labelKey];
+    
+    // check if label was found in cache
+    if ([labelContents length] == 0) {
+        NSLog(@"Label was not found in cache!");
+    }
+    
+    return nil;
 }
 
 

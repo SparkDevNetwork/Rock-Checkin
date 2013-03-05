@@ -41,6 +41,7 @@
 		30A0434814DC770100060A13 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 30A0434314DC770100060A13 /* Localizable.strings */; };
 		30A0434914DC770100060A13 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 30A0434614DC770100060A13 /* Localizable.strings */; };
 		30E5649213A7FCAF007403D8 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30E5649113A7FCAF007403D8 /* CoreMedia.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		9E4B9AA216E5D49200538D9E /* EGOCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E4B9AA116E5D49200538D9E /* EGOCache.m */; };
 		9E55AE1716D73EB500C2CBB1 /* ZebraPrint.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E55AE1616D73EB500C2CBB1 /* ZebraPrint.m */; };
 		9E55AE4116D88BD700C2CBB1 /* NSObject+SBJson.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E55AE2916D88BD700C2CBB1 /* NSObject+SBJson.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		9E55AE4216D88BD700C2CBB1 /* SBJsonParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E55AE2C16D88BD700C2CBB1 /* SBJsonParser.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
@@ -118,6 +119,8 @@
 		30E5649113A7FCAF007403D8 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
 		32CA4F630368D1EE00C91783 /* RockCheckin-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "RockCheckin-Prefix.pch"; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* RockCheckin-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "RockCheckin-Info.plist"; path = "../RockCheckin-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
+		9E4B9AA016E5D49200538D9E /* EGOCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EGOCache.h; sourceTree = "<group>"; };
+		9E4B9AA116E5D49200538D9E /* EGOCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EGOCache.m; sourceTree = "<group>"; };
 		9E55AE1516D73EB500C2CBB1 /* ZebraPrint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZebraPrint.h; sourceTree = "<group>"; };
 		9E55AE1616D73EB500C2CBB1 /* ZebraPrint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZebraPrint.m; sourceTree = "<group>"; };
 		9E55AE2816D88BD700C2CBB1 /* NSObject+SBJson.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSObject+SBJson.h"; path = "../../NSObject+SBJson.h"; sourceTree = "<group>"; };
@@ -182,6 +185,8 @@
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				9E4B9AA016E5D49200538D9E /* EGOCache.h */,
+				9E4B9AA116E5D49200538D9E /* EGOCache.m */,
 				9EE5B81116E44DA300D0D311 /* ApplicationPreferences.h */,
 				9EE5B81216E44DA300D0D311 /* ApplicationPreferences.m */,
 				9E55AE5916D88C2400C2CBB1 /* SBJson */,
@@ -512,6 +517,7 @@
 				9E55AE4B16D88BD700C2CBB1 /* SBJsonUTF8Stream.m in Sources */,
 				9E55AE4C16D88BD700C2CBB1 /* SBJsonWriter.m in Sources */,
 				9EE5B81316E44DA300D0D311 /* ApplicationPreferences.m in Sources */,
+				9E4B9AA216E5D49200538D9E /* EGOCache.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
