@@ -179,22 +179,20 @@
     NSRange endTagRange =  NSMakeRange(0,0);
     
     while(labelProcessing) {
-        NSRange searchResult = [labelContents rangeOfString:@"^FN" options:NSCaseInsensitiveSearch range: rangeToSearchWithin];
+        NSRange searchResult = [labelContents rangeOfString:@"^FD" options:NSCaseInsensitiveSearch range: rangeToSearchWithin];
         
         if(searchResult.location == NSNotFound) {
             labelProcessing = NO;
         } else {
-            // get the field number
-            NSRange endTagSearchRange = NSMakeRange(searchResult.location, labelContents.length - searchResult.location);
-            NSRange endFieldNumRange = [labelContents rangeOfString:@"\"" options:NSCaseInsensitiveSearch range:endTagSearchRange];
-            
-            NSString *fieldNumber = [labelContents substringWithRange:NSMakeRange(searchResult.location + searchResult.length, endFieldNumRange.location - (searchResult.location + searchResult.length))];
-            
             // get the end location of the field
-            endTagRange = [labelContents rangeOfString:@"^FS" options:NSCaseInsensitiveSearch range:endTagSearchRange];
+            endTagRange = [labelContents rangeOfString:@"^FS" options:NSCaseInsensitiveSearch range:rangeToSearchWithin];
+            
+            // get field number
+            NSString *fieldNumber = [labelContents substringWithRange:NSMakeRange(searchResult.location + searchResult.length, endTagRange.location - (searchResult.location + searchResult.length))];
             
             // add label part to merged label
             [mergedLabel appendString:[labelContents substringWithRange:NSMakeRange(rangeToSearchWithin.location, searchResult.location - rangeToSearchWithin.location)]];
+            
             NSString *mergeField = [mergeFields objectForKey:fieldNumber];
             
             // if data for the merge field was not sent print blank instead of null
@@ -212,6 +210,8 @@
     
     // add final part of the label
     [mergedLabel appendString:[labelContents substringWithRange:NSMakeRange(endTagRange.location + endTagRange.length, labelContents.length - (endTagRange.location + endTagRange.length) )]];
+    
+    NSLog(mergedLabel);
     
     return mergedLabel;
 }
