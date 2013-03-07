@@ -6,6 +6,13 @@
 //
 //
 
+
+// TODO
+// Add printer override
+// Add custom cache duration
+// Add no cache option
+
+
 #import "ZebraPrint.h"
 #import <Cordova/CDV.h>
 
@@ -56,6 +63,14 @@
                 
                 NSDictionary *mergeFields = [label objectForKey:@"MergeFields"];
                 
+                // change printer ip if printer overide setting is present
+                NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+                NSString *overridePrinter = [defaults stringForKey:@"printer_override"];
+                
+                if (overridePrinter != nil && overridePrinter.length > 0) {
+                    printerIP = overridePrinter;
+                }
+                
                 // get label contents
                 NSString *labelContents = [self getLabelContents:labelKey labelLocation:labelFile];
                 
@@ -67,9 +82,10 @@
                 
                 BOOL success = [printerConn open];
                 
-                //NSString *zplData = @"^XA^FO20,20^A0N,25,25^FDThis is a ZPL test.^FS^XZ";
+                // todo check printer status
                 
                 NSError *error = nil;
+                
                 // Send the data to printer as a byte array.
                 success = success && [printerConn write:[mergedLabel dataUsingEncoding:NSUTF8StringEncoding] error:&error];
                 
@@ -82,7 +98,6 @@
                 // Close the connection to release resources.
                 [printerConn close];
                 [printerConn release];
-                
                 
                 //file:///Users/jedmiston/Applications/zebralink_sdk/iOS/v1.0.214/doc/html/index.html
 
@@ -101,8 +116,18 @@
 
 - (NSString*)getLabelContents:(NSString*)labelKey labelLocation:(NSString*)labelFile
 {
-    // get label contents from cache
-    NSString *labelContents = [[EGOCache currentCache] stringForKey:labelKey];
+    // determine cache preference
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    BOOL usecache = [defaults boolForKey:@"enable_caching"];
+    
+    NSString *labelContents = nil;
+    
+    if (usecache) {
+        labelContents = [[EGOCache globalCache] stringForKey:labelKey];
+    } else {
+        // destroy the cache if it exists
+        [[EGOCache globalCache] clearCache];
+    }
     
     // check if label was found in cache
     if ([labelContents length] != 0) {
@@ -114,17 +139,32 @@
         // get label from server
         NSURL *url = [NSURL URLWithString:labelFile];
         NSError* error;
-        NSString *content = [NSString stringWithContentsOfURL:url encoding:NSASCIIStringEncoding error:&error];
+        NSString *content = [NSString stringWithContentsOfURL:url encoding:NSUTF8StringEncoding error:&error];
 
         // check if error ocurred
-        if (error != nil) {
+        /*if (error != nil) {
             NSLog(@"[ERROR] Could not retrieve label from server: %@", error);
             return nil;
-        }
+        }*/
+        
+        // TODO remove this line from the label ^DFR:label 1.ZPL^FS
         
         // store label file in cache
-        [[EGOCache currentCache] setString:content forKey:labelKey withTimeoutInterval:60 * 60 * 24];
+        if (usecache) {
         
+            NSString *cacheDuration = [defaults stringForKey:@"cache_duration"];
+            NSScanner *scanner = [NSScanner scannerWithString:cacheDuration ];
+            
+            double doubleCacheDuration;
+            
+            if ([scanner scanDouble:&doubleCacheDuration]) {
+                doubleCacheDuration = doubleCacheDuration * 60; // convert mins to seconds
+            } else {
+                doubleCacheDuration = 60 * 60 * 24; // default to 1 day
+            }
+            
+            //[[EGOCache globalCache] setString:content forKey:labelKey withTimeoutInterval:doubleCacheDuration];
+        } 
         return content;
     }
     

@@ -28,6 +28,36 @@
 			<key>Type</key>
 			<string>PSTextFieldSpecifier</string>
 		</dict>
+		<dict>
+			<key>Type</key>
+			<string>PSToggleSwitchSpecifier</string>
+			<key>Title</key>
+			<string>Enable Label Caching</string>
+			<key>Key</key>
+			<string>enable_caching</string>
+			<key>DefaultValue</key>
+			<true/>
+		</dict>
+		<dict>
+			<key>Type</key>
+			<string>PSTextFieldSpecifier</string>
+			<key>Title</key>
+			<string>Cache Duration</string>
+			<key>Key</key>
+			<string>cache_duration</string>
+			<key>KeyboardType</key>
+			<string>NumberPad</string>
+			<key>DefaultValue</key>
+			<string>1440</string>
+		</dict>
+		<dict>
+			<key>Type</key>
+			<string>PSTextFieldSpecifier</string>
+			<key>Title</key>
+			<string>Printer Override</string>
+			<key>Key</key>
+			<string>printer_override</string>
+		</dict>
 	</array>
 	<key>StringsTable</key>
 	<string>Root</string>
