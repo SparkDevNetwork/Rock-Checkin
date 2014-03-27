@@ -90,9 +90,9 @@
                 success = success && [printerConn write:[mergedLabel dataUsingEncoding:NSUTF8StringEncoding] error:&error];
                 
                 if (success != YES || error != nil) {
-                    UIAlertView *errorAlert = [[UIAlertView alloc] initWithTitle:@"Error" message:[error localizedDescription] delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
-                    [errorAlert show];
-                    [errorAlert release];
+                    
+                    NSLog(@"[ERROR] Unable to print to printer: %@", [error localizedDescription]);
+                    pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsArray:[NSArray arrayWithObjects:[NSString stringWithFormat:@"Unable to print to printer: %@", [error localizedDescription]], @"false", nil]];
                 }
                 
                 // Close the connection to release resources.
@@ -147,8 +147,6 @@
             return nil;
         }*/
         
-        // TODO remove this line from the label ^DFR:label 1.ZPL^FS
-        
         // store label file in cache
         if (usecache) {
         
@@ -163,7 +161,7 @@
                 doubleCacheDuration = 60 * 60 * 24; // default to 1 day
             }
             
-            //[[EGOCache globalCache] setString:content forKey:labelKey withTimeoutInterval:doubleCacheDuration];
+            [[EGOCache globalCache] setString:content forKey:labelKey withTimeoutInterval:doubleCacheDuration];
         } 
         return content;
     }
@@ -210,8 +208,6 @@
     
     // add final part of the label
     [mergedLabel appendString:[labelContents substringWithRange:NSMakeRange(endTagRange.location + endTagRange.length, labelContents.length - (endTagRange.location + endTagRange.length) )]];
-    
-    NSLog(mergedLabel);
     
     return mergedLabel;
 }
