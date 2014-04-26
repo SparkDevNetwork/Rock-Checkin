@@ -26,6 +26,8 @@
 
 - (void)printTags:(CDVInvokedUrlCommand *)command
 {
+    BOOL labelErrorOccurred = NO;
+    
     // TODO consider putting this on a separate tread (see Cordova docs)
     NSLog(@"[LOG] ZebraPrint Plugin Called");
     
@@ -74,41 +76,49 @@
                 // get label contents
                 NSString *labelContents = [self getLabelContents:labelKey labelLocation:labelFile];
                 
-                // merge label
-                NSString *mergedLabel = [self mergeLabelFields:labelContents mergeFields:mergeFields];
-                
-                // create connection to the printer
-                printerConn = [[TcpPrinterConnection alloc] initWithAddress:printerIP andWithPort:9100];
-                
-                BOOL success = [printerConn open];
-                
-                // todo check printer status
-                
-                NSError *error = nil;
-                
-                // Send the data to printer as a byte array.
-                success = success && [printerConn write:[mergedLabel dataUsingEncoding:NSUTF8StringEncoding] error:&error];
-                
-                if (success != YES || error != nil) {
+                if (labelContents != nil) {
+                    // merge label
+                    NSString *mergedLabel = [self mergeLabelFields:labelContents mergeFields:mergeFields];
                     
-                    NSLog(@"[ERROR] Unable to print to printer: %@", [error localizedDescription]);
-                    pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsArray:[NSArray arrayWithObjects:[NSString stringWithFormat:@"Unable to print to printer: %@", [error localizedDescription]], @"false", nil]];
-                }
-                
-                // Close the connection to release resources.
-                [printerConn close];
-                [printerConn release];
-                
-                //file:///Users/jedmiston/Applications/zebralink_sdk/iOS/v1.0.214/doc/html/index.html
+                    // create connection to the printer
+                    printerConn = [[TcpPrinterConnection alloc] initWithAddress:printerIP andWithPort:9100];
+                    
+                    BOOL success = [printerConn open];
+                    
+                    // todo check printer status
+                    
+                    NSError *error = nil;
+                    
+                    // Send the data to printer as a byte array.
+                    success = success && [printerConn write:[mergedLabel dataUsingEncoding:NSUTF8StringEncoding] error:&error];
+                    
+                    if (success != YES || error != nil) {
+                        
+                        NSLog(@"[ERROR] Unable to print to printer: %@", [error localizedDescription]);
+                        pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsArray:[NSArray arrayWithObjects:[NSString stringWithFormat:@"Unable to print to printer: %@", [error localizedDescription]], @"false", nil]];
+                    }
+                    
+                    // Close the connection to release resources.
+                    [printerConn close];
+                    [printerConn release];
+                    
+                    //file:///Users/jedmiston/Applications/zebralink_sdk/iOS/v1.0.214/doc/html/index.html
 
-                pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
-                
+                } else {
+                    labelErrorOccurred = YES;
+                }
             }
         }
         
         [parser release], parser = nil;
     }
 
+    if (labelErrorOccurred) {
+        pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsArray:[NSArray arrayWithObjects:[NSString stringWithFormat:@"Unable to retrieve labels from server."], @"false", nil]];
+    } else {
+        pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
+    }
+    
     [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
 
     
@@ -137,33 +147,39 @@
         NSLog(@"[LOG] Label was not found in cache. Retrieving it from server.");
         
         // get label from server
-        NSURL *url = [NSURL URLWithString:labelFile];
-        NSError* error;
-        NSString *content = [NSString stringWithContentsOfURL:url encoding:NSUTF8StringEncoding error:&error];
+        @try {
+            NSURL *url = [NSURL URLWithString:labelFile];
+            NSError* error = nil;
+            NSString *content = [NSString stringWithContentsOfURL:url encoding:NSUTF8StringEncoding error:&error];
 
-        // check if error ocurred
-        /*if (error != nil) {
-            NSLog(@"[ERROR] Could not retrieve label from server: %@", error);
-            return nil;
-        }*/
-        
-        // store label file in cache
-        if (usecache) {
-        
-            NSString *cacheDuration = [defaults stringForKey:@"cache_duration"];
-            NSScanner *scanner = [NSScanner scannerWithString:cacheDuration ];
-            
-            double doubleCacheDuration;
-            
-            if ([scanner scanDouble:&doubleCacheDuration]) {
-                doubleCacheDuration = doubleCacheDuration * 60; // convert mins to seconds
-            } else {
-                doubleCacheDuration = 60 * 60 * 24; // default to 1 day
+            // check if error ocurred
+            if (error) {
+                NSLog(@"[ERROR] Could not retrieve label from server: %@", error);
+                return nil;
             }
             
-            [[EGOCache globalCache] setString:content forKey:labelKey withTimeoutInterval:doubleCacheDuration];
-        } 
-        return content;
+            // store label file in cache
+            if (usecache) {
+            
+                NSString *cacheDuration = [defaults stringForKey:@"cache_duration"];
+                NSScanner *scanner = [NSScanner scannerWithString:cacheDuration ];
+                
+                double doubleCacheDuration;
+                
+                if ([scanner scanDouble:&doubleCacheDuration]) {
+                    doubleCacheDuration = doubleCacheDuration * 60; // convert mins to seconds
+                } else {
+                    doubleCacheDuration = 60 * 60 * 24; // default to 1 day
+                }
+                
+                [[EGOCache globalCache] setString:content forKey:labelKey withTimeoutInterval:doubleCacheDuration];
+            } 
+            return content;
+        }
+        @catch (NSException * e) {
+            NSLog(@"Exception: %@", e);
+            return nil;
+        }
     }
     
     return nil;
@@ -171,44 +187,35 @@
 
 - (NSString*)mergeLabelFields:(NSString*)labelContents mergeFields:(NSDictionary*)mergeFields {
     
-    bool labelProcessing = YES;
-    NSRange rangeToSearchWithin = NSMakeRange(0, labelContents.length);
     NSMutableString *mergedLabel = [NSMutableString stringWithCapacity:0];
-    NSRange endTagRange =  NSMakeRange(0,0);
+    [mergedLabel setString:labelContents];
     
-    while(labelProcessing) {
-        NSRange searchResult = [labelContents rangeOfString:@"^FD" options:NSCaseInsensitiveSearch range: rangeToSearchWithin];
+    for(id key in mergeFields) {
         
-        if(searchResult.location == NSNotFound) {
-            labelProcessing = NO;
+        NSString *value = [mergeFields objectForKey:key];
+        
+        if ([[mergeFields objectForKey:key] length] > 0) {
+            // merge the contents of the field
+            NSString *mergePattern = [NSString stringWithFormat:@"(\\^FT.*\\^FD)(%@)(\\^FS)",key];
+            NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:mergePattern options:0 error:nil];
+            
+            [regex replaceMatchesInString:mergedLabel options:0 range:NSMakeRange(0, [mergedLabel length]) withTemplate:[NSString stringWithFormat:@"$1%@$3",value]];
+            
         } else {
-            // get the end location of the field
-            endTagRange = [labelContents rangeOfString:@"^FS" options:NSCaseInsensitiveSearch range:rangeToSearchWithin];
+            // remove the field origin (used for inverting backgrounds)
+            NSString *fieldOriginPattern = [NSString stringWithFormat:@"\\^FO.*\\^FS\\s*(?=\\^FT.*\\^FD%@\\^FS)",key];
+            NSRegularExpression *fieldOriginRegex = [NSRegularExpression regularExpressionWithPattern:fieldOriginPattern options:0 error:nil];
             
-            // get field number
-            NSString *fieldNumber = [labelContents substringWithRange:NSMakeRange(searchResult.location + searchResult.length, endTagRange.location - (searchResult.location + searchResult.length))];
+            [fieldOriginRegex replaceMatchesInString:mergedLabel options:0 range:NSMakeRange(0, [mergedLabel length]) withTemplate:@""];
             
-            // add label part to merged label
-            [mergedLabel appendString:[labelContents substringWithRange:NSMakeRange(rangeToSearchWithin.location, searchResult.location - rangeToSearchWithin.location)]];
+            // remove the field data (the actual value)
+            NSString *fieldDataPattern = [NSString stringWithFormat:@"(\\^FD)(%@)(\\^FS)",key];
+            NSRegularExpression *fieldDataRegex = [NSRegularExpression regularExpressionWithPattern:fieldDataPattern options:0 error:nil];
             
-            NSString *mergeField = [mergeFields objectForKey:fieldNumber];
-            
-            // if data for the merge field was not sent print blank instead of null
-            if (mergeField == nil) {
-                mergeField = [NSString stringWithFormat:@""];
-            }
-            
-            [mergedLabel appendString:[NSString stringWithFormat:@"^FD%@^FS", mergeField]];
-            
-            // increment our search range
-            int newLocationToStartAt = endTagRange.location + endTagRange.length;
-            rangeToSearchWithin = NSMakeRange(newLocationToStartAt, labelContents.length - newLocationToStartAt);
-        }  
+            [fieldDataRegex replaceMatchesInString:mergedLabel options:0 range:NSMakeRange(0, [mergedLabel length]) withTemplate:@"$1$3"];
+        }
     }
-    
-    // add final part of the label
-    [mergedLabel appendString:[labelContents substringWithRange:NSMakeRange(endTagRange.location + endTagRange.length, labelContents.length - (endTagRange.location + endTagRange.length) )]];
-    
+
     return mergedLabel;
 }
 
