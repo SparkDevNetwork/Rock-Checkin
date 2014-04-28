@@ -12,6 +12,7 @@
         <link rel="stylesheet" type="text/css" href="css/rock-checkin-app.css" />
         
         <script src="js/jquery.min.js" type="text/javascript"></script>
+        <script src="js/application.js" type="text/javascript"></script>
         <script src="js/ApplicationPreferences.js" type="text/javascript"></script>
         <script src="js/bootstrap.min.js" type="text/javascript"></script>
         <script src="cordova-2.4.0.js" type="text/javascript"></script>
@@ -19,7 +20,8 @@
     <body>
         <div class="container">
             <div class="alert alert-info redirect-message">
-                <span id="redirect-text"><i class='fa fa-spinner fa-spin fa-3x'></i></span>
+                <i class='fa fa-refresh fa-spin fa-4x'></i>
+                <span class="redirect-text"></span>
             </div>
         </div>
         
@@ -30,7 +32,7 @@
 
 
 		    function onDeviceReady() {
-
+                $('body').css("display", "none");
                 
                 // get the rock server from setting
                 ApplicationPreferencesPlugin.getApplicationSetting(
@@ -40,7 +42,8 @@
                         if (result == '') {
 	                        window.location.href = "get-address.html";
                         } else {
-                            $("#redirect-text").html(" <p>Loading check-in from " + result + ". </p>");
+                            $("body").rockFadeIn();
+                            $(".redirect-text").html(" <p>Loading check-in from <br /><span class='address'>" + result + "</span> </p>");
                             window.location = result;
                         }
                     },

@@ -12,6 +12,7 @@
         <link rel="stylesheet" type="text/css" href="css/rock-checkin-app.css" />
         
         <script src="js/jquery.min.js" type="text/javascript"></script>
+        <script src="js/application.js" type="text/javascript"></script>
         <script src="js/ApplicationPreferences.js" type="text/javascript"></script>
         <script src="js/bootstrap.min.js" type="text/javascript"></script>
         <script src="cordova-2.4.0.js" type="text/javascript"></script>
@@ -22,17 +23,15 @@
                 <div class="row">
 	                <div class="col-md-12">
 		                <img src="img/rock-logo.svg" class="logo" />
-                        <h1>Welcome...</h1>
+                        <h1>Let's Get Started...</h1>
             
-		                <p>Before we get started, let's configure a few settings.</p> 
+		                <p>Before we get started, let's configure the application to talk to your Rock server.</p>
 		                
 		                <form class="form">
 							<div class="form-group">
 								<label class="control-label" for="inputEmail">Check-in Address</label>
 								
-								<div class="controls">
-									<input type="text" autocorrect="off" autocapitalize="off" type="url" class="input-xlarge" id="checkin-address" placeholder="http://yourserver.com/checkin">
-									</div>
+									<input type="text" autocorrect="off" autocapitalize="off" type="url" class="form-control input-xlarge" id="checkin-address" placeholder="http://yourserver.com/checkin">
 							</div>
 							
 							<div class="alert alert-info">
@@ -51,7 +50,7 @@
             
                        
         </div>
-        
+
         <script type="text/javascript">
 
             // setup deviceready event to wait for cordova
@@ -59,7 +58,7 @@
 
 
 		    function onDeviceReady() {
-
+                
                 $("#save-settings").click(function() {
 	                
 	                // get settings
