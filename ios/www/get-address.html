@@ -27,7 +27,7 @@
             
 		                <p>Before we get started, let's configure the application to talk to your Rock server.</p>
 		                
-		                <form class="form">
+		                <form id="address-entry" class="form" onSubmit="return validateSubmit(this);">
 							<div class="form-group">
 								<label class="control-label" for="inputEmail">Check-in Address</label>
 								
@@ -56,34 +56,41 @@
             // setup deviceready event to wait for cordova
 	        document.addEventListener("deviceready", onDeviceReady, false);
 
+            function validateSubmit( form ){
+                
+                // get settings
+                var checkinAddress = $.trim($('#checkin-address').val());
+                
+                // validate address
+                if (checkinAddress.length == 0 ) {
+                    
+                    navigator.notification.alert("Please enter your check-in address.", alertDismissed, 'Warning', 'Continue');
+                    e.prevendDefault();
+                    return;
+                }
+                
+                // save settings
+                ApplicationPreferencesPlugin.setApplicationSetting(
+                   'checkin_address',
+                   checkinAddress,
+                        function(result) {
+                            window.location.href = "index.html";
+                        },
+                        function(error) {
+                            navigator.notification.alert("An error occurred while trying to save this setting.", alertDismissed, 'Warning', 'Continue');
+                        }
+                   );
+            }
 
 		    function onDeviceReady() {
+                //$("body").rockFadeIn();
                 
-                $("#save-settings").click(function() {
+                
+                
+                //$("#save-settings").click(function() {
 	                
-	                // get settings
-	                var checkinAddress = $.trim($('#checkin-address').val());
 	                
-	                // validate address
-	                if (checkinAddress.length == 0 ) {
-	  					
-	  					navigator.notification.alert("Please enter your check-in address.", alertDismissed, 'Warning', 'Continue');
-	  					e.prevendDefault();
-	  					return;
-  					}
-	                
-	                // save settings
-	                ApplicationPreferencesPlugin.setApplicationSetting(
-	                    'checkin_address',
-	                    checkinAddress,
-	                    function(result) {
-	                        window.location.href = checkinAddress;
-	                    },
-	                    function(error) {
-	                        navigator.notification.alert("An error occurred while trying to save this setting.", alertDismissed, 'Warning', 'Continue');
-	                    }
-	                );
-	            });
+	            //});
 	            
 		    }
 		    

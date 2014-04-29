@@ -714,6 +714,12 @@
         orientedLaunchImageFile = launchImageFile;
     }
 
+    // custom retina addition JME
+    if ([[UIScreen mainScreen] respondsToSelector:@selector(displayLinkWithTarget:selector:)] &&
+        ([UIScreen mainScreen].scale == 2.0)) {
+        launchImageFile = [NSString stringWithFormat:@"%@@2x", launchImageFile];
+    } 
+    
     launchImage = [UIImage imageNamed:[[self class] resolveImageResource:orientedLaunchImageFile]];
     if (launchImage == nil) {
         NSLog(@"WARNING: Splash-screen image '%@' was not found. Orientation: %d, iPad: %d", orientedLaunchImageFile, deviceOrientation, CDV_IsIPad());

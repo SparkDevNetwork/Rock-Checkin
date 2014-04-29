@@ -19,9 +19,7 @@
     </head>
     <body>
         <div class="container">
-            <div class="alert alert-info redirect-message">
-                <i class='fa fa-refresh fa-spin fa-4x'></i>
-                <span class="redirect-text"></span>
+            <div class="redirect-text">
             </div>
         </div>
         
@@ -34,6 +32,8 @@
 		    function onDeviceReady() {
                 $('body').css("display", "none");
                 
+                navigator.splashscreen.hide();
+        
                 // get the rock server from setting
                 ApplicationPreferencesPlugin.getApplicationSetting(
                     'checkin_address',
@@ -43,8 +43,12 @@
 	                        window.location.href = "get-address.html";
                         } else {
                             $("body").rockFadeIn();
-                            $(".redirect-text").html(" <p>Loading check-in from <br /><span class='address'>" + result + "</span> </p>");
+                            $(".redirect-text").html("<div class='alert alert-info redirect-message'><i class='fa fa-spinner fa-spin fa-4x'></i> <p>Loading check-in from <br /><span class='address'>" + result + "</span> </p></div>");
                             window.location = result;
+                                                                   
+                            setTimeout(function(){
+                                $(".redirect-text").html("<div class='alert alert-danger redirect-message'><i class='fa fa-exclamation-triangle fa-4x'></i> <p>Could not load check-in from <br /><span class='address'>" + result + "</span> </p> <p><a href='index.html' class='btn btn-danger btn-lg'><i class='fa fa-refresh'></i> Try Again</a></p></div>");
+                            },10000);
                         }
                     },
                     function(error) {

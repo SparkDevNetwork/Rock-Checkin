@@ -44,7 +44,7 @@ html {
 body {
     width: 100%;
 	margin-top: 200px;
-	font-family: 'OpenSans', 'Helvetica Neue',Helvetica,Arial,sans-serif;
+	font-family: 'OpenSans';
     background: transparent;
 }
 
@@ -54,7 +54,7 @@ h1 {
 }
 
 .content {
-	margin: auto auto;
+	margin: 0 auto;
 	max-width: 500px;
 	border-radius: 6px;
 	background-image: url('../img/light-texture.png');
@@ -83,15 +83,14 @@ input {
     font-weight: 300;
 }
 
-.redirect-message i {
+.redirect-message > i {
     margin-bottom: 12px;
 }
 
 // retina styles
 @media all and (-webkit-min-device-pixel-ratio: 1.5) {
   .content {
-    background-image: url('../img/light-texture@2x.png');
-    background-size: 256px 256px;
+
   }
 }
 
