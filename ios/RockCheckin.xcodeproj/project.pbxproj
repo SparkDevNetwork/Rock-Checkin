@@ -57,6 +57,16 @@
 		9EA74CDF190F086C006F9707 /* Default-Portrait@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9EA74CDE190F086C006F9707 /* Default-Portrait@2x.png */; };
 		9EA74CE1190F0A28006F9707 /* Default-Landscape.png in Resources */ = {isa = PBXBuildFile; fileRef = 9EA74CE0190F0A28006F9707 /* Default-Landscape.png */; };
 		9EA74CE3190F0A48006F9707 /* Default-Landscape@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9EA74CE2190F0A48006F9707 /* Default-Landscape@2x.png */; };
+		9ED872B11926D0D800A65F0A /* AppIcon29x29@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9EA74CED190F21D1006F9707 /* AppIcon29x29@2x.png */; };
+		9ED872B21926D0DF00A65F0A /* AppIcon29x29.png in Resources */ = {isa = PBXBuildFile; fileRef = 9EA74CEC190F21C2006F9707 /* AppIcon29x29.png */; };
+		9ED872B31926D0E300A65F0A /* AppIcon40x40@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9EA74CEB190F21B2006F9707 /* AppIcon40x40@2x.png */; };
+		9ED872B41926D0F400A65F0A /* AppIcon40x40.png in Resources */ = {isa = PBXBuildFile; fileRef = 9EA74CEA190F21A2006F9707 /* AppIcon40x40.png */; };
+		9ED872B51926D0F800A65F0A /* AppIcon50x50@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9EA74CE9190F2190006F9707 /* AppIcon50x50@2x.png */; };
+		9ED872B61926D0FB00A65F0A /* AppIcon50x50.png in Resources */ = {isa = PBXBuildFile; fileRef = 9EA74CE8190F217E006F9707 /* AppIcon50x50.png */; };
+		9ED872B71926D0FF00A65F0A /* AppIcon76x76@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9EA74CE7190F215A006F9707 /* AppIcon76x76@2x.png */; };
+		9ED872B81926D10200A65F0A /* AppIcon76x76.png in Resources */ = {isa = PBXBuildFile; fileRef = 9EA74CE6190F214A006F9707 /* AppIcon76x76.png */; };
+		9ED872B91926D10600A65F0A /* AppIcon72x72@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9EA74CE5190F2131006F9707 /* AppIcon72x72@2x.png */; };
+		9ED872BA1926D10A00A65F0A /* AppIcon72x72.png in Resources */ = {isa = PBXBuildFile; fileRef = 9EA74CE4190F2109006F9707 /* AppIcon72x72.png */; };
 		9EE5B81316E44DA300D0D311 /* ApplicationPreferences.m in Sources */ = {isa = PBXBuildFile; fileRef = 9EE5B81216E44DA300D0D311 /* ApplicationPreferences.m */; };
 		9EE5B81E16E457CB00D0D311 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 9EE5B81D16E457CB00D0D311 /* Settings.bundle */; };
 		D4A0D8761607E02300AEF8BB /* Default-568h@2x~iphone.png in Resources */ = {isa = PBXBuildFile; fileRef = D4A0D8751607E02300AEF8BB /* Default-568h@2x~iphone.png */; };
@@ -482,20 +492,30 @@
 				308D05381370CCF300D202BF /* icon.png in Resources */,
 				308D05391370CCF300D202BF /* icon@2x.png in Resources */,
 				3072F99713A8081B00425683 /* Capture.bundle in Resources */,
+				9ED872B81926D10200A65F0A /* AppIcon76x76.png in Resources */,
 				1F766FE113BBADB100FB74C0 /* Localizable.strings in Resources */,
 				1F766FE213BBADB100FB74C0 /* Localizable.strings in Resources */,
+				9ED872B51926D0F800A65F0A /* AppIcon50x50@2x.png in Resources */,
 				302D95F214D2391D003F00A1 /* MainViewController.xib in Resources */,
 				30A0434814DC770100060A13 /* Localizable.strings in Resources */,
+				9ED872B21926D0DF00A65F0A /* AppIcon29x29.png in Resources */,
+				9ED872BA1926D10A00A65F0A /* AppIcon72x72.png in Resources */,
+				9ED872B71926D0FF00A65F0A /* AppIcon76x76@2x.png in Resources */,
+				9ED872B91926D10600A65F0A /* AppIcon72x72@2x.png in Resources */,
 				30A0434914DC770100060A13 /* Localizable.strings in Resources */,
+				9ED872B41926D0F400A65F0A /* AppIcon40x40.png in Resources */,
 				3088BBC1154F3926009F9C59 /* Default@2x~iphone.png in Resources */,
 				9EA74CDD190F0772006F9707 /* Default-Portrait.png in Resources */,
 				9EA74CE1190F0A28006F9707 /* Default-Landscape.png in Resources */,
+				9ED872B61926D0FB00A65F0A /* AppIcon50x50.png in Resources */,
 				3088BBC2154F3926009F9C59 /* Default~iphone.png in Resources */,
 				9EA74CDF190F086C006F9707 /* Default-Portrait@2x.png in Resources */,
 				9EA74CE3190F0A48006F9707 /* Default-Landscape@2x.png in Resources */,
+				9ED872B31926D0E300A65F0A /* AppIcon40x40@2x.png in Resources */,
 				D4A0D8761607E02300AEF8BB /* Default-568h@2x~iphone.png in Resources */,
 				9E55AE5B16D88D6200C2CBB1 /* Readme.rtf in Resources */,
 				9EE5B81E16E457CB00D0D311 /* Settings.bundle in Resources */,
+				9ED872B11926D0D800A65F0A /* AppIcon29x29@2x.png in Resources */,
 				9E4B9AAD16E8662900538D9E /* icon-72@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -629,6 +649,7 @@
 					"-lZSDK_API",
 				);
 				PRODUCT_NAME = "Rock Check-in";
+				PROVISIONING_PROFILE = "7BDAEA18-033B-49C4-B190-D25E20678C81";
 				TARGETED_DEVICE_FAMILY = 2;
 				VALID_ARCHS = armv7;
 			};
@@ -670,6 +691,7 @@
 					"-lZSDK_API",
 				);
 				PRODUCT_NAME = "Rock Check-in";
+				PROVISIONING_PROFILE = "7BDAEA18-033B-49C4-B190-D25E20678C81";
 				TARGETED_DEVICE_FAMILY = 2;
 				VALID_ARCHS = armv7;
 			};

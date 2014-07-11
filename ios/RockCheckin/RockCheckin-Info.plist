@@ -46,13 +46,15 @@
 		</dict>
 	</dict>
 	<key>CFBundleIdentifier</key>
-	<string>org.sparkdevnetwork.RockCheckin</string>
+	<string>org.sparkdevnetwork.checkin</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
 	<string>${PRODUCT_NAME}</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
+	<key>CFBundleShortVersionString</key>
+	<string>1</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
@@ -60,8 +62,6 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSMainNibFile</key>
-	<string></string>
-	<key>NSMainNibFile~ipad</key>
 	<string></string>
 	<key>UILaunchImageFile~ipad</key>
 	<string>Default</string>
