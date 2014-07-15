@@ -1,0 +1,6 @@
+To build for running locally:
+    + Goto the app settings
+    + Got to the Build Settings tab
+    + Under the Code Signing Section change the Provision Profile to 'iOS Team Provisioning Profile: org.sparkdevnetwork.*'
+    
+Change it back to 'Spark Deploy' to build for release.
