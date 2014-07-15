@@ -22,7 +22,8 @@
             
                 <div class="row">
 	                <div class="col-md-12">
-		                <img src="img/rock-logo.svg" class="logo" />
+		                <div id="logo"></div>
+                        
                         <h1>Let's Get Started...</h1>
             
 		                <p>Before we get started, let's configure the application to talk to your Rock server.</p>
@@ -41,9 +42,8 @@
 							
 		                </form>
 		                <div class="form-actions">
-							<button type="submit" id="save-settings" class="btn btn-primary">Save Settings</button>
+							<a href="#" id="save-settings" class="btn btn-primary">Save Settings</a>
 						</div>
-		                
 		                
 	                </div>
 	            </div>
@@ -56,7 +56,7 @@
             // setup deviceready event to wait for cordova
 	        document.addEventListener("deviceready", onDeviceReady, false);
 
-            function validateSubmit( form ){
+            function validateSubmit(){
                 
                 // get settings
                 var checkinAddress = $.trim($('#checkin-address').val());
@@ -74,6 +74,7 @@
                    'checkin_address',
                    checkinAddress,
                         function(result) {
+                            console.log("Successfully wrote to the application preference.");
                             window.location.href = "index.html";
                         },
                         function(error) {
@@ -83,14 +84,10 @@
             }
 
 		    function onDeviceReady() {
-                //$("body").rockFadeIn();
                 
-                
-                
-                //$("#save-settings").click(function() {
-	                
-	                
-	            //});
+                $("#save-settings").click(function() {
+                    validateSubmit();
+	            });
 	            
 		    }
 		    
