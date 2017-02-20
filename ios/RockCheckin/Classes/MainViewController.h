@@ -21,8 +21,8 @@
 //  MainViewController.h
 //  RockCheckin
 //
-//  Created by ___FULLUSERNAME___ on ___DATE___.
-//  Copyright ___ORGANIZATIONNAME___ ___YEAR___. All rights reserved.
+//  Created by Jon Edmiston on 2/21/13.
+//  Copyright Spark Development 2013. All rights reserved.
 //
 
 #import <Cordova/CDVViewController.h>
