@@ -109,7 +109,6 @@
                     
                     // Close the connection to release resources.
                     [printerConn close];
-                    [printerConn release];
                     
                     //file:///Users/jedmiston/Applications/zebralink_sdk/iOS/v1.0.214/doc/html/index.html
 
@@ -119,7 +118,7 @@
             }
         }
         
-        [parser release], parser = nil;
+        parser = nil;
     }
 
     if (labelErrorOccurred) {
