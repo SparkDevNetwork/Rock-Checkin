@@ -11,8 +11,6 @@
 		1D60589B0D05DD56006BFB54 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; };
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
 		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
-		1F766FE113BBADB100FB74C0 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1F766FDC13BBADB100FB74C0 /* Localizable.strings */; };
-		1F766FE213BBADB100FB74C0 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1F766FDF13BBADB100FB74C0 /* Localizable.strings */; };
 		288765FD0DF74451002DB57D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765FC0DF74451002DB57D /* CoreGraphics.framework */; };
 		301BF570109A69640062928A /* www in Resources */ = {isa = PBXBuildFile; fileRef = 301BF56E109A69640062928A /* www */; };
 		301BF5B5109A6A2B0062928A /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 301BF5B4109A6A2B0062928A /* AddressBook.framework */; };
@@ -27,9 +25,6 @@
 		302D95F114D2391D003F00A1 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 302D95EF14D2391D003F00A1 /* MainViewController.m */; };
 		302D95F214D2391D003F00A1 /* MainViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 302D95F014D2391D003F00A1 /* MainViewController.xib */; };
 		305D5FD1115AB8F900A74A75 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 305D5FD0115AB8F900A74A75 /* MobileCoreServices.framework */; };
-		3072F99713A8081B00425683 /* Capture.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 3072F99613A8081B00425683 /* Capture.bundle */; };
-		30A0434814DC770100060A13 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 30A0434314DC770100060A13 /* Localizable.strings */; };
-		30A0434914DC770100060A13 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 30A0434614DC770100060A13 /* Localizable.strings */; };
 		30E5649213A7FCAF007403D8 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30E5649113A7FCAF007403D8 /* CoreMedia.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		650EFB461E4FDEBE0053F3DE /* libCordova.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 650EFB451E4FD3860053F3DE /* libCordova.a */; };
 		650EFB481E4FDEE30053F3DE /* ExternalAccessory.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 650EFB471E4FDEE30053F3DE /* ExternalAccessory.framework */; };
@@ -82,8 +77,6 @@
 		1D3623250D0F684500981E51 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		1D6058910D05DD3D006BFB54 /* Rock Check-in.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Rock Check-in.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
-		1F766FDD13BBADB100FB74C0 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = Localizable.strings; sourceTree = "<group>"; };
-		1F766FE013BBADB100FB74C0 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = Localizable.strings; sourceTree = "<group>"; };
 		288765FC0DF74451002DB57D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		301BF56E109A69640062928A /* www */ = {isa = PBXFileReference; lastKnownFileType = folder; path = www; sourceTree = SOURCE_ROOT; };
@@ -100,9 +93,6 @@
 		302D95EF14D2391D003F00A1 /* MainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
 		302D95F014D2391D003F00A1 /* MainViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainViewController.xib; sourceTree = "<group>"; };
 		305D5FD0115AB8F900A74A75 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
-		3072F99613A8081B00425683 /* Capture.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Capture.bundle; sourceTree = "<group>"; };
-		30A0434414DC770100060A13 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = Localizable.strings; sourceTree = "<group>"; };
-		30A0434714DC770100060A13 /* se */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = se; path = Localizable.strings; sourceTree = "<group>"; };
 		30E5649113A7FCAF007403D8 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
 		32CA4F630368D1EE00C91783 /* RockCheckin-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "RockCheckin-Prefix.pch"; sourceTree = "<group>"; };
 		650EFB401E4FD3860053F3DE /* CordovaLib.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = CordovaLib.xcodeproj; path = CordovaLib/CordovaLib.xcodeproj; sourceTree = "<group>"; };
@@ -223,22 +213,6 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		1F766FDB13BBADB100FB74C0 /* en.lproj */ = {
-			isa = PBXGroup;
-			children = (
-				1F766FDC13BBADB100FB74C0 /* Localizable.strings */,
-			);
-			path = en.lproj;
-			sourceTree = "<group>";
-		};
-		1F766FDE13BBADB100FB74C0 /* es.lproj */ = {
-			isa = PBXGroup;
-			children = (
-				1F766FDF13BBADB100FB74C0 /* Localizable.strings */,
-			);
-			path = es.lproj;
-			sourceTree = "<group>";
-		};
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
@@ -271,11 +245,6 @@
 			isa = PBXGroup;
 			children = (
 				650EFB6B1E52606E0053F3DE /* Images.xcassets */,
-				30A0434214DC770100060A13 /* de.lproj */,
-				30A0434514DC770100060A13 /* se.lproj */,
-				1F766FDB13BBADB100FB74C0 /* en.lproj */,
-				1F766FDE13BBADB100FB74C0 /* es.lproj */,
-				3072F99613A8081B00425683 /* Capture.bundle */,
 				8D1107310486CEB800E47090 /* RockCheckin-Info.plist */,
 			);
 			name = Resources;
@@ -319,22 +288,6 @@
 			name = Plugins;
 			path = RockCheckin/Plugins;
 			sourceTree = SOURCE_ROOT;
-		};
-		30A0434214DC770100060A13 /* de.lproj */ = {
-			isa = PBXGroup;
-			children = (
-				30A0434314DC770100060A13 /* Localizable.strings */,
-			);
-			path = de.lproj;
-			sourceTree = "<group>";
-		};
-		30A0434514DC770100060A13 /* se.lproj */ = {
-			isa = PBXGroup;
-			children = (
-				30A0434614DC770100060A13 /* Localizable.strings */,
-			);
-			path = se.lproj;
-			sourceTree = "<group>";
 		};
 		650EFB411E4FD3860053F3DE /* Products */ = {
 			isa = PBXGroup;
@@ -481,10 +434,6 @@
 				Japanese,
 				French,
 				German,
-				en,
-				es,
-				de,
-				se,
 			);
 			mainGroup = 29B97314FDCFA39411CA2CEA /* CustomTemplate */;
 			projectDirPath = "";
@@ -518,13 +467,8 @@
 			files = (
 				F840E1F1165FE0F500CFE078 /* config.xml in Resources */,
 				301BF570109A69640062928A /* www in Resources */,
-				3072F99713A8081B00425683 /* Capture.bundle in Resources */,
-				1F766FE113BBADB100FB74C0 /* Localizable.strings in Resources */,
-				1F766FE213BBADB100FB74C0 /* Localizable.strings in Resources */,
 				302D95F214D2391D003F00A1 /* MainViewController.xib in Resources */,
-				30A0434814DC770100060A13 /* Localizable.strings in Resources */,
 				650EFB6C1E52606E0053F3DE /* Images.xcassets in Resources */,
-				30A0434914DC770100060A13 /* Localizable.strings in Resources */,
 				9E8C40341975F10A00DC66C4 /* app-notes.txt in Resources */,
 				9E55AE5B16D88D6200C2CBB1 /* Readme.rtf in Resources */,
 				9EE5B81E16E457CB00D0D311 /* Settings.bundle in Resources */,
@@ -587,41 +531,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXVariantGroup section */
-		1F766FDC13BBADB100FB74C0 /* Localizable.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				1F766FDD13BBADB100FB74C0 /* en */,
-			);
-			name = Localizable.strings;
-			sourceTree = "<group>";
-		};
-		1F766FDF13BBADB100FB74C0 /* Localizable.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				1F766FE013BBADB100FB74C0 /* es */,
-			);
-			name = Localizable.strings;
-			sourceTree = "<group>";
-		};
-		30A0434314DC770100060A13 /* Localizable.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				30A0434414DC770100060A13 /* de */,
-			);
-			name = Localizable.strings;
-			sourceTree = "<group>";
-		};
-		30A0434614DC770100060A13 /* Localizable.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				30A0434714DC770100060A13 /* se */,
-			);
-			name = Localizable.strings;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		1D6058940D05DD3E006BFB54 /* Debug */ = {
