@@ -1,46 +1,42 @@
-{\rtf1\ansi\ansicpg1252\cocoartf1187
+{\rtf1\ansi\ansicpg1252\cocoartf1504\cocoasubrtf810
 {\fonttbl\f0\fswiss\fcharset0 Helvetica;\f1\froman\fcharset0 Times-Roman;}
 {\colortbl;\red255\green255\blue255;}
+{\*\expandedcolortbl;;}
 {\*\listtable{\list\listtemplateid1\listhybrid{\listlevel\levelnfc0\levelnfcn0\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{decimal\}.}{\leveltext\leveltemplateid1\'02\'00.;}{\levelnumbers\'01;}\fi-360\li720\lin720 }{\listname ;}\listid1}
 {\list\listtemplateid2\listhybrid{\listlevel\levelnfc0\levelnfcn0\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{decimal\}.}{\leveltext\leveltemplateid101\'02\'00.;}{\levelnumbers\'01;}\fi-360\li720\lin720 }{\listname ;}\listid2}}
 {\*\listoverridetable{\listoverride\listid1\listoverridecount0\ls1}{\listoverride\listid2\listoverridecount0\ls2}}
 \margl1440\margr1440\vieww9000\viewh8400\viewkind0
-\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
 
 \f0\fs24 \cf0 Zebra SDK\
 + Download and install\
-+ Follow the instructions below\
++ Follow the instructions below if the build fails\
 \
-\pard\pardeftab720\sa300
+\pard\pardeftab720\sa300\partightenfactor0
 
 \f1\b \cf0 Steps to add ZSDK_API.a to your development environment project\
-\pard\tx220\tx720\pardeftab720\li720\fi-720
+\pard\tx220\tx720\pardeftab720\li720\fi-720\partightenfactor0
 \ls1\ilvl0
 \b0 \cf0 {\listtext	1.	}In your development environment, navigate to your app's target\
 {\listtext	2.	}Select the "Build Settings" tab\
-{\listtext	3.	}Set the "Other Linker Flags" setting to "-lZSDK_API"\
+{\listtext	3.	}Ensure "-lZSDK_API" is contained in the "Other Linker Flags"\
 {\listtext	4.	}Select the "Library Search Paths" setting\
-{\listtext	5.	}Under your desired configuration, click the '+' button\
-{\listtext	6.	}Change "Any Architecture | Any SDK" to "Any iOS Simulator SDK"\
-{\listtext	7.	}Set the value of that setting to the location of the lib/Simulator directory of your installation of the ZebraLink Multiplatform SDK\
-{\listtext	8.	}Under your desired configuration, click the '+' button again\
-{\listtext	9.	}Change "Any Architecture | Any SDK" to "Any iOS SDK"\
-{\listtext	10.	}Set the value of that setting to the location of the lib/Device directory of your installation of the ZebraLink Multiplatform SDK\
-\pard\pardeftab720\sa300
+{\listtext	5.	}Ensure an entry for the ZSDK lib folder exists, currently "/Applications/link_os_sdk/iOS/v1.4.948/lib"\
+\pard\pardeftab720\sa300\partightenfactor0
 
 \b \cf0 \
-Steps to include the ZebraLink Multiplatform SDK headers to your development environment project (<- I think I did this...)\
-\pard\tx220\tx720\pardeftab720\li720\fi-720
+Steps to include the ZebraLink Multiplatform SDK headers to your development environment project\
+\pard\tx220\tx720\pardeftab720\li720\fi-720\partightenfactor0
 \ls2\ilvl0
 \b0 \cf0 {\listtext	1.	}In your development environment, navigate to your app's target\
 {\listtext	2.	}Select the "Build Settings" tab\
-{\listtext	3.	}Set the "Header Search Path" setting to the location of the "lib/include" directory of your installation of the ZebraLink Multiplatform SDK\
-\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
-
-\f0 \cf0 \
-\
+\pard\tx220\tx720\pardeftab720\li720\fi-720\partightenfactor0
+\ls2\ilvl0\cf0 {\listtext	3.	}Select the "Header Search Paths" setting\
+{\listtext	4.	}Ensure an entry for the ZSDK include folder exists, currently "/Applications/link_os_sdk/iOS/v1.4.948/lib/include"
+\f0 \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 \
 \
 Added the SBJson from here:\
 https://github.com/stig/json-framework/tags\
-\
-had to add the compiler setting '-fobjc-arc' under 'Building Phases' -> 'Compile Sources' to all of the SBJson classes}
+}
