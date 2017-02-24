@@ -26,6 +26,7 @@
 //
 
 #import "MainViewController.h"
+#import "BlockOldRockRequests.h"
 
 @implementation MainViewController
 
@@ -33,8 +34,12 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
 
+    [BlockOldRockRequests enable];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(pageDidLoadNotification:) name:CDVPageDidLoadNotification object:nil];
+
     return self;
 }
+
 
 - (BOOL)prefersStatusBarHidden
 {
@@ -55,6 +60,76 @@
 
     // Release any cached data, images, etc that aren't in use.
 }
+
+
+#pragma mark Javascript Injection
+
+/*
+ These methods were taken from a defunct cordova plugin at
+ https://github.com/fastrde/cordova-plugin-fastrde-injectview
+ */
+
+/**
+ Inject a javascript file directly into the webView. This bypasses cross site restrictions.
+ 
+ @param resource The name of the resource (not including extension) to load.
+ @param webView The UIWebView to load the javascript into.
+ */
+- (void)injectJavascriptFile:(NSString *)resource intoWebView:(UIWebView *)webView
+{
+    NSString *jsPath = [[NSBundle mainBundle] pathForResource:resource ofType:@"js"];
+    NSString *js = [NSString stringWithContentsOfFile:jsPath encoding:NSUTF8StringEncoding error:NULL];
+    
+    [webView stringByEvaluatingJavaScriptFromString:js];
+}
+
+/**
+ Extract the JSON object data from the cordova_plugins file.
+ 
+ @return Array of plugin object definitations
+ */
+- (NSArray*)parseCordovaPlugins
+{
+    NSString *jsPath = [[NSBundle mainBundle] pathForResource:@"www/cordova_plugins" ofType:@"js"];
+    NSString *js = [NSString stringWithContentsOfFile:jsPath encoding:NSUTF8StringEncoding error:NULL];
+    NSScanner *scanner = [NSScanner scannerWithString:js];
+    NSString *substring = nil;
+    
+    [scanner scanUpToString:@"[" intoString:nil];
+    [scanner scanUpToString:@"];" intoString:&substring];
+    substring = [NSString stringWithFormat:@"%@]", substring];
+    
+    NSError* localError;
+    NSData* data = [substring dataUsingEncoding:NSUTF8StringEncoding];
+    NSArray* pluginObjects = [NSJSONSerialization JSONObjectWithData:data options:0 error:&localError];
+    
+    return pluginObjects;
+}
+
+
+#pragma mark Notifications
+
+/**
+ UIWebView has finished loading a page. Inject the cordova scripts.
+ 
+ @param notification Notification that caused this invocation.
+ */
+- (void)pageDidLoadNotification:(NSNotification *)notification
+{
+    UIWebView *webView = (UIWebView *)notification.object;
+    
+    [self injectJavascriptFile:@"www/cordova" intoWebView:webView];
+    [self injectJavascriptFile:@"www/cordova_plugins" intoWebView:webView];
+    [self injectJavascriptFile:@"www/js/ZebraPrint" intoWebView:webView];
+    
+    NSArray* pluginObjects = [self parseCordovaPlugins];
+    for (NSDictionary* pluginParameters in pluginObjects) {
+        NSString* path = [[NSString stringWithFormat:@"www/%@", pluginParameters[@"file"]] stringByDeletingPathExtension];
+        
+        [self injectJavascriptFile:path intoWebView:webView];
+    }
+}
+
 
 #pragma mark View lifecycle
 

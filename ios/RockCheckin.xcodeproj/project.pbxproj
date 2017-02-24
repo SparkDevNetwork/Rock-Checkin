@@ -42,6 +42,7 @@
 		650EFB701E52710B0053F3DE /* CDVLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 650EFB6F1E52710B0053F3DE /* CDVLogger.m */; };
 		65CFBD131E60CD58001AFF79 /* CDVNotification.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 65CFBD101E60CD58001AFF79 /* CDVNotification.bundle */; };
 		65CFBD141E60CD58001AFF79 /* CDVNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = 65CFBD121E60CD58001AFF79 /* CDVNotification.m */; };
+		65CFBD191E60D4C3001AFF79 /* BlockOldRockRequests.m in Sources */ = {isa = PBXBuildFile; fileRef = 65CFBD181E60D4C3001AFF79 /* BlockOldRockRequests.m */; };
 		9E4B9AA216E5D49200538D9E /* EGOCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E4B9AA116E5D49200538D9E /* EGOCache.m */; };
 		9E55AE1716D73EB500C2CBB1 /* ZebraPrint.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E55AE1616D73EB500C2CBB1 /* ZebraPrint.m */; };
 		9E55AE4116D88BD700C2CBB1 /* NSObject+SBJson.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E55AE2916D88BD700C2CBB1 /* NSObject+SBJson.m */; };
@@ -124,6 +125,8 @@
 		65CFBD101E60CD58001AFF79 /* CDVNotification.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = CDVNotification.bundle; sourceTree = "<group>"; };
 		65CFBD111E60CD58001AFF79 /* CDVNotification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDVNotification.h; sourceTree = "<group>"; };
 		65CFBD121E60CD58001AFF79 /* CDVNotification.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDVNotification.m; sourceTree = "<group>"; };
+		65CFBD171E60D4C3001AFF79 /* BlockOldRockRequests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BlockOldRockRequests.h; sourceTree = "<group>"; };
+		65CFBD181E60D4C3001AFF79 /* BlockOldRockRequests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BlockOldRockRequests.m; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* RockCheckin-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "RockCheckin-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
 		9E4B9AA016E5D49200538D9E /* EGOCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EGOCache.h; sourceTree = "<group>"; };
 		9E4B9AA116E5D49200538D9E /* EGOCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EGOCache.m; sourceTree = "<group>"; };
@@ -205,6 +208,8 @@
 				1D3623250D0F684500981E51 /* AppDelegate.m */,
 				9E55AE1516D73EB500C2CBB1 /* ZebraPrint.h */,
 				9E55AE1616D73EB500C2CBB1 /* ZebraPrint.m */,
+				65CFBD171E60D4C3001AFF79 /* BlockOldRockRequests.h */,
+				65CFBD181E60D4C3001AFF79 /* BlockOldRockRequests.m */,
 			);
 			name = Classes;
 			path = RockCheckin/Classes;
@@ -540,6 +545,7 @@
 				650EFB601E4FE6510053F3DE /* CDVReachability.m in Sources */,
 				9E55AE4A16D88BD700C2CBB1 /* SBJsonTokeniser.m in Sources */,
 				9E55AE4B16D88BD700C2CBB1 /* SBJsonUTF8Stream.m in Sources */,
+				65CFBD191E60D4C3001AFF79 /* BlockOldRockRequests.m in Sources */,
 				9E55AE4C16D88BD700C2CBB1 /* SBJsonWriter.m in Sources */,
 				9EE5B81316E44DA300D0D311 /* ApplicationPreferences.m in Sources */,
 				650EFB6A1E4FE75A0053F3DE /* CDVViewController+SplashScreen.m in Sources */,
