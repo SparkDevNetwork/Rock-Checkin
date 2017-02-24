@@ -40,6 +40,8 @@
 		650EFB6A1E4FE75A0053F3DE /* CDVViewController+SplashScreen.m in Sources */ = {isa = PBXBuildFile; fileRef = 650EFB681E4FE75A0053F3DE /* CDVViewController+SplashScreen.m */; };
 		650EFB6C1E52606E0053F3DE /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 650EFB6B1E52606E0053F3DE /* Images.xcassets */; };
 		650EFB701E52710B0053F3DE /* CDVLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 650EFB6F1E52710B0053F3DE /* CDVLogger.m */; };
+		65CFBD131E60CD58001AFF79 /* CDVNotification.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 65CFBD101E60CD58001AFF79 /* CDVNotification.bundle */; };
+		65CFBD141E60CD58001AFF79 /* CDVNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = 65CFBD121E60CD58001AFF79 /* CDVNotification.m */; };
 		9E4B9AA216E5D49200538D9E /* EGOCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E4B9AA116E5D49200538D9E /* EGOCache.m */; };
 		9E55AE1716D73EB500C2CBB1 /* ZebraPrint.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E55AE1616D73EB500C2CBB1 /* ZebraPrint.m */; };
 		9E55AE4116D88BD700C2CBB1 /* NSObject+SBJson.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E55AE2916D88BD700C2CBB1 /* NSObject+SBJson.m */; };
@@ -119,6 +121,9 @@
 		650EFB6B1E52606E0053F3DE /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = RockCheckin/Images.xcassets; sourceTree = SOURCE_ROOT; };
 		650EFB6E1E52710B0053F3DE /* CDVLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDVLogger.h; sourceTree = "<group>"; };
 		650EFB6F1E52710B0053F3DE /* CDVLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDVLogger.m; sourceTree = "<group>"; };
+		65CFBD101E60CD58001AFF79 /* CDVNotification.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = CDVNotification.bundle; sourceTree = "<group>"; };
+		65CFBD111E60CD58001AFF79 /* CDVNotification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDVNotification.h; sourceTree = "<group>"; };
+		65CFBD121E60CD58001AFF79 /* CDVNotification.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDVNotification.m; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* RockCheckin-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "RockCheckin-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
 		9E4B9AA016E5D49200538D9E /* EGOCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EGOCache.h; sourceTree = "<group>"; };
 		9E4B9AA116E5D49200538D9E /* EGOCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EGOCache.m; sourceTree = "<group>"; };
@@ -278,6 +283,7 @@
 		307C750510C5A3420062BCA9 /* Plugins */ = {
 			isa = PBXGroup;
 			children = (
+				65CFBD0F1E60CD58001AFF79 /* Notification */,
 				650EFB6D1E52710B0053F3DE /* Console */,
 				650EFB641E4FE75A0053F3DE /* SplashScreen */,
 				650EFB531E4FE6510053F3DE /* Device */,
@@ -357,6 +363,16 @@
 				650EFB6F1E52710B0053F3DE /* CDVLogger.m */,
 			);
 			path = Console;
+			sourceTree = "<group>";
+		};
+		65CFBD0F1E60CD58001AFF79 /* Notification */ = {
+			isa = PBXGroup;
+			children = (
+				65CFBD101E60CD58001AFF79 /* CDVNotification.bundle */,
+				65CFBD111E60CD58001AFF79 /* CDVNotification.h */,
+				65CFBD121E60CD58001AFF79 /* CDVNotification.m */,
+			);
+			path = Notification;
 			sourceTree = "<group>";
 		};
 		9E55AE5916D88C2400C2CBB1 /* SBJson */ = {
@@ -467,6 +483,7 @@
 			files = (
 				F840E1F1165FE0F500CFE078 /* config.xml in Resources */,
 				301BF570109A69640062928A /* www in Resources */,
+				65CFBD131E60CD58001AFF79 /* CDVNotification.bundle in Resources */,
 				302D95F214D2391D003F00A1 /* MainViewController.xib in Resources */,
 				650EFB6C1E52606E0053F3DE /* Images.xcassets in Resources */,
 				9E8C40341975F10A00DC66C4 /* app-notes.txt in Resources */,
@@ -507,6 +524,7 @@
 				650EFB5E1E4FE6510053F3DE /* CDVDevice.m in Sources */,
 				650EFB5F1E4FE6510053F3DE /* CDVConnection.m in Sources */,
 				650EFB611E4FE6510053F3DE /* CDVStatusBar.m in Sources */,
+				65CFBD141E60CD58001AFF79 /* CDVNotification.m in Sources */,
 				9E55AE4216D88BD700C2CBB1 /* SBJsonParser.m in Sources */,
 				9E55AE4316D88BD700C2CBB1 /* SBJsonStreamParser.m in Sources */,
 				9E55AE4416D88BD700C2CBB1 /* SBJsonStreamParserAccumulator.m in Sources */,
