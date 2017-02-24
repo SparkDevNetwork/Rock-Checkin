@@ -42,11 +42,6 @@
         {
             return YES;
         }
-        
-        if ([filename caseInsensitiveCompare:@"ZebraPrint.js"] == NSOrderedSame)
-        {
-            return YES;
-        }
     }
     
     return NO;

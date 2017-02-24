@@ -120,7 +120,6 @@
     
     [self injectJavascriptFile:@"www/cordova" intoWebView:webView];
     [self injectJavascriptFile:@"www/cordova_plugins" intoWebView:webView];
-    [self injectJavascriptFile:@"www/js/ZebraPrint" intoWebView:webView];
     
     NSArray* pluginObjects = [self parseCordovaPlugins];
     for (NSDictionary* pluginParameters in pluginObjects) {
