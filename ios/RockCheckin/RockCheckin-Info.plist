@@ -35,6 +35,8 @@
 	<string>LaunchImage</string>
 	<key>UIPrerenderedIcon</key>
 	<true/>
+	<key>UIRequiresFullScreen</key>
+	<true/>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
