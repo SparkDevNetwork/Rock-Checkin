@@ -14,15 +14,11 @@
 
 
 
-- (void)getSetting:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options
+- (void)getSetting:(CDVInvokedUrlCommand *)command
 {
-	NSString* callbackID = [arguments pop];
-	NSString* jsString;
+    NSString *settingsName = command.arguments[0][@"key"];
+    CDVPluginResult* result = nil;
 
-        
-		NSString *settingsName = [options objectForKey:@"key"];
-        CDVPluginResult* result = nil;
-	
 		@try 
 		{
 			//At the moment we only return strings
@@ -33,47 +29,40 @@
 				returnVar = [self getSettingFromBundle:settingsName]; //Parsing Root.plist
 				
 				if (returnVar == nil) 
-					@throw [NSException exceptionWithName:nil reason:@"Key not found" userInfo:nil];;
+					@throw [NSException exceptionWithName:NSGenericException reason:@"Key not found" userInfo:nil];;
 			}
 			result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:returnVar];
-			jsString = [result toSuccessCallbackString:callbackID];		
 		}
 		@catch (NSException * e) 
 		{
 			result = [CDVPluginResult resultWithStatus:CDVCommandStatus_NO_RESULT messageAsString:[e reason]];
-            jsString = [result toErrorCallbackString:callbackID];
 		}
 		@finally 
 		{
-			[self writeJavascript:jsString]; //Write back to JS
+            [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
 		}
 }
 
-- (void)setSetting:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options
+- (void)setSetting:(CDVInvokedUrlCommand *)command
 {
-    NSString* callbackID = [arguments pop];
-	NSString* jsString;    
     CDVPluginResult* result;
 
-    NSString *settingsName = [options objectForKey:@"key"];
-    NSString *settingsValue = [options objectForKey:@"value"];
+    NSString *settingsName = command.arguments[0][@"key"];
+    NSString *settingsValue = command.arguments[0][@"value"];
 
 		
     @try 
     {
         [[NSUserDefaults standardUserDefaults] setValue:settingsValue forKey:settingsName];
         result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
-        jsString = [result toSuccessCallbackString:callbackID];
-			
     }
     @catch (NSException * e) 
     {
         result = [CDVPluginResult resultWithStatus:CDVCommandStatus_NO_RESULT messageAsString:[e reason]];
-        jsString = [result toErrorCallbackString:callbackID];
     }
     @finally 
     {
-        [self writeJavascript:jsString]; //Write back to JS
+        [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
     }
 }
 /*

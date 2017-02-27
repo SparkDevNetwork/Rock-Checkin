@@ -21,25 +21,25 @@
 //  MainViewController.h
 //  RockCheckin
 //
-//  Created by ___FULLUSERNAME___ on ___DATE___.
-//  Copyright ___ORGANIZATIONNAME___ ___YEAR___. All rights reserved.
+//  Created by Jon Edmiston on 2/21/13.
+//  Copyright Spark Development 2013. All rights reserved.
 //
 
 #import "MainViewController.h"
+#import "BlockOldRockRequests.h"
 
 @implementation MainViewController
 
 - (id)initWithNibName:(NSString*)nibNameOrNil bundle:(NSBundle*)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Uncomment to override the CDVCommandDelegateImpl used
-        // _commandDelegate = [[MainCommandDelegate alloc] initWithViewController:self];
-        // Uncomment to override the CDVCommandQueue used
-        // _commandQueue = [[MainCommandQueue alloc] initWithViewController:self];
-    }
+
+    [BlockOldRockRequests enable];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(pageDidLoadNotification:) name:CDVPageDidLoadNotification object:nil];
+
     return self;
 }
+
 
 - (BOOL)prefersStatusBarHidden
 {
@@ -49,12 +49,7 @@
 - (id)init
 {
     self = [super init];
-    if (self) {
-        // Uncomment to override the CDVCommandDelegateImpl used
-        // _commandDelegate = [[MainCommandDelegate alloc] initWithViewController:self];
-        // Uncomment to override the CDVCommandQueue used
-        // _commandQueue = [[MainCommandQueue alloc] initWithViewController:self];
-    }
+
     return self;
 }
 
@@ -65,6 +60,75 @@
 
     // Release any cached data, images, etc that aren't in use.
 }
+
+
+#pragma mark Javascript Injection
+
+/*
+ These methods were taken from a defunct cordova plugin at
+ https://github.com/fastrde/cordova-plugin-fastrde-injectview
+ */
+
+/**
+ Inject a javascript file directly into the webView. This bypasses cross site restrictions.
+ 
+ @param resource The name of the resource (not including extension) to load.
+ @param webView The UIWebView to load the javascript into.
+ */
+- (void)injectJavascriptFile:(NSString *)resource intoWebView:(UIWebView *)webView
+{
+    NSString *jsPath = [[NSBundle mainBundle] pathForResource:resource ofType:@"js"];
+    NSString *js = [NSString stringWithContentsOfFile:jsPath encoding:NSUTF8StringEncoding error:NULL];
+    
+    [webView stringByEvaluatingJavaScriptFromString:js];
+}
+
+/**
+ Extract the JSON object data from the cordova_plugins file.
+ 
+ @return Array of plugin object definitations
+ */
+- (NSArray*)parseCordovaPlugins
+{
+    NSString *jsPath = [[NSBundle mainBundle] pathForResource:@"www/cordova_plugins" ofType:@"js"];
+    NSString *js = [NSString stringWithContentsOfFile:jsPath encoding:NSUTF8StringEncoding error:NULL];
+    NSScanner *scanner = [NSScanner scannerWithString:js];
+    NSString *substring = nil;
+    
+    [scanner scanUpToString:@"[" intoString:nil];
+    [scanner scanUpToString:@"];" intoString:&substring];
+    substring = [NSString stringWithFormat:@"%@]", substring];
+    
+    NSError* localError;
+    NSData* data = [substring dataUsingEncoding:NSUTF8StringEncoding];
+    NSArray* pluginObjects = [NSJSONSerialization JSONObjectWithData:data options:0 error:&localError];
+    
+    return pluginObjects;
+}
+
+
+#pragma mark Notifications
+
+/**
+ UIWebView has finished loading a page. Inject the cordova scripts.
+ 
+ @param notification Notification that caused this invocation.
+ */
+- (void)pageDidLoadNotification:(NSNotification *)notification
+{
+    UIWebView *webView = (UIWebView *)notification.object;
+    
+    [self injectJavascriptFile:@"www/cordova" intoWebView:webView];
+    [self injectJavascriptFile:@"www/cordova_plugins" intoWebView:webView];
+    
+    NSArray* pluginObjects = [self parseCordovaPlugins];
+    for (NSDictionary* pluginParameters in pluginObjects) {
+        NSString* path = [[NSString stringWithFormat:@"www/%@", pluginParameters[@"file"]] stringByDeletingPathExtension];
+        
+        [self injectJavascriptFile:path intoWebView:webView];
+    }
+}
+
 
 #pragma mark View lifecycle
 
@@ -95,85 +159,5 @@
     return [super shouldAutorotateToInterfaceOrientation:interfaceOrientation];
 }
 
-/* Comment out the block below to over-ride */
-
-/*
-- (UIWebView*) newCordovaViewWithFrame:(CGRect)bounds
-{
-    return[super newCordovaViewWithFrame:bounds];
-}
-*/
-
-#pragma mark UIWebDelegate implementation
-
-- (void)webViewDidFinishLoad:(UIWebView*)theWebView
-{
-    // Black base color for background matches the native apps
-    theWebView.backgroundColor = [UIColor blackColor];
-
-    return [super webViewDidFinishLoad:theWebView];
-}
-
-/* Comment out the block below to over-ride */
-
-/*
-
-- (void) webViewDidStartLoad:(UIWebView*)theWebView
-{
-    return [super webViewDidStartLoad:theWebView];
-}
-
-- (void) webView:(UIWebView*)theWebView didFailLoadWithError:(NSError*)error
-{
-    return [super webView:theWebView didFailLoadWithError:error];
-}
-
-- (BOOL) webView:(UIWebView*)theWebView shouldStartLoadWithRequest:(NSURLRequest*)request navigationType:(UIWebViewNavigationType)navigationType
-{
-    return [super webView:theWebView shouldStartLoadWithRequest:request navigationType:navigationType];
-}
-*/
-
 @end
 
-@implementation MainCommandDelegate
-
-/* To override the methods, uncomment the line in the init function(s)
-   in MainViewController.m
- */
-
-#pragma mark CDVCommandDelegate implementation
-
-- (id)getCommandInstance:(NSString*)className
-{
-    return [super getCommandInstance:className];
-}
-
-/*
-   NOTE: this will only inspect execute calls coming explicitly from native plugins,
-   not the commandQueue (from JavaScript). To see execute calls from JavaScript, see
-   MainCommandQueue below
-*/
-- (BOOL)execute:(CDVInvokedUrlCommand*)command
-{
-    return [super execute:command];
-}
-
-- (NSString*)pathForResource:(NSString*)resourcepath;
-{
-    return [super pathForResource:resourcepath];
-}
-
-@end
-
-@implementation MainCommandQueue
-
-/* To override, uncomment the line in the init function(s)
-   in MainViewController.m
- */
-- (BOOL)execute:(CDVInvokedUrlCommand*)command
-{
-    return [super execute:command];
-}
-
-@end

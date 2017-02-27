@@ -51,7 +51,7 @@
             
         } else {
             // we have parsed successfully
-            NSLog(@"[LOG] ZebraPrint plugin has parsed %d labels", [labels count]);
+            NSLog(@"[LOG] ZebraPrint plugin has parsed %lu labels", (unsigned long)[labels count]);
             
             // create reusable printer connection
             id<ZebraPrinterConnection, NSObject> printerConn = nil;
@@ -62,6 +62,7 @@
                 NSString *printerIP = [label objectForKey:@"PrinterAddress"];
                 NSString *labelFile = [label objectForKey:@"LabelFile"];
                 NSString *labelKey = [label objectForKey:@"LabelKey"];
+                NSInteger printerPort = 9100;
                 
                 NSDictionary *mergeFields = [label objectForKey:@"MergeFields"];
                 
@@ -72,6 +73,15 @@
                 if (overridePrinter != nil && overridePrinter.length > 0) {
                     printerIP = overridePrinter;
                 }
+
+                // If the user specified in 0.0.0.0:1234 syntax then pull out the IP and port numbers.
+                if ([printerIP containsString:@":"])
+                {
+                    NSArray *segments = [printerIP componentsSeparatedByString:@":"];
+                    
+                    printerIP = segments[0];
+                    printerPort = [segments[1] integerValue];
+                }
                 
                 // get label contents
                 NSString *labelContents = [self getLabelContents:labelKey labelLocation:labelFile];
@@ -81,7 +91,7 @@
                     NSString *mergedLabel = [self mergeLabelFields:labelContents mergeFields:mergeFields];
                     
                     // create connection to the printer
-                    printerConn = [[TcpPrinterConnection alloc] initWithAddress:printerIP andWithPort:9100];
+                    printerConn = [[TcpPrinterConnection alloc] initWithAddress:printerIP andWithPort:printerPort];
                     
                     BOOL success = [printerConn open];
                     
@@ -93,14 +103,12 @@
                     success = success && [printerConn write:[mergedLabel dataUsingEncoding:NSUTF8StringEncoding] error:&error];
                     
                     if (success != YES || error != nil) {
-                        
                         NSLog(@"[ERROR] Unable to print to printer: %@", [error localizedDescription]);
                         pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsArray:[NSArray arrayWithObjects:[NSString stringWithFormat:@"Unable to print to printer: %@", [error localizedDescription]], @"false", nil]];
                     }
                     
                     // Close the connection to release resources.
                     [printerConn close];
-                    [printerConn release];
                     
                     //file:///Users/jedmiston/Applications/zebralink_sdk/iOS/v1.0.214/doc/html/index.html
 
@@ -110,7 +118,7 @@
             }
         }
         
-        [parser release], parser = nil;
+        parser = nil;
     }
 
     if (labelErrorOccurred) {
