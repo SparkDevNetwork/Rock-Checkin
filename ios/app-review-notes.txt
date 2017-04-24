@@ -1,0 +1,33 @@
+This app hosts an embedded web browser for use with our checkin app. A native app is required to allow access to local printers that are inside an organization's firewall. It also caches data locally to improve the performance of our checkin.
+
+Instructions to connect to the demo server for functional testing:
+
+A username may be required half way through configuration
+Username: admin
+Password: admin
+
+When the app loads it will ask for a URL to configure with.
+Check-in Address: http://rock.rocksolidchurchdemo.com/checkin
+
+Once the main page loads it will ask for how the kiosk should be configured:
+Kiosk Device: Main Campus - Central Kiosk
+Check-in Configuration: Weekly Service Check-in Area
+Check-in Area(s): Check-in Test Area
+
+Click OK, at this point is when the login page may come up (admin/admin).
+
+At this point you should be at the main check-in screen.
+
+1) Tap “Check In” and enter the partial phone number “3322” and press Search.
+
+2) Select the Decker Family
+
+3) Select the individuals you want to test-check-in, for example Noah.
+
+4) Select one of the rooms, such as the “Kittens” room.
+
+5) Select the 4:30 service and press “Check-in”.
+
+6) You should then see a status screen showing that Noah was checked in. You will probably see a note about the printer not being connected, that is normal since this is the demo server.
+
+7) Tap Done or wait for auto-refresh to the main check-in screen.
