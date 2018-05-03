@@ -207,7 +207,7 @@
             NSString *mergePattern = [NSString stringWithFormat:@"(\\^FT.*\\^FD)(%@)(\\^FS)",key];
             NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:mergePattern options:0 error:nil];
             
-            [regex replaceMatchesInString:mergedLabel options:0 range:NSMakeRange(0, [mergedLabel length]) withTemplate:[NSString stringWithFormat:@"$1%@$3",value]];
+            [regex replaceMatchesInString:mergedLabel options:0 range:NSMakeRange(0, [mergedLabel length]) withTemplate:[NSString stringWithFormat:@"$1%@$3", [value stringByReplacingOccurrencesOfString:@"\\" withString:@"\\\\"]]];
             
         } else {
             // remove the field origin (used for inverting backgrounds)
