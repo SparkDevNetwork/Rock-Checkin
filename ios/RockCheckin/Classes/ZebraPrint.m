@@ -202,12 +202,12 @@
         
         NSString *value = [mergeFields objectForKey:key];
         
-        if ([[mergeFields objectForKey:key] length] > 0) {
+        if ([value length] > 0) {
             // merge the contents of the field
-            NSString *mergePattern = [NSString stringWithFormat:@"(\\^FT.*\\^FD)(%@)(\\^FS)",key];
+            NSString *mergePattern = [NSString stringWithFormat:@"(?<=\\^FD)(%@)(\\^FS)",key];
             NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:mergePattern options:0 error:nil];
             
-            [regex replaceMatchesInString:mergedLabel options:0 range:NSMakeRange(0, [mergedLabel length]) withTemplate:[NSString stringWithFormat:@"$1%@$3", [value stringByReplacingOccurrencesOfString:@"\\" withString:@"\\\\"]]];
+            [regex replaceMatchesInString:mergedLabel options:0 range:NSMakeRange(0, [mergedLabel length]) withTemplate:[value stringByReplacingOccurrencesOfString:@"\\" withString:@"\\\\"]];
             
         } else {
             // remove the field origin (used for inverting backgrounds)
@@ -217,10 +217,10 @@
             [fieldOriginRegex replaceMatchesInString:mergedLabel options:0 range:NSMakeRange(0, [mergedLabel length]) withTemplate:@""];
             
             // remove the field data (the actual value)
-            NSString *fieldDataPattern = [NSString stringWithFormat:@"(\\^FD)(%@)(\\^FS)",key];
+            NSString *fieldDataPattern = [NSString stringWithFormat:@"\\^FD%@\\^FS",key];
             NSRegularExpression *fieldDataRegex = [NSRegularExpression regularExpressionWithPattern:fieldDataPattern options:0 error:nil];
             
-            [fieldDataRegex replaceMatchesInString:mergedLabel options:0 range:NSMakeRange(0, [mergedLabel length]) withTemplate:@"$1$3"];
+            [fieldDataRegex replaceMatchesInString:mergedLabel options:0 range:NSMakeRange(0, [mergedLabel length]) withTemplate:@"^FD^FS"];
         }
     }
 
