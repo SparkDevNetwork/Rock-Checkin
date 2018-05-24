@@ -204,7 +204,7 @@
         
         if ([value length] > 0) {
             // merge the contents of the field
-            NSString *mergePattern = [NSString stringWithFormat:@"(?<=\\^FD)(%@)(\\^FS)",key];
+            NSString *mergePattern = [NSString stringWithFormat:@"(?<=\\^FD)(%@)(?=\\^FS)",key];
             NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:mergePattern options:0 error:nil];
             
             [regex replaceMatchesInString:mergedLabel options:0 range:NSMakeRange(0, [mergedLabel length]) withTemplate:[value stringByReplacingOccurrencesOfString:@"\\" withString:@"\\\\"]];
