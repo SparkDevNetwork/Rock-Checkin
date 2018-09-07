@@ -27,6 +27,7 @@
 
 #import "MainViewController.h"
 #import "BlockOldRockRequests.h"
+#import <WebKit/WebKit.h>
 
 @implementation MainViewController
 
@@ -75,12 +76,12 @@
  @param resource The name of the resource (not including extension) to load.
  @param webView The UIWebView to load the javascript into.
  */
-- (void)injectJavascriptFile:(NSString *)resource intoWebView:(UIWebView *)webView
+- (void)injectJavascriptFile:(NSString *)resource intoWebView:(WKWebView *)webView
 {
     NSString *jsPath = [[NSBundle mainBundle] pathForResource:resource ofType:@"js"];
     NSString *js = [NSString stringWithContentsOfFile:jsPath encoding:NSUTF8StringEncoding error:NULL];
     
-    [webView stringByEvaluatingJavaScriptFromString:js];
+    [webView evaluateJavaScript:js completionHandler:nil];
 }
 
 /**
@@ -116,7 +117,7 @@
  */
 - (void)pageDidLoadNotification:(NSNotification *)notification
 {
-    UIWebView *webView = (UIWebView *)notification.object;
+    WKWebView *webView = (WKWebView *)notification.object;
     
     [self injectJavascriptFile:@"www/cordova" intoWebView:webView];
     [self injectJavascriptFile:@"www/cordova_plugins" intoWebView:webView];
@@ -144,13 +145,6 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-}
-
-- (void)viewDidUnload
-{
-    [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation

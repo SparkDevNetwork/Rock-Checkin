@@ -43,6 +43,10 @@
 		65CFBD131E60CD58001AFF79 /* CDVNotification.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 65CFBD101E60CD58001AFF79 /* CDVNotification.bundle */; };
 		65CFBD141E60CD58001AFF79 /* CDVNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = 65CFBD121E60CD58001AFF79 /* CDVNotification.m */; };
 		65CFBD191E60D4C3001AFF79 /* BlockOldRockRequests.m in Sources */ = {isa = PBXBuildFile; fileRef = 65CFBD181E60D4C3001AFF79 /* BlockOldRockRequests.m */; };
+		65D9EDBA2142E75700F43C5E /* CDVWKWebViewEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = 65D9EDB52142E75700F43C5E /* CDVWKWebViewEngine.m */; };
+		65D9EDBB2142E75700F43C5E /* CDVWKWebViewUIDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 65D9EDB72142E75700F43C5E /* CDVWKWebViewUIDelegate.m */; };
+		65D9EDBC2142E75700F43C5E /* CDVWKProcessPoolFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 65D9EDB92142E75700F43C5E /* CDVWKProcessPoolFactory.m */; };
+		65D9EDBE2142E8A800F43C5E /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65D9EDBD2142E8A800F43C5E /* WebKit.framework */; };
 		9E4B9AA216E5D49200538D9E /* EGOCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E4B9AA116E5D49200538D9E /* EGOCache.m */; };
 		9E55AE1716D73EB500C2CBB1 /* ZebraPrint.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E55AE1616D73EB500C2CBB1 /* ZebraPrint.m */; };
 		9E55AE4116D88BD700C2CBB1 /* NSObject+SBJson.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E55AE2916D88BD700C2CBB1 /* NSObject+SBJson.m */; };
@@ -128,6 +132,13 @@
 		65CFBD121E60CD58001AFF79 /* CDVNotification.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDVNotification.m; sourceTree = "<group>"; };
 		65CFBD171E60D4C3001AFF79 /* BlockOldRockRequests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BlockOldRockRequests.h; sourceTree = "<group>"; };
 		65CFBD181E60D4C3001AFF79 /* BlockOldRockRequests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BlockOldRockRequests.m; sourceTree = "<group>"; };
+		65D9EDB42142E75700F43C5E /* CDVWKWebViewUIDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDVWKWebViewUIDelegate.h; sourceTree = "<group>"; };
+		65D9EDB52142E75700F43C5E /* CDVWKWebViewEngine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDVWKWebViewEngine.m; sourceTree = "<group>"; };
+		65D9EDB62142E75700F43C5E /* CDVWKProcessPoolFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDVWKProcessPoolFactory.h; sourceTree = "<group>"; };
+		65D9EDB72142E75700F43C5E /* CDVWKWebViewUIDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDVWKWebViewUIDelegate.m; sourceTree = "<group>"; };
+		65D9EDB82142E75700F43C5E /* CDVWKWebViewEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDVWKWebViewEngine.h; sourceTree = "<group>"; };
+		65D9EDB92142E75700F43C5E /* CDVWKProcessPoolFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDVWKProcessPoolFactory.m; sourceTree = "<group>"; };
+		65D9EDBD2142E8A800F43C5E /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
 		8D1107310486CEB800E47090 /* RockCheckin-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "RockCheckin-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
 		9E4B9AA016E5D49200538D9E /* EGOCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EGOCache.h; sourceTree = "<group>"; };
 		9E4B9AA116E5D49200538D9E /* EGOCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EGOCache.m; sourceTree = "<group>"; };
@@ -171,6 +182,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				65D9EDBE2142E8A800F43C5E /* WebKit.framework in Frameworks */,
 				650EFB631E4FE6A00053F3DE /* CoreTelephony.framework in Frameworks */,
 				650EFB481E4FDEE30053F3DE /* ExternalAccessory.framework in Frameworks */,
 				650EFB461E4FDEBE0053F3DE /* libCordova.a in Frameworks */,
@@ -266,6 +278,7 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				65D9EDBD2142E8A800F43C5E /* WebKit.framework */,
 				650EFB621E4FE6A00053F3DE /* CoreTelephony.framework */,
 				650EFB471E4FDEE30053F3DE /* ExternalAccessory.framework */,
 				650EFB401E4FD3860053F3DE /* CordovaLib.xcodeproj */,
@@ -290,6 +303,7 @@
 		307C750510C5A3420062BCA9 /* Plugins */ = {
 			isa = PBXGroup;
 			children = (
+				65D9EDB32142E75700F43C5E /* cordova-plugin-wkwebview-engine */,
 				65CFBD0F1E60CD58001AFF79 /* Notification */,
 				650EFB6D1E52710B0053F3DE /* Console */,
 				650EFB641E4FE75A0053F3DE /* SplashScreen */,
@@ -382,6 +396,19 @@
 			path = Notification;
 			sourceTree = "<group>";
 		};
+		65D9EDB32142E75700F43C5E /* cordova-plugin-wkwebview-engine */ = {
+			isa = PBXGroup;
+			children = (
+				65D9EDB42142E75700F43C5E /* CDVWKWebViewUIDelegate.h */,
+				65D9EDB52142E75700F43C5E /* CDVWKWebViewEngine.m */,
+				65D9EDB62142E75700F43C5E /* CDVWKProcessPoolFactory.h */,
+				65D9EDB72142E75700F43C5E /* CDVWKWebViewUIDelegate.m */,
+				65D9EDB82142E75700F43C5E /* CDVWKWebViewEngine.h */,
+				65D9EDB92142E75700F43C5E /* CDVWKProcessPoolFactory.m */,
+			);
+			path = "cordova-plugin-wkwebview-engine";
+			sourceTree = "<group>";
+		};
 		9E55AE5916D88C2400C2CBB1 /* SBJson */ = {
 			isa = PBXGroup;
 			children = (
@@ -442,7 +469,7 @@
 		29B97313FDCFA39411CA2CEA /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0910;
+				LastUpgradeCheck = 0940;
 				TargetAttributes = {
 					1D6058900D05DD3D006BFB54 = {
 						DevelopmentTeam = QG6N59LRU9;
@@ -542,7 +569,9 @@
 				1D3623260D0F684500981E51 /* AppDelegate.m in Sources */,
 				302D95F114D2391D003F00A1 /* MainViewController.m in Sources */,
 				9E55AE1716D73EB500C2CBB1 /* ZebraPrint.m in Sources */,
+				65D9EDBB2142E75700F43C5E /* CDVWKWebViewUIDelegate.m in Sources */,
 				9E55AE4116D88BD700C2CBB1 /* NSObject+SBJson.m in Sources */,
+				65D9EDBC2142E75700F43C5E /* CDVWKProcessPoolFactory.m in Sources */,
 				650EFB5E1E4FE6510053F3DE /* CDVDevice.m in Sources */,
 				650EFB5F1E4FE6510053F3DE /* CDVConnection.m in Sources */,
 				650EFB611E4FE6510053F3DE /* CDVStatusBar.m in Sources */,
@@ -558,6 +587,7 @@
 				650EFB691E4FE75A0053F3DE /* CDVSplashScreen.m in Sources */,
 				9E55AE4816D88BD700C2CBB1 /* SBJsonStreamWriterAccumulator.m in Sources */,
 				9E55AE4916D88BD700C2CBB1 /* SBJsonStreamWriterState.m in Sources */,
+				65D9EDBA2142E75700F43C5E /* CDVWKWebViewEngine.m in Sources */,
 				650EFB501E4FE3050053F3DE /* CDVAssetLibraryFilesystem.m in Sources */,
 				650EFB601E4FE6510053F3DE /* CDVReachability.m in Sources */,
 				9E55AE4A16D88BD700C2CBB1 /* SBJsonTokeniser.m in Sources */,
@@ -591,7 +621,7 @@
 				GCC_THUMB_SUPPORT = NO;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				INFOPLIST_FILE = "RockCheckin/RockCheckin-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				OTHER_LDFLAGS = (
 					"-weak_framework",
 					CoreFoundation,
@@ -630,7 +660,7 @@
 				GCC_THUMB_SUPPORT = NO;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				INFOPLIST_FILE = "RockCheckin/RockCheckin-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				OTHER_LDFLAGS = (
 					"-weak_framework",
 					CoreFoundation,
@@ -664,11 +694,13 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
@@ -695,7 +727,7 @@
 					/Applications/link_os_sdk/iOS/v1.4.948/lib/include,
 					"$(OBJROOT)/UninstalledProducts/$(PLATFORM_NAME)/include",
 				);
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LIBRARY_SEARCH_PATHS = /Applications/link_os_sdk/iOS/v1.4.948/lib;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
@@ -727,11 +759,13 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
@@ -757,7 +791,7 @@
 					/Applications/link_os_sdk/iOS/v1.4.948/lib/include,
 					"$(OBJROOT)/UninstalledProducts/$(PLATFORM_NAME)/include",
 				);
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LIBRARY_SEARCH_PATHS = /Applications/link_os_sdk/iOS/v1.4.948/lib;
 				OTHER_LDFLAGS = (
 					"-weak_framework",
