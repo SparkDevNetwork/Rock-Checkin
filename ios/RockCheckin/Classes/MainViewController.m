@@ -76,14 +76,27 @@
  @param resource The name of the resource (not including extension) to load.
  @param webView The UIWebView to load the javascript into.
  */
-- (void)injectJavascriptFile:(NSString *)resource intoWebView:(UIView *)webView
+- (void)injectJavascriptFiles:(NSArray *)resources intoWebView:(UIView *)webView
 {
-    NSString *jsPath = [[NSBundle mainBundle] pathForResource:resource ofType:@"js"];
-    NSString *js = [NSString stringWithContentsOfFile:jsPath encoding:NSUTF8StringEncoding error:NULL];
+    NSString *js = @"";
+    
+    for (NSString *resource in resources) {
+        NSString *jsPath = [[NSBundle mainBundle] pathForResource:resource ofType:@"js"];
+        NSString *tJs = [NSString stringWithContentsOfFile:jsPath encoding:NSUTF8StringEncoding error:NULL];
+        js = [js stringByAppendingFormat:@";%@", tJs];
+    }
     
     if ([webView isKindOfClass:[WKWebView class]])
     {
-        [(WKWebView *)webView evaluateJavaScript:js completionHandler:nil];
+        dispatch_semaphore_t sema = dispatch_semaphore_create(0);
+
+        [(WKWebView *)webView evaluateJavaScript:js completionHandler:^(id _Nullable ignored, NSError * _Nullable error) {
+            dispatch_semaphore_signal(sema);
+        }];
+
+        while (dispatch_semaphore_wait(sema, DISPATCH_TIME_NOW)) {
+            [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:[NSDate dateWithTimeIntervalSinceNow:1]];
+        }
     }
     else if ([webView isKindOfClass:[UIWebView class]])
     {
@@ -125,16 +138,14 @@
 - (void)pageDidLoadNotification:(NSNotification *)notification
 {
     UIView *webView = (UIView *)notification.object;
-    
-    [self injectJavascriptFile:@"www/cordova" intoWebView:webView];
-    [self injectJavascriptFile:@"www/cordova_plugins" intoWebView:webView];
+    NSMutableArray *paths = [NSMutableArray arrayWithObjects:@"www/cordova", @"www/cordova_plugins", nil];
     
     NSArray* pluginObjects = [self parseCordovaPlugins];
     for (NSDictionary* pluginParameters in pluginObjects) {
-        NSString* path = [[NSString stringWithFormat:@"www/%@", pluginParameters[@"file"]] stringByDeletingPathExtension];
-        
-        [self injectJavascriptFile:path intoWebView:webView];
+        [paths addObject:[[NSString stringWithFormat:@"www/%@", pluginParameters[@"file"]] stringByDeletingPathExtension]];
     }
+
+    [self injectJavascriptFiles:paths intoWebView:webView];
 }
 
 
