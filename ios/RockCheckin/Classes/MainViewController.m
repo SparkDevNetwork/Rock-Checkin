@@ -76,12 +76,19 @@
  @param resource The name of the resource (not including extension) to load.
  @param webView The UIWebView to load the javascript into.
  */
-- (void)injectJavascriptFile:(NSString *)resource intoWebView:(WKWebView *)webView
+- (void)injectJavascriptFile:(NSString *)resource intoWebView:(UIView *)webView
 {
     NSString *jsPath = [[NSBundle mainBundle] pathForResource:resource ofType:@"js"];
     NSString *js = [NSString stringWithContentsOfFile:jsPath encoding:NSUTF8StringEncoding error:NULL];
     
-    [webView evaluateJavaScript:js completionHandler:nil];
+    if ([webView isKindOfClass:[WKWebView class]])
+    {
+        [(WKWebView *)webView evaluateJavaScript:js completionHandler:nil];
+    }
+    else if ([webView isKindOfClass:[UIWebView class]])
+    {
+        [(UIWebView *)webView stringByEvaluatingJavaScriptFromString:js];
+    }
 }
 
 /**
@@ -117,7 +124,7 @@
  */
 - (void)pageDidLoadNotification:(NSNotification *)notification
 {
-    WKWebView *webView = (WKWebView *)notification.object;
+    UIView *webView = (UIView *)notification.object;
     
     [self injectJavascriptFile:@"www/cordova" intoWebView:webView];
     [self injectJavascriptFile:@"www/cordova_plugins" intoWebView:webView];

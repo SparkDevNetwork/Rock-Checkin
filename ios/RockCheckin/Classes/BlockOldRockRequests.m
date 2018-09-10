@@ -8,6 +8,9 @@
 
 #import "BlockOldRockRequests.h"
 
+//
+// NOTE: This class can be removed when iOS 11 becomes the minimum version used.
+//
 @implementation BlockOldRockRequests
 
 

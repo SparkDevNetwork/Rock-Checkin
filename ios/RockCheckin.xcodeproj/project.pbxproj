@@ -40,6 +40,7 @@
 		650EFB6A1E4FE75A0053F3DE /* CDVViewController+SplashScreen.m in Sources */ = {isa = PBXBuildFile; fileRef = 650EFB681E4FE75A0053F3DE /* CDVViewController+SplashScreen.m */; };
 		650EFB6C1E52606E0053F3DE /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 650EFB6B1E52606E0053F3DE /* Images.xcassets */; };
 		650EFB701E52710B0053F3DE /* CDVLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 650EFB6F1E52710B0053F3DE /* CDVLogger.m */; };
+		65599A0621470E0000BF724E /* RKWKWebViewEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = 65599A0521470E0000BF724E /* RKWKWebViewEngine.m */; };
 		65CFBD131E60CD58001AFF79 /* CDVNotification.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 65CFBD101E60CD58001AFF79 /* CDVNotification.bundle */; };
 		65CFBD141E60CD58001AFF79 /* CDVNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = 65CFBD121E60CD58001AFF79 /* CDVNotification.m */; };
 		65CFBD191E60D4C3001AFF79 /* BlockOldRockRequests.m in Sources */ = {isa = PBXBuildFile; fileRef = 65CFBD181E60D4C3001AFF79 /* BlockOldRockRequests.m */; };
@@ -126,6 +127,8 @@
 		650EFB6B1E52606E0053F3DE /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = RockCheckin/Images.xcassets; sourceTree = SOURCE_ROOT; };
 		650EFB6E1E52710B0053F3DE /* CDVLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDVLogger.h; sourceTree = "<group>"; };
 		650EFB6F1E52710B0053F3DE /* CDVLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDVLogger.m; sourceTree = "<group>"; };
+		65599A0421470E0000BF724E /* RKWKWebViewEngine.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RKWKWebViewEngine.h; sourceTree = "<group>"; };
+		65599A0521470E0000BF724E /* RKWKWebViewEngine.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RKWKWebViewEngine.m; sourceTree = "<group>"; };
 		65AADE291E89EB2D00587E37 /* app-review-notes.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = "app-review-notes.txt"; sourceTree = "<group>"; };
 		65CFBD101E60CD58001AFF79 /* CDVNotification.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = CDVNotification.bundle; sourceTree = "<group>"; };
 		65CFBD111E60CD58001AFF79 /* CDVNotification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDVNotification.h; sourceTree = "<group>"; };
@@ -223,6 +226,8 @@
 				9E55AE1616D73EB500C2CBB1 /* ZebraPrint.m */,
 				65CFBD171E60D4C3001AFF79 /* BlockOldRockRequests.h */,
 				65CFBD181E60D4C3001AFF79 /* BlockOldRockRequests.m */,
+				65599A0421470E0000BF724E /* RKWKWebViewEngine.h */,
+				65599A0521470E0000BF724E /* RKWKWebViewEngine.m */,
 			);
 			name = Classes;
 			path = RockCheckin/Classes;
@@ -578,6 +583,7 @@
 				650EFB611E4FE6510053F3DE /* CDVStatusBar.m in Sources */,
 				65CFBD141E60CD58001AFF79 /* CDVNotification.m in Sources */,
 				9E55AE4216D88BD700C2CBB1 /* SBJsonParser.m in Sources */,
+				65599A0621470E0000BF724E /* RKWKWebViewEngine.m in Sources */,
 				9E55AE4316D88BD700C2CBB1 /* SBJsonStreamParser.m in Sources */,
 				9E55AE4416D88BD700C2CBB1 /* SBJsonStreamParserAccumulator.m in Sources */,
 				650EFB521E4FE3050053F3DE /* CDVLocalFilesystem.m in Sources */,
