@@ -14,12 +14,14 @@
 
 
 #import "ZebraPrint.h"
+#import "RKBLEZebraPrint.h"
 #import <Cordova/CDV.h>
 
 #import "TcpPrinterConnection.h"
 #import "ZebraPrinterConnection.h"
 #import "SBJson.h"
 #import "EGOCache.h"
+#import "AppDelegate.h"
 
 
 @implementation ZebraPrint
@@ -89,27 +91,39 @@
                 if (labelContents != nil) {
                     // merge label
                     NSString *mergedLabel = [self mergeLabelFields:labelContents mergeFields:mergeFields];
-                    
-                    // create connection to the printer
-                    printerConn = [[TcpPrinterConnection alloc] initWithAddress:printerIP andWithPort:printerPort];
-                    
-                    BOOL success = [printerConn open];
-                    
-                    // todo check printer status
-                    
-                    NSError *error = nil;
-                    
-                    // Send the data to printer as a byte array.
-                    success = success && [printerConn write:[mergedLabel dataUsingEncoding:NSUTF8StringEncoding] error:&error];
-                    
-                    if (success != YES || error != nil) {
-                        NSLog(@"[ERROR] Unable to print to printer: %@", [error localizedDescription]);
-                        pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsArray:[NSArray arrayWithObjects:[NSString stringWithFormat:@"Unable to print to printer: %@", [error localizedDescription]], @"false", nil]];
+
+                    if ([printerIP compare:@"BT" options:NSCaseInsensitiveSearch] == NSOrderedSame)
+                    {
+                        RKBLEZebraPrint *printer = ((AppDelegate *)UIApplication.sharedApplication.delegate).blePrinter;
+                        BOOL success = [printer print:mergedLabel];
+                        if (!success)
+                        {
+                            NSLog(@"[ERROR] Unable to print to printer.");
+                        }
                     }
-                    
-                    // Close the connection to release resources.
-                    [printerConn close];
-                    
+                    else
+                    {
+                        // create connection to the printer
+                        printerConn = [[TcpPrinterConnection alloc] initWithAddress:printerIP andWithPort:printerPort];
+                        
+                        BOOL success = [printerConn open];
+                        
+                        // todo check printer status
+                        
+                        NSError *error = nil;
+                        
+                        // Send the data to printer as a byte array.
+                        success = success && [printerConn write:[mergedLabel dataUsingEncoding:NSUTF8StringEncoding] error:&error];
+                        
+                        if (success != YES || error != nil) {
+                            NSLog(@"[ERROR] Unable to print to printer: %@", [error localizedDescription]);
+                            pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsArray:[NSArray arrayWithObjects:[NSString stringWithFormat:@"Unable to print to printer: %@", [error localizedDescription]], @"false", nil]];
+                        }
+                        
+                        // Close the connection to release resources.
+                        [printerConn close];
+                    }
+
                     //file:///Users/jedmiston/Applications/zebralink_sdk/iOS/v1.0.214/doc/html/index.html
 
                 } else {

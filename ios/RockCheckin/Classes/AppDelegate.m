@@ -30,6 +30,7 @@
 
 #import <Cordova/CDVPlugin.h>
 #import <WebKit/WebKit.h>
+#import "RKBLEZebraPrint.h"
 
 @implementation AppDelegate
 
@@ -48,6 +49,24 @@
     return self;
 }
 
+
+//
+// User defaults have changed, check if we need to reconnect to the printer.
+//
+- (void)defaultsChangedNotification:(NSNotification *)notification
+{
+    NSString *printerName = [[NSUserDefaults standardUserDefaults] stringForKey:@"printer_override"];
+    
+    if (printerName != nil && [printerName rangeOfString:@"BT:" options:NSCaseInsensitiveSearch].location == 0)
+    {
+        [self.blePrinter setPrinterName:[printerName substringFromIndex:3]];
+    }
+    else
+    {
+        [self.blePrinter setPrinterName:nil];
+    }
+}
+
 #pragma mark UIApplicationDelegate implementation
 
 /**
@@ -57,6 +76,11 @@
 {
     CGRect screenBounds = [[UIScreen mainScreen] bounds];
 
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(defaultsChangedNotification:)
+                                                 name:NSUserDefaultsDidChangeNotification
+                                               object:nil];
+    
     self.window = [[UIWindow alloc] initWithFrame:screenBounds];
     self.window.autoresizesSubviews = YES;
 
@@ -72,6 +96,13 @@
     self.window.rootViewController = self.viewController;
     [self.window makeKeyAndVisible];
 
+    self.blePrinter = [[RKBLEZebraPrint alloc] init];
+    NSString *printerName = [[NSUserDefaults standardUserDefaults] stringForKey:@"printer_override"];
+    if (printerName != nil && [printerName rangeOfString:@"BT:" options:NSCaseInsensitiveSearch].location == 0)
+    {
+        [self.blePrinter setPrinterName:[printerName substringFromIndex:3]];
+    }
+
     return YES;
 }
 
@@ -82,5 +113,6 @@
 
     return supportedInterfaceOrientations;
 }
+
 
 @end
