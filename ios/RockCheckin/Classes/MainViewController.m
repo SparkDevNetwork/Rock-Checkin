@@ -30,6 +30,13 @@
 #import "SettingsViewController.h"
 #import <WebKit/WebKit.h>
 
+@interface MainViewController ()
+
+@property (weak, nonatomic) IBOutlet UIGestureRecognizer *settingsGestureRecognizer;
+
+@end
+
+
 @implementation MainViewController
 
 
@@ -44,6 +51,22 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(pageDidLoadNotification:) name:CDVPageDidLoadNotification object:nil];
 
     return self;
+}
+
+
+/**
+ The view has been loaded, set any initial settings.
+ */
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    
+    self.settingsGestureRecognizer.enabled = [NSUserDefaults.standardUserDefaults boolForKey:@"in_app_settings"];
+
+    [NSNotificationCenter.defaultCenter addObserver:self
+                                           selector:@selector(defaultsChangedNotification:)
+                                               name:NSUserDefaultsDidChangeNotification
+                                             object:nil];
 }
 
 
@@ -68,6 +91,16 @@
     [self.webViewEngine loadRequest:request];
 }
 
+
+/**
+ User defaults have changed, check if the in-app settings toggle has changed
+ 
+ @param notification The notification information that caused us to be called
+ */
+- (void)defaultsChangedNotification:(NSNotification *)notification
+{
+    self.settingsGestureRecognizer.enabled = [NSUserDefaults.standardUserDefaults boolForKey:@"in_app_settings"];
+}
 
 
 /**

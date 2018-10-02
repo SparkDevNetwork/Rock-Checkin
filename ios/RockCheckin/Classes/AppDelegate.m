@@ -77,6 +77,7 @@
     }
 }
 
+
 /**
  Make sure all our user defaults have been registered so when we later
  retrieve them we get a valid value.
