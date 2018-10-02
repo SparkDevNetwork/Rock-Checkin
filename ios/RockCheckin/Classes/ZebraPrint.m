@@ -92,13 +92,13 @@
                     // merge label
                     NSString *mergedLabel = [self mergeLabelFields:labelContents mergeFields:mergeFields];
 
-                    if ([printerIP compare:@"BT" options:NSCaseInsensitiveSearch] == NSOrderedSame)
+                    if ([NSUserDefaults.standardUserDefaults boolForKey:@"bluetooth_printing"])
                     {
                         RKBLEZebraPrint *printer = ((AppDelegate *)UIApplication.sharedApplication.delegate).blePrinter;
                         BOOL success = [printer print:mergedLabel];
                         if (!success)
                         {
-                            NSLog(@"[ERROR] Unable to print to printer.");
+                            NSLog(@"[ERROR] Unable to print to bluetooth printer.");
                         }
                     }
                     else

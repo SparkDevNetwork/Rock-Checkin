@@ -10,6 +10,9 @@
 
 @interface BlockOldRockRequests : NSURLProtocol
 
+/**
+ Enable this class in the NSURLProtocol system.
+ */
 + (void)enable;
 
 @end

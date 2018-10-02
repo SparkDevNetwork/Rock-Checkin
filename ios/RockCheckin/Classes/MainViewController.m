@@ -27,10 +27,15 @@
 
 #import "MainViewController.h"
 #import "BlockOldRockRequests.h"
+#import "SettingsViewController.h"
 #import <WebKit/WebKit.h>
 
 @implementation MainViewController
 
+
+/**
+ Initialize the view controller with the specified NIB file and bundle.
+ */
 - (id)initWithNibName:(NSString*)nibNameOrNil bundle:(NSBundle*)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -42,24 +47,39 @@
 }
 
 
+/**
+ Indicate to the system that we want the status bar to be hidden.
+ */
 - (BOOL)prefersStatusBarHidden
 {
     return YES;
 }
 
-- (id)init
-{
-    self = [super init];
 
-    return self;
+/**
+ Reloads the web view with the URL specified in the preferences.
+ */
+- (void)reloadCheckinAddress
+{
+    NSURL *url = [NSURL URLWithString:[NSUserDefaults.standardUserDefaults objectForKey:@"checkin_address"]];
+    
+    NSURLRequest *request = [NSURLRequest requestWithURL:url];
+    
+    [self.webViewEngine loadRequest:request];
 }
 
-- (void)didReceiveMemoryWarning
-{
-    // Releases the view if it doesn't have a superview.
-    [super didReceiveMemoryWarning];
 
-    // Release any cached data, images, etc that aren't in use.
+
+/**
+ User has activated the gesture to show the in-app settings screen
+
+ @param sender The gesture recognizer that has triggered us
+ */
+- (IBAction)showSettingsViewController:(UILongPressGestureRecognizer *)sender
+{
+    if (sender.state == UIGestureRecognizerStateBegan) {
+        [self.navigationController pushViewController:[SettingsViewController new] animated:YES];
+    }
 }
 
 
@@ -80,6 +100,10 @@
 {
     NSString *js = @"";
     
+    //
+    // Build one giant JavaScript string that contains the contents of
+    // all the files.
+    //
     for (NSString *resource in resources) {
         NSString *jsPath = [[NSBundle mainBundle] pathForResource:resource ofType:@"js"];
         NSString *tJs = [NSString stringWithContentsOfFile:jsPath encoding:NSUTF8StringEncoding error:NULL];
@@ -88,6 +112,10 @@
     
     if ([webView isKindOfClass:[WKWebView class]])
     {
+        //
+        // WKWebView processes JavaScript asynchronously, so we need to do
+        // some special work to pause processing until it has completed.
+        //
         dispatch_semaphore_t sema = dispatch_semaphore_create(0);
 
         [(WKWebView *)webView evaluateJavaScript:js completionHandler:^(id _Nullable ignored, NSError * _Nullable error) {
@@ -103,6 +131,7 @@
         [(UIWebView *)webView stringByEvaluatingJavaScriptFromString:js];
     }
 }
+
 
 /**
  Extract the JSON object data from the cordova_plugins file.
@@ -148,28 +177,4 @@
     [self injectJavascriptFiles:paths intoWebView:webView];
 }
 
-
-#pragma mark View lifecycle
-
-- (void)viewWillAppear:(BOOL)animated
-{
-    // View defaults to full size.  If you want to customize the view's size, or its subviews (e.g. webView),
-    // you can do so here.
-
-    [super viewWillAppear:animated];
-}
-
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
-}
-
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-{
-    // Return YES for supported orientations
-    return [super shouldAutorotateToInterfaceOrientation:interfaceOrientation];
-}
-
 @end
-

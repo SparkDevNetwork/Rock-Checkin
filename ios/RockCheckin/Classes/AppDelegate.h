@@ -38,7 +38,7 @@
 // http://iphonedevelopertips.com/cocoa/launching-your-own-application-via-a-custom-url-scheme.html
 
 @property (nonatomic, strong) IBOutlet UIWindow* window;
-@property (nonatomic, strong) IBOutlet CDVViewController* viewController;
+@property (nonatomic, strong) IBOutlet UINavigationController* viewController;
 @property (nonatomic, strong) RKBLEZebraPrint *blePrinter;
 
 @end

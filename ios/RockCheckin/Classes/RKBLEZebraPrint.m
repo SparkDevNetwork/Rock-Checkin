@@ -26,9 +26,11 @@
 
 @implementation RKBLEZebraPrint
 
-//
-// Initialize the bluetooth low energy zebra printing system.
-//
+/**
+ Initialize the bluetooth low energy zebra printing system
+
+ @return A reference to the new object
+ */
 - (id)init
 {
     if ((self = [super init]) == nil) {
@@ -37,16 +39,16 @@
 
     self.zprinterUuid = [CBUUID UUIDWithString:ZPRINTER_SERVICE_UUID];
     self.writePrinterUuid = [CBUUID UUIDWithString:WRITE_TO_ZPRINTER_CHARACTERISTIC_UUID];
-    self.centralManager = [[CBCentralManager alloc] initWithDelegate:self queue:nil];
     
     return self;
 }
 
 
-//
-// Set the name of the printer to be connected to. If printerName is nil then we
-// turn off the bluetooth radio and save power.
-//
+/**
+ Set the name of the printer and begin scanning for this device name
+ 
+ @param printerName The name of the printer to be connected to
+ */
 - (void)setPrinterName:(NSString *)printerName
 {
     _printerName = printerName;
@@ -56,18 +58,27 @@
         self.writePrinterCharacteristic = nil;
     }
     
-    if (self.printerName == nil) {
+    if (self.printerName == nil || self.printerName.length == 0) {
+        NSLog(@"Turning off bluetooth");
         [self.centralManager stopScan];
+        self.centralManager = nil;
     }
     else {
+        if (self.centralManager == nil) {
+            NSLog(@"Turning on bluetooth");
+            self.centralManager = [[CBCentralManager alloc] initWithDelegate:self queue:nil];
+        }
+
         [self startScan];
     }
 }
 
 
-//
-// Send the ZPL data to the printer in chunks.
-//
+/**
+ Send the ZPL data to the printer in chunks that are smaller than the MTU
+
+ @param zpl The full ZPL data to be sent
+ */
 - (void)sendZPLToPrinter:(NSString *)zpl
 {
     const char *bytes = [zpl UTF8String];
@@ -85,9 +96,12 @@
 }
 
 
-//
-// Prin the label data. Returns YES if the label as printed or NO if an error occurred.
-//
+/**
+ Print the specified ZPL code to the connected printer
+ 
+ @param zpl The ZPL data to be sent to the printer
+ @return YES if the label was printed or NO if an error occurred
+ */
 - (BOOL)print:(NSString *)zpl
 {
     if (self.writePrinterCharacteristic == nil) {
@@ -100,9 +114,9 @@
 }
 
 
-//
-// Start scanning for the printer.
-//
+/**
+ Start scanning for the printer
+ */
 - (void)startScan
 {
     if (self.centralManager.state == CBManagerStatePoweredOn && self.printerName != nil) {
@@ -119,10 +133,11 @@
 
 #pragma mark -- CBCentralManagerDelegate methods
 
-//
-// The BLE Central Manager has updated its state. If we are now powered on
-// then begin scanning for peripherals.
-//
+/**
+ The BLE Central MAnager has updated its state, begin scanning
+
+ @param central The central manager whose state has changed
+ */
 - (void)centralManagerDidUpdateState:(nonnull CBCentralManager *)central
 {
     [self startScan];
@@ -132,11 +147,21 @@
 //
 // A peripheral has been discovered. Check if it is the one we are interested in.
 //
+/**
+ A peripheral has been discovered, we need to check if it is the one we are
+ interested in and if so begin connecting
+
+ @param central The central that has discovered the peripheral
+ @param peripheral The peripheral that was discovered
+ @param advertisementData Any advertisement data that was broadcasted
+ @param RSSI The RSSI value of the peripheral
+ */
 - (void)centralManager:(CBCentralManager *)central didDiscoverPeripheral:(CBPeripheral *)peripheral advertisementData:(NSDictionary *)advertisementData RSSI:(NSNumber *)RSSI
 {
-    // Ok, it's in the range. Let's add the device name to bleDeviceNames array
     if (peripheral.name.length) {
+        //
         // Remove leading & trailing whitespace in peripheral.name
+        //
         NSString *peripheralName = [peripheral.name stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
         NSString *printerName = [self.printerName stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
         
@@ -150,21 +175,29 @@
 }
 
 
-//
-// If the connection fails for whatever reason, we need to deal with it.
-//
+/**
+ If the connection fails, start scanning again. In the future we may want to
+ introduce a pause before starting the next scan.
+
+ @param central The central manager that failed to connect
+ @param peripheral The peripheral that we attempted to connect to
+ @param error The error that occurred during connection
+ */
 - (void)centralManager:(CBCentralManager *)central didFailToConnectPeripheral:(CBPeripheral *)peripheral error:(NSError *)error
 {
     [self startScan];
 }
 
 
-//
-// We've connected to the peripheral, now we need to discover the services and characteristics.
-//
+/**
+ We have connected to a peripheral, stop scanning and attempt to discover the
+ services that are offered
+
+ @param central The central manager that successfully connected
+ @param peripheral The peripheral that we connected to
+ */
 - (void)centralManager:(CBCentralManager *)central didConnectPeripheral:(CBPeripheral *)peripheral
 {
-    // Stop scanning
     [self.centralManager stopScan];
     
     peripheral.delegate = self;
@@ -172,9 +205,14 @@
 }
 
 
-//
-// The printer has disconnected (probably turned off), start scanning again.
-//
+/**
+ The peripheral has disconnected, start scanning again so we see it when it
+ comes back.
+
+ @param central The central manager that lost connection
+ @param peripheral The peripheral that disconnected from us
+ @param error The error that describes why we disconnected
+ */
 - (void)centralManager:(CBCentralManager *)central didDisconnectPeripheral:(CBPeripheral *)peripheral error:(NSError *)error
 {
     self.printer = nil;
@@ -188,6 +226,14 @@
 //
 // The Zebra Printer Service was discovered, discover the characteristics.
 //
+
+/**
+ The services have been discovered. Look to see if it's the one we need and
+ then start scanning for the characteristics of the service.
+
+ @param peripheral The peripheral whose services we have discovered
+ @param error Any error that occurred while discovering these services
+ */
 - (void)peripheral:(CBPeripheral *)peripheral didDiscoverServices:(NSError *)error
 {
     if (error != nil) {
@@ -195,7 +241,6 @@
     }
     
     for (CBService *service in peripheral.services) {
-        // Discover the characteristics of write to printer
         if ([service.UUID isEqual:self.zprinterUuid]) {
             [peripheral discoverCharacteristics:@[self.writePrinterUuid] forService:service];
             return;
@@ -207,6 +252,15 @@
 //
 // The characteristics of Zebra Printer Service was discovered.
 //
+
+/**
+ The characteristics of the Zebra Printer Service have been discovered so we are
+ ready to start printing
+
+ @param peripheral The peripheral whose characteristics have been discovered
+ @param service The service whose characteristics have been discovered
+ @param error Any error that occurred while trying to discover the characteristics
+ */
 - (void)peripheral:(CBPeripheral *)peripheral didDiscoverCharacteristicsForService:(CBService *)service error:(NSError *)error
 {
     if (error != nil) {
@@ -214,18 +268,22 @@
     }
     
     for (CBCharacteristic *characteristic in service.characteristics) {
-        // And check if it's the right one
         if ([characteristic.UUID isEqual:self.writePrinterUuid]) {
+            NSLog(@"Connected to Bluetooth printer %@", self.printerName);
             self.writePrinterCharacteristic = characteristic;
             return;
         }
     }
 }
 
-//
-// The services for a peripheral have changed. If we lost the zebra printer then mark
-// it as lost and try to rediscover the services on the device.
-//
+
+/**
+ The services for a peripheral have changed. If we lost the zebra printer then
+ mark it as lost and try to rediscover the services on the device.
+
+ @param peripheral The peripheral whose services changed
+ @param invalidatedServices The services that are no longer valid
+ */
 - (void)peripheral:(CBPeripheral *)peripheral didModifyServices:(NSArray<CBService *> *)invalidatedServices
 {
     for (CBService *service in invalidatedServices) {

@@ -9,10 +9,13 @@
 
 @implementation RKWKWebViewEngine
 
-//
-// Initialize this class. If we are not on iOS 11 then return nil, which will cause a fallback
-// to the UIWebView stuff.
-//
+/**
+ Initialize this class. If we are not on iOS 11 then return nil, which will cause a fallback
+ to the UIWebView stuff.
+
+ @param frame The frame to be used when creating the view
+ @return A reference to the new web view engine or nil if not iOS 11 or later
+ */
 - (instancetype)initWithFrame:(CGRect)frame
 {
     if (@available(iOS 11.0, *)) {
@@ -25,9 +28,9 @@
     }
 }
 
-//
-// Initialize the plugin. Call the base initializer and then do our own stuff.
-//
+/**
+ Initialize the plugin and prepare for displaying web content
+ */
 - (void)pluginInitialize
 {
     [super pluginInitialize];

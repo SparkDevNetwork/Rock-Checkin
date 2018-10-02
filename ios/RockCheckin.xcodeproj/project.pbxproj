@@ -41,6 +41,8 @@
 		650EFB6C1E52606E0053F3DE /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 650EFB6B1E52606E0053F3DE /* Images.xcassets */; };
 		650EFB701E52710B0053F3DE /* CDVLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 650EFB6F1E52710B0053F3DE /* CDVLogger.m */; };
 		65599A0621470E0000BF724E /* RKWKWebViewEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = 65599A0521470E0000BF724E /* RKWKWebViewEngine.m */; };
+		65996186215AAEFC0065A094 /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 65996184215AAEFC0065A094 /* SettingsViewController.m */; };
+		65996187215AAEFC0065A094 /* SettingsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 65996185215AAEFC0065A094 /* SettingsViewController.xib */; };
 		65A1577321594DFB009DC910 /* RKBLEZebraPrint.m in Sources */ = {isa = PBXBuildFile; fileRef = 65A1577221594DFB009DC910 /* RKBLEZebraPrint.m */; };
 		65A1577621594EDC009DC910 /* CoreBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65A1577521594EDC009DC910 /* CoreBluetooth.framework */; };
 		65CFBD131E60CD58001AFF79 /* CDVNotification.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 65CFBD101E60CD58001AFF79 /* CDVNotification.bundle */; };
@@ -131,6 +133,9 @@
 		650EFB6F1E52710B0053F3DE /* CDVLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDVLogger.m; sourceTree = "<group>"; };
 		65599A0421470E0000BF724E /* RKWKWebViewEngine.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RKWKWebViewEngine.h; sourceTree = "<group>"; };
 		65599A0521470E0000BF724E /* RKWKWebViewEngine.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RKWKWebViewEngine.m; sourceTree = "<group>"; };
+		65996183215AAEFC0065A094 /* SettingsViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SettingsViewController.h; sourceTree = "<group>"; };
+		65996184215AAEFC0065A094 /* SettingsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SettingsViewController.m; sourceTree = "<group>"; };
+		65996185215AAEFC0065A094 /* SettingsViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SettingsViewController.xib; sourceTree = "<group>"; };
 		65A1577121594DFB009DC910 /* RKBLEZebraPrint.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RKBLEZebraPrint.h; sourceTree = "<group>"; };
 		65A1577221594DFB009DC910 /* RKBLEZebraPrint.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RKBLEZebraPrint.m; sourceTree = "<group>"; };
 		65A1577521594EDC009DC910 /* CoreBluetooth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreBluetooth.framework; path = System/Library/Frameworks/CoreBluetooth.framework; sourceTree = SDKROOT; };
@@ -236,6 +241,9 @@
 				65599A0521470E0000BF724E /* RKWKWebViewEngine.m */,
 				65A1577121594DFB009DC910 /* RKBLEZebraPrint.h */,
 				65A1577221594DFB009DC910 /* RKBLEZebraPrint.m */,
+				65996183215AAEFC0065A094 /* SettingsViewController.h */,
+				65996184215AAEFC0065A094 /* SettingsViewController.m */,
+				65996185215AAEFC0065A094 /* SettingsViewController.xib */,
 			);
 			name = Classes;
 			path = RockCheckin/Classes;
@@ -532,6 +540,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F840E1F1165FE0F500CFE078 /* config.xml in Resources */,
+				65996187215AAEFC0065A094 /* SettingsViewController.xib in Resources */,
 				301BF570109A69640062928A /* www in Resources */,
 				65CFBD131E60CD58001AFF79 /* CDVNotification.bundle in Resources */,
 				302D95F214D2391D003F00A1 /* MainViewController.xib in Resources */,
@@ -583,6 +592,7 @@
 				1D60589B0D05DD56006BFB54 /* main.m in Sources */,
 				1D3623260D0F684500981E51 /* AppDelegate.m in Sources */,
 				302D95F114D2391D003F00A1 /* MainViewController.m in Sources */,
+				65996186215AAEFC0065A094 /* SettingsViewController.m in Sources */,
 				9E55AE1716D73EB500C2CBB1 /* ZebraPrint.m in Sources */,
 				65D9EDBB2142E75700F43C5E /* CDVWKWebViewUIDelegate.m in Sources */,
 				9E55AE4116D88BD700C2CBB1 /* NSObject+SBJson.m in Sources */,
