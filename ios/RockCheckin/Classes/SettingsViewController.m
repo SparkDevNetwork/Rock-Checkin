@@ -352,7 +352,6 @@
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
         cell.selectedBackgroundView = [UIView new];
-        cell.selectedBackgroundView.backgroundColor = [UIColor colorWithRed:(238 / 255.0f) green:(119 / 255.0f) blue:(37 / 255.0f) alpha:1];
         cell.selectedBackgroundView.backgroundColor = [UIColor colorWithRed:(188 / 255.0f) green:(217 / 255.0f) blue:(234 / 255.0f) alpha:1];
     }
 
