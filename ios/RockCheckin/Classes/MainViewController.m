@@ -30,7 +30,7 @@
 #import "SettingsViewController.h"
 #import <WebKit/WebKit.h>
 
-@interface MainViewController ()
+@interface MainViewController () <UIGestureRecognizerDelegate>
 
 @property (weak, nonatomic) IBOutlet UIGestureRecognizer *settingsGestureRecognizer;
 
@@ -208,6 +208,23 @@
     }
 
     [self injectJavascriptFiles:paths intoWebView:webView];
+}
+
+
+#pragma mark UIGestureRecognizerDelegate
+
+
+/**
+ Determines if our custom gesture recognizer for settings should attempt to recognize along with
+ the other gesture recognizer.
+
+ @param gestureRecognizer Our gesture recognizer
+ @param otherGestureRecognizer The other gesture recognizer that is alos running
+ @return YES - always run together
+ */
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer
+{
+    return YES;
 }
 
 @end

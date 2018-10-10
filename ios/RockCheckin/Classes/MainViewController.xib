@@ -29,6 +29,7 @@
         <pongPressGestureRecognizer allowableMovement="10" minimumPressDuration="2" numberOfTouchesRequired="5" id="VPR-6m-gTI">
             <connections>
                 <action selector="showSettingsViewController:" destination="-1" id="HZE-vR-wXi"/>
+                <outlet property="delegate" destination="-1" id="vT3-a7-ixr"/>
             </connections>
         </pongPressGestureRecognizer>
     </objects>
