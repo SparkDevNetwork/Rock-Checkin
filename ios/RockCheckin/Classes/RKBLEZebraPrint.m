@@ -59,13 +59,13 @@
     }
     
     if (self.printerName == nil || self.printerName.length == 0) {
-        NSLog(@"Turning off bluetooth");
-        [self.centralManager stopScan];
-        self.centralManager = nil;
+        if (self.centralManager != nil) {
+            [self.centralManager stopScan];
+            self.centralManager = nil;
+        }
     }
     else {
         if (self.centralManager == nil) {
-            NSLog(@"Turning on bluetooth");
             self.centralManager = [[CBCentralManager alloc] initWithDelegate:self queue:nil];
         }
 
@@ -166,7 +166,6 @@
         NSString *printerName = [self.printerName stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
         
         if ([printerName compare:peripheralName options:NSCaseInsensitiveSearch] == NSOrderedSame) {
-            NSLog(@"Found printer %@", peripheralName);
             self.printer = peripheral;
             [self.centralManager stopScan];
             [self.centralManager connectPeripheral:peripheral options:nil];
@@ -269,7 +268,6 @@
     
     for (CBCharacteristic *characteristic in service.characteristics) {
         if ([characteristic.UUID isEqual:self.writePrinterUuid]) {
-            NSLog(@"Connected to Bluetooth printer %@", self.printerName);
             self.writePrinterCharacteristic = characteristic;
             return;
         }

@@ -346,18 +346,29 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *identifier = @"DeviceNameTableItem";
+    NSString *title = [self.discoveredPrinters objectAtIndex:indexPath.item];
     
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
-    
-    if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
-        cell.selectedBackgroundView = [UIView new];
-        cell.selectedBackgroundView.backgroundColor = [UIColor colorWithRed:(188 / 255.0f) green:(217 / 255.0f) blue:(234 / 255.0f) alpha:1];
-    }
+    if ([title rangeOfString:@"**"].location == 0) {
+        UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:nil];
 
-    cell.textLabel.text = [self.discoveredPrinters objectAtIndex:indexPath.item];
+        cell.textLabel.text = @"Error";
+        cell.detailTextLabel.text = [title substringFromIndex:2];
+        
+        return cell;
+    }
+    else {
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
     
-    return cell;
+        if (cell == nil) {
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
+            cell.selectedBackgroundView = [UIView new];
+            cell.selectedBackgroundView.backgroundColor = [UIColor colorWithRed:(188 / 255.0f) green:(217 / 255.0f) blue:(234 / 255.0f) alpha:1];
+        }
+
+        cell.textLabel.text = [self.discoveredPrinters objectAtIndex:indexPath.item];
+    
+        return cell;
+    }
 }
 
 
@@ -373,6 +384,14 @@
 {
     if (central.state == CBManagerStatePoweredOn) {
         [self.centralManager scanForPeripheralsWithServices:nil options:nil];
+    }
+    else if (central.state == CBManagerStateUnsupported) {
+        [self.discoveredPrinters removeAllObjects];
+        [self.discoveredPrinters addObject:@"**Bluetooth Low Energy is not supported on this device"];
+        [self.bluetoothPrinter reloadData];
+        [self.bluetoothPrinter selectRowAtIndexPath:nil animated:NO scrollPosition:UITableViewScrollPositionTop];
+        self.bluetoothPrinter.allowsSelection = NO;
+        self.bluetoothPrinter.userInteractionEnabled = NO;
     }
 }
 
