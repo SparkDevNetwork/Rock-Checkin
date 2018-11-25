@@ -6,9 +6,9 @@
  to you under the Apache License, Version 2.0 (the
  "License"); you may not use this file except in compliance
  with the License.  You may obtain a copy of the License at
-
+ 
  http://www.apache.org/licenses/LICENSE-2.0
-
+ 
  Unless required by applicable law or agreed to in writing,
  software distributed under the License is distributed on an
  "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
@@ -17,28 +17,11 @@
  under the License.
  */
 
-//
-//  AppDelegate.h
-//  RockCheckin
-//
-//  Created by Jon Edmiston on 2/21/13.
-//  Copyright Spark Development 2013. All rights reserved.
-//
+#import <WebKit/WebKit.h>
 
-#import <UIKit/UIKit.h>
+@interface CDVWKProcessPoolFactory : NSObject
+@property (nonatomic, retain) WKProcessPool* sharedPool;
 
-#import <Cordova/CDVViewController.h>
-#import "RKBLEZebraPrint.h"
-
-@interface AppDelegate : NSObject <UIApplicationDelegate>{}
-
-// invoke string is passed to your app on launch, this is only valid if you
-// edit RockCheckin-Info.plist to add a protocol
-// a simple tutorial can be found here :
-// http://iphonedevelopertips.com/cocoa/launching-your-own-application-via-a-custom-url-scheme.html
-
-@property (nonatomic, strong) IBOutlet UIWindow* window;
-@property (nonatomic, strong) IBOutlet UINavigationController* viewController;
-@property (nonatomic, strong) RKBLEZebraPrint *blePrinter;
-
++(instancetype) sharedFactory;
+-(WKProcessPool*) sharedProcessPool;
 @end

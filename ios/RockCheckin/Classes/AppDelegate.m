@@ -29,11 +29,20 @@
 #import "MainViewController.h"
 
 #import <Cordova/CDVPlugin.h>
+#import <WebKit/WebKit.h>
+#import "RKBLEZebraPrint.h"
+#import "SettingsViewController.h"
 
 @implementation AppDelegate
 
 @synthesize window, viewController;
 
+
+/**
+ Initialize the app delegate
+
+ @return A reference to this object
+ */
 - (id)init
 {
     /** If you need to do any extra app-specific initialization, you can do it here
@@ -44,8 +53,59 @@
     [cookieStorage setCookieAcceptPolicy:NSHTTPCookieAcceptPolicyAlways];
 
     self = [super init];
+    
     return self;
 }
+
+
+/**
+ User defaults have changed, check if we need to reconnect to the printer
+
+ @param notification The notification information that caused us to be called
+ */
+- (void)defaultsChangedNotification:(NSNotification *)notification
+{
+    NSString *printerName = [[NSUserDefaults standardUserDefaults] stringForKey:@"printer_override"];
+    
+    if (printerName != nil && printerName.length > 0 && [NSUserDefaults.standardUserDefaults boolForKey:@"bluetooth_printing"]) {
+        if (![printerName isEqualToString:self.blePrinter.printerName]) {
+            [self.blePrinter setPrinterName:printerName];
+        }
+    }
+    else {
+        [self.blePrinter setPrinterName:nil];
+    }
+}
+
+
+/**
+ Make sure all our user defaults have been registered so when we later
+ retrieve them we get a valid value.
+ */
+- (void)registerUserDefaults
+{
+    NSString *pathStr = [[NSBundle mainBundle] bundlePath];
+    NSString *settingsBundlePath = [pathStr stringByAppendingPathComponent:@"Settings.bundle"];
+    NSString *finalPath = [settingsBundlePath stringByAppendingPathComponent:@"Root.plist"];
+    
+    NSDictionary *settingsDict = [NSDictionary dictionaryWithContentsOfFile:finalPath];
+    NSArray *prefSpecifierArray = [settingsDict objectForKey:@"PreferenceSpecifiers"];
+
+    //
+    // Loop through the array of preference specifiers and build a dictionary
+    // of what our default values will be.
+    //
+    NSMutableDictionary *defaultValues = [NSMutableDictionary new];
+    for (NSDictionary *prefItem in prefSpecifierArray)
+    {
+        if ([prefItem objectForKey:@"Key"] != nil && [prefItem objectForKey:@"DefaultValue"] != nil) {
+            [defaultValues setObject:[prefItem objectForKey:@"DefaultValue"] forKey:[prefItem objectForKey:@"Key"]];
+        }
+    }
+    
+    [NSUserDefaults.standardUserDefaults registerDefaults:defaultValues];
+}
+
 
 #pragma mark UIApplicationDelegate implementation
 
@@ -56,42 +116,49 @@
 {
     CGRect screenBounds = [[UIScreen mainScreen] bounds];
 
+    [self registerUserDefaults];
+    
+    [NSNotificationCenter.defaultCenter addObserver:self
+                                           selector:@selector(defaultsChangedNotification:)
+                                               name:NSUserDefaultsDidChangeNotification
+                                             object:nil];
+    
+    //
+    // Create the primary window and primary view controller.
+    //
     self.window = [[UIWindow alloc] initWithFrame:screenBounds];
     self.window.autoresizesSubviews = YES;
+    self.viewController = [[UINavigationController alloc] initWithRootViewController:[MainViewController new]];
+    self.viewController.navigationBarHidden = YES;
 
-    self.viewController = [[MainViewController alloc] init];
-
-    // Set your app's start page by setting the <content src='foo.html' /> tag in config.xml.
-    // If necessary, uncomment the line below to override it.
-    // self.viewController.startPage = @"index.html";
-
-    // NOTE: To customize the view's frame size (which defaults to full screen), override
-    // [self.viewController viewWillAppear:] in your view controller.
-
+    //
+    // Show everything on screen.
+    //
     self.window.rootViewController = self.viewController;
     [self.window makeKeyAndVisible];
 
-    return YES;
-}
-
-// this happens while we are running ( in the background, or from within our own app )
-// only valid if RockCheckin-Info.plist specifies a protocol to handle
-- (BOOL)application:(UIApplication*)application handleOpenURL:(NSURL*)url
-{
-    if (!url) {
-        return NO;
+    //
+    // Initialize the bluetooth printer and set the default printer if
+    // Bluetooth Printing is enabled.
+    //
+    self.blePrinter = [[RKBLEZebraPrint alloc] init];
+    NSString *printerName = [[NSUserDefaults standardUserDefaults] stringForKey:@"printer_override"];
+    if (printerName != nil && printerName.length > 0 && [NSUserDefaults.standardUserDefaults boolForKey:@"bluetooth_printing"])
+    {
+        [self.blePrinter setPrinterName:printerName];
     }
 
-    // calls into javascript global function 'handleOpenURL'
-    NSString* jsString = [NSString stringWithFormat:@"handleOpenURL(\"%@\");", url];
-    [(UIWebView *)self.viewController.webView stringByEvaluatingJavaScriptFromString:jsString];
-
-    // all plugins will get the notification, and their handlers will be called
-    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:CDVPluginHandleOpenURLNotification object:url]];
-
     return YES;
 }
 
+/**
+ Specify which orientations our application supports. This takes precedence over any
+ specific view controller's supported orientations.
+
+ @param application The application
+ @param window The window to be rotated
+ @return A mask of interface orientations.
+ */
 - (UIInterfaceOrientationMask)application:(UIApplication*)application supportedInterfaceOrientationsForWindow:(UIWindow*)window
 {
     // iPhone doesn't support upside down by default, while the iPad does.  Override to allow all orientations always, and let the root view controller decide what's allowed (the supported orientations mask gets intersected).
@@ -99,5 +166,6 @@
 
     return supportedInterfaceOrientations;
 }
+
 
 @end

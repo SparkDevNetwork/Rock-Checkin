@@ -17,28 +17,12 @@
  under the License.
  */
 
-//
-//  AppDelegate.h
-//  RockCheckin
-//
-//  Created by Jon Edmiston on 2/21/13.
-//  Copyright Spark Development 2013. All rights reserved.
-//
+#import <WebKit/WebKit.h>
 
-#import <UIKit/UIKit.h>
+@interface CDVWKWebViewUIDelegate : NSObject <WKUIDelegate>
 
-#import <Cordova/CDVViewController.h>
-#import "RKBLEZebraPrint.h"
+@property (nonatomic, copy) NSString* title;
 
-@interface AppDelegate : NSObject <UIApplicationDelegate>{}
-
-// invoke string is passed to your app on launch, this is only valid if you
-// edit RockCheckin-Info.plist to add a protocol
-// a simple tutorial can be found here :
-// http://iphonedevelopertips.com/cocoa/launching-your-own-application-via-a-custom-url-scheme.html
-
-@property (nonatomic, strong) IBOutlet UIWindow* window;
-@property (nonatomic, strong) IBOutlet UINavigationController* viewController;
-@property (nonatomic, strong) RKBLEZebraPrint *blePrinter;
+- (instancetype)initWithTitle:(NSString*)title;
 
 @end

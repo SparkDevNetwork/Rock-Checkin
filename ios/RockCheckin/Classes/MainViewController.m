@@ -27,9 +27,22 @@
 
 #import "MainViewController.h"
 #import "BlockOldRockRequests.h"
+#import "SettingsViewController.h"
+#import <WebKit/WebKit.h>
+
+@interface MainViewController () <UIGestureRecognizerDelegate>
+
+@property (weak, nonatomic) IBOutlet UIGestureRecognizer *settingsGestureRecognizer;
+
+@end
+
 
 @implementation MainViewController
 
+
+/**
+ Initialize the view controller with the specified NIB file and bundle.
+ */
 - (id)initWithNibName:(NSString*)nibNameOrNil bundle:(NSBundle*)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -41,24 +54,65 @@
 }
 
 
+/**
+ The view has been loaded, set any initial settings.
+ */
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    
+    self.settingsGestureRecognizer.enabled = [NSUserDefaults.standardUserDefaults boolForKey:@"in_app_settings"];
+
+    [NSNotificationCenter.defaultCenter addObserver:self
+                                           selector:@selector(defaultsChangedNotification:)
+                                               name:NSUserDefaultsDidChangeNotification
+                                             object:nil];
+}
+
+
+/**
+ Indicate to the system that we want the status bar to be hidden.
+ */
 - (BOOL)prefersStatusBarHidden
 {
     return YES;
 }
 
-- (id)init
-{
-    self = [super init];
 
-    return self;
+/**
+ Reloads the web view with the URL specified in the preferences.
+ */
+- (void)reloadCheckinAddress
+{
+    NSURL *url = [NSURL URLWithString:[NSUserDefaults.standardUserDefaults objectForKey:@"checkin_address"]];
+    
+    NSURLRequest *request = [NSURLRequest requestWithURL:url];
+    
+    [self.webViewEngine loadRequest:request];
 }
 
-- (void)didReceiveMemoryWarning
-{
-    // Releases the view if it doesn't have a superview.
-    [super didReceiveMemoryWarning];
 
-    // Release any cached data, images, etc that aren't in use.
+/**
+ User defaults have changed, check if the in-app settings toggle has changed
+ 
+ @param notification The notification information that caused us to be called
+ */
+- (void)defaultsChangedNotification:(NSNotification *)notification
+{
+    self.settingsGestureRecognizer.enabled = [NSUserDefaults.standardUserDefaults boolForKey:@"in_app_settings"];
+}
+
+
+/**
+ User has activated the gesture to show the in-app settings screen
+
+ @param sender The gesture recognizer that has triggered us
+ */
+- (IBAction)showSettingsViewController:(UILongPressGestureRecognizer *)sender
+{
+    if (sender.state == UIGestureRecognizerStateBegan) {
+        [self.navigationController pushViewController:[SettingsViewController new] animated:YES];
+    }
 }
 
 
@@ -75,13 +129,42 @@
  @param resource The name of the resource (not including extension) to load.
  @param webView The UIWebView to load the javascript into.
  */
-- (void)injectJavascriptFile:(NSString *)resource intoWebView:(UIWebView *)webView
+- (void)injectJavascriptFiles:(NSArray *)resources intoWebView:(UIView *)webView
 {
-    NSString *jsPath = [[NSBundle mainBundle] pathForResource:resource ofType:@"js"];
-    NSString *js = [NSString stringWithContentsOfFile:jsPath encoding:NSUTF8StringEncoding error:NULL];
+    NSString *js = @"";
     
-    [webView stringByEvaluatingJavaScriptFromString:js];
+    //
+    // Build one giant JavaScript string that contains the contents of
+    // all the files.
+    //
+    for (NSString *resource in resources) {
+        NSString *jsPath = [[NSBundle mainBundle] pathForResource:resource ofType:@"js"];
+        NSString *tJs = [NSString stringWithContentsOfFile:jsPath encoding:NSUTF8StringEncoding error:NULL];
+        js = [js stringByAppendingFormat:@";%@", tJs];
+    }
+    
+    if ([webView isKindOfClass:[WKWebView class]])
+    {
+        //
+        // WKWebView processes JavaScript asynchronously, so we need to do
+        // some special work to pause processing until it has completed.
+        //
+        dispatch_semaphore_t sema = dispatch_semaphore_create(0);
+
+        [(WKWebView *)webView evaluateJavaScript:js completionHandler:^(id _Nullable ignored, NSError * _Nullable error) {
+            dispatch_semaphore_signal(sema);
+        }];
+
+        while (dispatch_semaphore_wait(sema, DISPATCH_TIME_NOW)) {
+            [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:[NSDate dateWithTimeIntervalSinceNow:1]];
+        }
+    }
+    else if ([webView isKindOfClass:[UIWebView class]])
+    {
+        [(UIWebView *)webView stringByEvaluatingJavaScriptFromString:js];
+    }
 }
+
 
 /**
  Extract the JSON object data from the cordova_plugins file.
@@ -116,48 +199,32 @@
  */
 - (void)pageDidLoadNotification:(NSNotification *)notification
 {
-    UIWebView *webView = (UIWebView *)notification.object;
-    
-    [self injectJavascriptFile:@"www/cordova" intoWebView:webView];
-    [self injectJavascriptFile:@"www/cordova_plugins" intoWebView:webView];
+    UIView *webView = (UIView *)notification.object;
+    NSMutableArray *paths = [NSMutableArray arrayWithObjects:@"www/cordova", @"www/cordova_plugins", nil];
     
     NSArray* pluginObjects = [self parseCordovaPlugins];
     for (NSDictionary* pluginParameters in pluginObjects) {
-        NSString* path = [[NSString stringWithFormat:@"www/%@", pluginParameters[@"file"]] stringByDeletingPathExtension];
-        
-        [self injectJavascriptFile:path intoWebView:webView];
+        [paths addObject:[[NSString stringWithFormat:@"www/%@", pluginParameters[@"file"]] stringByDeletingPathExtension]];
     }
+
+    [self injectJavascriptFiles:paths intoWebView:webView];
 }
 
 
-#pragma mark View lifecycle
+#pragma mark UIGestureRecognizerDelegate
 
-- (void)viewWillAppear:(BOOL)animated
+
+/**
+ Determines if our custom gesture recognizer for settings should attempt to recognize along with
+ the other gesture recognizer.
+
+ @param gestureRecognizer Our gesture recognizer
+ @param otherGestureRecognizer The other gesture recognizer that is alos running
+ @return YES - always run together
+ */
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer
 {
-    // View defaults to full size.  If you want to customize the view's size, or its subviews (e.g. webView),
-    // you can do so here.
-
-    [super viewWillAppear:animated];
-}
-
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
-}
-
-- (void)viewDidUnload
-{
-    [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
-}
-
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-{
-    // Return YES for supported orientations
-    return [super shouldAutorotateToInterfaceOrientation:interfaceOrientation];
+    return YES;
 }
 
 @end
-

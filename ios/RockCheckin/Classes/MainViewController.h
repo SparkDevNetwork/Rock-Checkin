@@ -31,10 +31,9 @@
 
 @interface MainViewController : CDVViewController
 
-@end
+/**
+ Reloads the web view with the URL specified in the preferences.
+ */
+- (void)reloadCheckinAddress;
 
-@interface MainCommandDelegate : CDVCommandDelegateImpl
-@end
-
-@interface MainCommandQueue : CDVCommandQueue
 @end
