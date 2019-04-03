@@ -6,19 +6,11 @@
 //
 //
 
-
-// TODO
-// Add printer override
-// Add custom cache duration
-// Add no cache option
-
-
 #import "ZebraPrint.h"
 #import "RKBLEZebraPrint.h"
 #import <Cordova/CDV.h>
+#import "FastSocket.h"
 
-#import "TcpPrinterConnection.h"
-#import "ZebraPrinterConnection.h"
 #import "SBJson.h"
 #import "EGOCache.h"
 #import "AppDelegate.h"
@@ -55,16 +47,14 @@
             // we have parsed successfully
             NSLog(@"[LOG] ZebraPrint plugin has parsed %lu labels", (unsigned long)[labels count]);
             
-            // create reusable printer connection
-            id<ZebraPrinterConnection, NSObject> printerConn = nil;
+            NSMutableArray *failedPrinters = [[NSMutableArray alloc] init];
             
             // iterate through labels
             for (id label in labels) {
                 
-                NSString *printerIP = [label objectForKey:@"PrinterAddress"];
+                NSString *printerAddress = [label objectForKey:@"PrinterAddress"];
                 NSString *labelFile = [label objectForKey:@"LabelFile"];
                 NSString *labelKey = [label objectForKey:@"LabelKey"];
-                NSInteger printerPort = 9100;
                 
                 NSDictionary *mergeFields = [label objectForKey:@"MergeFields"];
                 
@@ -73,16 +63,28 @@
                 NSString *overridePrinter = [defaults stringForKey:@"printer_override"];
                 
                 if (overridePrinter != nil && overridePrinter.length > 0) {
-                    printerIP = overridePrinter;
+                    printerAddress = overridePrinter;
+                }
+                
+                // If we already failed to connect to this printer, don't waste time.
+                if ([failedPrinters containsObject:printerAddress]) {
+                    continue;
                 }
 
+                NSString *printerIP, *printerPort;
+                
                 // If the user specified in 0.0.0.0:1234 syntax then pull out the IP and port numbers.
-                if ([printerIP containsString:@":"])
+                if ([printerAddress containsString:@":"])
                 {
-                    NSArray *segments = [printerIP componentsSeparatedByString:@":"];
+                    NSArray *segments = [printerAddress componentsSeparatedByString:@":"];
                     
                     printerIP = segments[0];
-                    printerPort = [segments[1] integerValue];
+                    printerPort = segments[1];
+                }
+                else
+                {
+                    printerIP = printerAddress;
+                    printerPort = @"9100";
                 }
                 
                 // get label contents
@@ -96,35 +98,28 @@
                     {
                         RKBLEZebraPrint *printer = ((AppDelegate *)UIApplication.sharedApplication.delegate).blePrinter;
                         BOOL success = [printer print:mergedLabel];
-                        if (!success)
-                        {
+                        if (!success) {
                             NSLog(@"[ERROR] Unable to print to bluetooth printer.");
                         }
                     }
                     else
                     {
-                        // create connection to the printer
-                        printerConn = [[TcpPrinterConnection alloc] initWithAddress:printerIP andWithPort:printerPort];
+                        FastSocket *printerConn = [[FastSocket alloc] initWithHost:printerIP andPort:printerPort];
                         
-                        BOOL success = [printerConn open];
+                        BOOL success = [printerConn connect:2];
+                        const char *bytes = [mergedLabel UTF8String];
+                        long len = strlen(bytes);
+
+                        success = success && [printerConn sendBytes:bytes count:len] == len;
                         
-                        // todo check printer status
-                        
-                        NSError *error = nil;
-                        
-                        // Send the data to printer as a byte array.
-                        success = success && [printerConn write:[mergedLabel dataUsingEncoding:NSUTF8StringEncoding] error:&error];
-                        
-                        if (success != YES || error != nil) {
-                            NSLog(@"[ERROR] Unable to print to printer: %@", [error localizedDescription]);
-                            pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsArray:[NSArray arrayWithObjects:[NSString stringWithFormat:@"Unable to print to printer: %@", [error localizedDescription]], @"false", nil]];
+                        if (success != YES) {
+                            NSLog(@"[ERROR] Unable to print to printer: %@", printerIP);
+                            [failedPrinters addObject:printerAddress];
                         }
                         
                         // Close the connection to release resources.
                         [printerConn close];
                     }
-
-                    //file:///Users/jedmiston/Applications/zebralink_sdk/iOS/v1.0.214/doc/html/index.html
 
                 } else {
                     labelErrorOccurred = YES;
@@ -142,8 +137,6 @@
     }
     
     [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
-
-    
 }
 
 - (NSString*)getLabelContents:(NSString*)labelKey labelLocation:(NSString*)labelFile
