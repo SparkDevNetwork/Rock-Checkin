@@ -60,6 +60,18 @@
 		</dict>
 		<dict>
 			<key>Type</key>
+			<string>PSTextFieldSpecifier</string>
+			<key>Title</key>
+			<string>Printer Timeout</string>
+			<key>Key</key>
+			<string>printer_timeout</string>
+			<key>KeyboardType</key>
+			<string>NumberPad</string>
+			<key>DefaultValue</key>
+			<string>2</string>
+		</dict>
+		<dict>
+			<key>Type</key>
 			<string>PSToggleSwitchSpecifier</string>
 			<key>Title</key>
 			<string>Bluetooth Printing</string>
@@ -77,6 +89,16 @@
 			<string>in_app_settings</string>
 			<key>DefaultValue</key>
 			<true/>
+		</dict>
+		<dict>
+			<key>Type</key>
+			<string>PSTextFieldSpecifier</string>
+			<key>Title</key>
+			<string>In Application Settings Delay</string>
+			<key>Key</key>
+			<string>in_app_settings_delay</string>
+			<key>DefaultValue</key>
+			<string>2</string>
 		</dict>
 	</array>
 	<key>StringsTable</key>

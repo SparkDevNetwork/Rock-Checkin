@@ -18,6 +18,7 @@
 @property (weak, nonatomic) IBOutlet UITextField *cacheDuration;
 @property (weak, nonatomic) IBOutlet UISwitch *bluetoothPrinting;
 @property (weak, nonatomic) IBOutlet UITextField *printerOverride;
+@property (weak, nonatomic) IBOutlet UITextField *printerTimeout;
 @property (weak, nonatomic) IBOutlet UITableView *bluetoothPrinter;
 
 @property (strong, nonatomic) CBCentralManager  *centralManager;
@@ -113,6 +114,7 @@
     self.enableLabelCaching.enabled = ![defaults objectIsForcedForKey:@"enable_caching"];
     self.cacheDuration.enabled = ![defaults objectIsForcedForKey:@"cache_duration"];
     self.printerOverride.enabled = ![defaults objectIsForcedForKey:@"printer_override"];
+    self.printerTimeout.enabled = ![defaults objectIsForcedForKey:@"printer_timeout"];
     self.bluetoothPrinting.enabled = ![defaults objectIsForcedForKey:@"bluetooth_printing"];
 }
 
@@ -154,6 +156,7 @@
     self.enableLabelCaching.on = [defaults boolForKey:@"enable_caching"];
     self.cacheDuration.text = [defaults objectForKey:@"cache_duration"];
     self.printerOverride.text = [defaults objectForKey:@"printer_override"];
+    self.printerTimeout.text = [defaults objectForKey:@"printer_timeout"];
     self.bluetoothPrinting.on = [defaults boolForKey:@"bluetooth_printing"];
     
     self.bluetoothPrinter.hidden = !self.bluetoothPrinting.on;
@@ -192,6 +195,9 @@
     }
     else if (sender == self.printerOverride) {
         [NSUserDefaults.standardUserDefaults setObject:self.printerOverride.text forKey:@"printer_override"];
+    }
+    else if (sender == self.printerTimeout) {
+        [NSUserDefaults.standardUserDefaults setObject:self.printerTimeout.text forKey:@"printer_timeout"];
     }
 }
 

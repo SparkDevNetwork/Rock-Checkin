@@ -32,7 +32,7 @@
 
 @interface MainViewController () <UIGestureRecognizerDelegate>
 
-@property (weak, nonatomic) IBOutlet UIGestureRecognizer *settingsGestureRecognizer;
+@property (weak, nonatomic) IBOutlet UILongPressGestureRecognizer *settingsGestureRecognizer;
 
 @end
 
@@ -62,6 +62,7 @@
     [super viewDidLoad];
     
     self.settingsGestureRecognizer.enabled = [NSUserDefaults.standardUserDefaults boolForKey:@"in_app_settings"];
+    self.settingsGestureRecognizer.minimumPressDuration = [NSUserDefaults.standardUserDefaults integerForKey:@"in_app_settings_delay"];
 
     [NSNotificationCenter.defaultCenter addObserver:self
                                            selector:@selector(defaultsChangedNotification:)
@@ -100,6 +101,7 @@
 - (void)defaultsChangedNotification:(NSNotification *)notification
 {
     self.settingsGestureRecognizer.enabled = [NSUserDefaults.standardUserDefaults boolForKey:@"in_app_settings"];
+    self.settingsGestureRecognizer.minimumPressDuration = [NSUserDefaults.standardUserDefaults integerForKey:@"in_app_settings_delay"];
 }
 
 

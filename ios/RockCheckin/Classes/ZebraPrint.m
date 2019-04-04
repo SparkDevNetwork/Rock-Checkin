@@ -53,6 +53,7 @@
             for (id label in labels) {
                 
                 NSString *printerAddress = [label objectForKey:@"PrinterAddress"];
+                int printerTimeout = 2;
                 NSString *labelFile = [label objectForKey:@"LabelFile"];
                 NSString *labelKey = [label objectForKey:@"LabelKey"];
                 
@@ -65,7 +66,14 @@
                 if (overridePrinter != nil && overridePrinter.length > 0) {
                     printerAddress = overridePrinter;
                 }
+
+                // Set printer timeout value
+                NSString *printerTimeoutString = [defaults stringForKey:@"printer_timeout"];
                 
+                if (printerTimeoutString != nil && printerTimeoutString.intValue > 0) {
+                    printerTimeout = printerTimeoutString.intValue;
+                }
+
                 // If we already failed to connect to this printer, don't waste time.
                 if ([failedPrinters containsObject:printerAddress]) {
                     continue;
@@ -106,7 +114,7 @@
                     {
                         FastSocket *printerConn = [[FastSocket alloc] initWithHost:printerIP andPort:printerPort];
                         
-                        BOOL success = [printerConn connect:2];
+                        BOOL success = [printerConn connect:printerTimeout];
                         const char *bytes = [mergedLabel UTF8String];
                         long len = strlen(bytes);
 
