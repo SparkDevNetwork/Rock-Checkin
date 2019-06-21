@@ -107,6 +107,7 @@
                         RKBLEZebraPrint *printer = ((AppDelegate *)UIApplication.sharedApplication.delegate).blePrinter;
                         BOOL success = [printer print:mergedLabel];
                         if (!success) {
+                            pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsArray:[NSArray arrayWithObjects:@"Unable to print to printer.", @"false", nil]];
                             NSLog(@"[ERROR] Unable to print to bluetooth printer.");
                         }
                     }
@@ -121,6 +122,7 @@
                         success = success && [printerConn sendBytes:bytes count:len] == len;
                         
                         if (success != YES) {
+                            pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsArray:[NSArray arrayWithObjects:@"Unable to print to printer.", @"false", nil]];
                             NSLog(@"[ERROR] Unable to print to printer: %@", printerIP);
                             [failedPrinters addObject:printerAddress];
                         }
@@ -138,12 +140,14 @@
         parser = nil;
     }
 
-    if (labelErrorOccurred) {
-        pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsArray:[NSArray arrayWithObjects:[NSString stringWithFormat:@"Unable to retrieve labels from server."], @"false", nil]];
-    } else {
-        pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
+    if (pluginResult == nil) {
+        if (labelErrorOccurred) {
+            pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsArray:[NSArray arrayWithObjects:[NSString stringWithFormat:@"Unable to retrieve labels from server."], @"false", nil]];
+        } else {
+            pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
+        }
     }
-    
+
     [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
 }
 
