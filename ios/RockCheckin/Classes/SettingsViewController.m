@@ -66,11 +66,6 @@
     }
 
     //
-    // Create a bluetooth central manager so we can scan for bluetooth devices.
-    //
-    self.centralManager = [[CBCentralManager alloc] initWithDelegate:self queue:nil];
-
-    //
     // Register for any keyboard related notifications so that we can adjust the
     // view when the keyboard appears.
     //
@@ -116,6 +111,10 @@
     self.printerOverride.enabled = ![defaults objectIsForcedForKey:@"printer_override"];
     self.printerTimeout.enabled = ![defaults objectIsForcedForKey:@"printer_timeout"];
     self.bluetoothPrinting.enabled = ![defaults objectIsForcedForKey:@"bluetooth_printing"];
+
+    if (self.bluetoothPrinting.on) {
+        self.centralManager = [[CBCentralManager alloc] initWithDelegate:self queue:nil];
+    }
 }
 
 
@@ -128,7 +127,9 @@
 {
     [super viewWillDisappear:animated];
     
-    [self.centralManager stopScan];
+    if (self.centralManager != nil) {
+        [self.centralManager stopScan];
+    }
     
     [NSNotificationCenter.defaultCenter removeObserver:self];
 }
@@ -172,6 +173,9 @@
 {
     if (sender == self.bluetoothPrinting) {
         self.bluetoothPrinter.hidden = !self.bluetoothPrinting.on;
+        if (self.bluetoothPrinting.on && self.centralManager == nil) {
+            self.centralManager = [[CBCentralManager alloc] initWithDelegate:self queue:nil];
+        }
         [NSUserDefaults.standardUserDefaults setBool:self.bluetoothPrinting.on forKey:@"bluetooth_printing"];
     }
     else if (sender == self.enableLabelCaching) {
@@ -238,7 +242,9 @@
  */
 - (void)appWillResignActiveNotification:(NSNotification *)notificiation
 {
-    [self.centralManager stopScan];
+    if (self.centralManager != nil) {
+        [self.centralManager stopScan];
+    }
 }
 
 
@@ -249,7 +255,7 @@
  */
 - (void)appWillEnterForegroundNotification:(NSNotification *)notificiation
 {
-    if (self.centralManager.state == CBManagerStatePoweredOn) {
+    if (self.centralManager != nil && self.centralManager.state == CBManagerStatePoweredOn) {
         [self.centralManager scanForPeripheralsWithServices:nil options:nil];
     }
 }

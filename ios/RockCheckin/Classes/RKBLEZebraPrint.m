@@ -82,7 +82,7 @@
 - (void)sendZPLToPrinter:(NSString *)zpl
 {
     const char *bytes = [zpl UTF8String];
-    size_t length = [zpl length];
+    size_t length = strlen(bytes);
     NSUInteger maxLength = [self.printer maximumWriteValueLengthForType:CBCharacteristicWriteWithResponse];
 
     for (NSUInteger i = 0; i < length;) {
@@ -140,6 +140,11 @@
  */
 - (void)centralManagerDidUpdateState:(nonnull CBCentralManager *)central
 {
+    if ( central.state == CBManagerStateUnauthorized )
+    {
+        return;
+    }
+
     [self startScan];
 }
 
