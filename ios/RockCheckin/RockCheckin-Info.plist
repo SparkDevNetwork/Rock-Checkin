@@ -21,7 +21,7 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>454</string>
+	<string>593</string>
 	<key>ITSAppUsesNonExemptEncryption</key>
 	<false/>
 	<key>LSRequiresIPhoneOS</key>
@@ -35,6 +35,8 @@
 	<string>We use bluetooth to print your check-in labels.</string>
 	<key>NSBluetoothPeripheralUsageDescription</key>
 	<string>Access to BLE enabled printers for printing check-in labels.</string>
+	<key>NSCameraUsageDescription</key>
+	<string>We use your camera to scan check-in barcodes.</string>
 	<key>NSMainNibFile</key>
 	<string></string>
 	<key>UILaunchImageFile</key>

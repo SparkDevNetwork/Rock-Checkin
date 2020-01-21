@@ -7,6 +7,7 @@
 
 #import "SettingsViewController.h"
 #import "MainViewController.h"
+#import "UIColor+HexString.h"
 #import <CoreBluetooth/CoreBluetooth.h>
 
 @interface SettingsViewController () <UITableViewDataSource, UITableViewDelegate, CBCentralManagerDelegate>
@@ -16,6 +17,10 @@
 @property (weak, nonatomic) IBOutlet UITextField *checkinAddress;
 @property (weak, nonatomic) IBOutlet UISwitch *enableLabelCaching;
 @property (weak, nonatomic) IBOutlet UITextField *cacheDuration;
+@property (weak, nonatomic) IBOutlet UISegmentedControl *cameraPosition;
+@property (weak, nonatomic) IBOutlet UISlider *cameraExposure;
+@property (weak, nonatomic) IBOutlet UITextField *uiBackgroundColor;
+@property (weak, nonatomic) IBOutlet UITextField *uiForegroundColor;
 @property (weak, nonatomic) IBOutlet UISwitch *bluetoothPrinting;
 @property (weak, nonatomic) IBOutlet UITextField *printerOverride;
 @property (weak, nonatomic) IBOutlet UITextField *printerTimeout;
@@ -108,12 +113,28 @@
     self.checkinAddress.enabled = ![defaults objectIsForcedForKey:@"checkin_address"];
     self.enableLabelCaching.enabled = ![defaults objectIsForcedForKey:@"enable_caching"];
     self.cacheDuration.enabled = ![defaults objectIsForcedForKey:@"cache_duration"];
+    self.cameraPosition.enabled = ![defaults objectIsForcedForKey:@"camera_position"];
+    self.cameraExposure.enabled = ![defaults objectIsForcedForKey:@"camera_exposure"];
+    self.uiBackgroundColor.enabled = ![defaults objectIsForcedForKey:@"ui_background_color"];
+    self.uiForegroundColor.enabled = ![defaults objectIsForcedForKey:@"ui_foreground_color"];
     self.printerOverride.enabled = ![defaults objectIsForcedForKey:@"printer_override"];
     self.printerTimeout.enabled = ![defaults objectIsForcedForKey:@"printer_timeout"];
     self.bluetoothPrinting.enabled = ![defaults objectIsForcedForKey:@"bluetooth_printing"];
 
     if (self.bluetoothPrinting.on) {
         self.centralManager = [[CBCentralManager alloc] initWithDelegate:self queue:nil];
+    }
+    
+    //
+    // Set initial color scheme.
+    //
+    if (@available(iOS 12.0, *)) {
+        if (self.traitCollection.userInterfaceStyle == UIUserInterfaceStyleDark) {
+            self.view.backgroundColor = [UIColor colorWithHexString:@"1a1a1a"];
+        }
+        else {
+            self.view.backgroundColor = [UIColor colorWithHexString:@"#fafafa"];
+        }
     }
 }
 
@@ -132,6 +153,21 @@
     }
     
     [NSNotificationCenter.defaultCenter removeObserver:self];
+}
+
+
+- (void)willTransitionToTraitCollection:(UITraitCollection *)newCollection withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator
+{
+    if (@available(iOS 12.0, *)) {
+        [coordinator animateAlongsideTransition:^(id<UIViewControllerTransitionCoordinatorContext>  _Nonnull context) {
+            if (newCollection.userInterfaceStyle == UIUserInterfaceStyleDark) {
+                self.view.backgroundColor = [UIColor colorWithHexString:@"1a1a1a"];
+            }
+            else {
+                self.view.backgroundColor = [UIColor colorWithHexString:@"#fafafa"];
+            }
+        } completion:nil];
+    }
 }
 
 
@@ -156,6 +192,10 @@
     self.checkinAddress.text = [defaults objectForKey:@"checkin_address"];
     self.enableLabelCaching.on = [defaults boolForKey:@"enable_caching"];
     self.cacheDuration.text = [defaults objectForKey:@"cache_duration"];
+    self.cameraPosition.selectedSegmentIndex = [[defaults stringForKey:@"camera_position"] isEqualToString:@"front"] ? 0 : 1;
+    self.cameraExposure.value = [defaults floatForKey:@"camera_exposure"];
+    self.uiBackgroundColor.text = [defaults objectForKey:@"ui_background_color"];
+    self.uiForegroundColor.text = [defaults objectForKey:@"ui_foreground_color"];
     self.printerOverride.text = [defaults objectForKey:@"printer_override"];
     self.printerTimeout.text = [defaults objectForKey:@"printer_timeout"];
     self.bluetoothPrinting.on = [defaults boolForKey:@"bluetooth_printing"];
@@ -185,6 +225,33 @@
 
 
 /**
+ One of the preference segmented controls has been changed.
+
+ @param sender The UIView that had its state changed
+*/
+- (IBAction)segmentedControlChanged:(id)sender
+{
+    if (sender == self.cameraPosition) {
+        NSString *value = self.cameraPosition.selectedSegmentIndex == 0 ? @"front" : @"back";
+        [NSUserDefaults.standardUserDefaults setObject:value forKey:@"camera_position"];
+    }
+}
+
+
+/**
+ One of the preference slider controls has been changed.
+
+ @param sender The UIView that had its value changed
+*/
+- (IBAction)sliderValueChanged:(id)sender
+{
+    if (sender == self.cameraExposure) {
+        [NSUserDefaults.standardUserDefaults setFloat:self.cameraExposure.value forKey:@"camera_exposure"];
+    }
+}
+
+
+/**
  One of the preference text fields has had it's value change
 
  @param sender The UIView that had its value changed
@@ -196,6 +263,12 @@
     }
     else if (sender == self.cacheDuration) {
         [NSUserDefaults.standardUserDefaults setObject:self.cacheDuration.text forKey:@"cache_duration"];
+    }
+    else if (sender == self.uiBackgroundColor) {
+        [NSUserDefaults.standardUserDefaults setObject:self.uiBackgroundColor.text forKey:@"ui_background_color"];
+    }
+    else if (sender == self.uiForegroundColor) {
+        [NSUserDefaults.standardUserDefaults setObject:self.uiForegroundColor.text forKey:@"ui_foreground_color"];
     }
     else if (sender == self.printerOverride) {
         [NSUserDefaults.standardUserDefaults setObject:self.printerOverride.text forKey:@"printer_override"];

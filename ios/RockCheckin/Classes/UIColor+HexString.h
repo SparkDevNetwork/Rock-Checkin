@@ -18,33 +18,18 @@
  */
 
 //
-//  MainViewController.h
+//  UIColor+HexString.h
 //  RockCheckin
 //
-//  Created by Jon Edmiston on 2/21/13.
-//  Copyright Spark Development 2013. All rights reserved.
+//  Created by Daniel Hazelbaker on 1/18/20.
+//  Copyright Spark Development 2020. All rights reserved.
 //
 
-#import <Cordova/CDVViewController.h>
-#import <Cordova/CDVCommandDelegateImpl.h>
-#import <Cordova/CDVCommandQueue.h>
-#import <WebKit/WebKit.h>
+#include <UIKit/UIKit.h>
 
-@interface MainViewController : CDVViewController <WKScriptMessageHandler>
+@interface UIColor(HexString)
 
-/**
- Reloads the web view with the URL specified in the preferences.
- */
-- (void)reloadCheckinAddress;
-
-/**
-  Shows the barcode scanning camera.
- */
-- (void)startCamera:(BOOL)hidden;
-
-/**
- Stops the camera and hides it.
- */
-- (void)stopCamera;
++ (UIColor *) colorWithHexString: (NSString *) hexString;
++ (CGFloat) colorComponentFrom: (NSString *) string start: (NSUInteger) start length: (NSUInteger) length;
 
 @end

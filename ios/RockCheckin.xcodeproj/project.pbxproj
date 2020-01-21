@@ -40,7 +40,12 @@
 		650EFB6A1E4FE75A0053F3DE /* CDVViewController+SplashScreen.m in Sources */ = {isa = PBXBuildFile; fileRef = 650EFB681E4FE75A0053F3DE /* CDVViewController+SplashScreen.m */; };
 		650EFB6C1E52606E0053F3DE /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 650EFB6B1E52606E0053F3DE /* Images.xcassets */; };
 		650EFB701E52710B0053F3DE /* CDVLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 650EFB6F1E52710B0053F3DE /* CDVLogger.m */; };
+		653446FC23D3A71F00B20D23 /* CameraViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 653446FA23D3A71F00B20D23 /* CameraViewController.m */; };
+		653446FD23D3A71F00B20D23 /* CameraViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 653446FB23D3A71F00B20D23 /* CameraViewController.xib */; };
+		6534470023D3E82600B20D23 /* UIColor+HexString.m in Sources */ = {isa = PBXBuildFile; fileRef = 653446FF23D3E82600B20D23 /* UIColor+HexString.m */; };
+		6534470323D522F300B20D23 /* RKNativeJSBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 6534470223D522F300B20D23 /* RKNativeJSBridge.m */; };
 		65599A0621470E0000BF724E /* RKWKWebViewEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = 65599A0521470E0000BF724E /* RKWKWebViewEngine.m */; };
+		65703CCD23D67BB600ABF0FB /* RKNativeJSCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 65703CCC23D67BB600ABF0FB /* RKNativeJSCommand.m */; };
 		65996186215AAEFC0065A094 /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 65996184215AAEFC0065A094 /* SettingsViewController.m */; };
 		65996187215AAEFC0065A094 /* SettingsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 65996185215AAEFC0065A094 /* SettingsViewController.xib */; };
 		659973FF225569A40059174E /* FastSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 659973FE225569A40059174E /* FastSocket.m */; };
@@ -132,8 +137,17 @@
 		650EFB6B1E52606E0053F3DE /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = RockCheckin/Images.xcassets; sourceTree = SOURCE_ROOT; };
 		650EFB6E1E52710B0053F3DE /* CDVLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDVLogger.h; sourceTree = "<group>"; };
 		650EFB6F1E52710B0053F3DE /* CDVLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDVLogger.m; sourceTree = "<group>"; };
+		653446F923D3A71F00B20D23 /* CameraViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CameraViewController.h; sourceTree = "<group>"; };
+		653446FA23D3A71F00B20D23 /* CameraViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CameraViewController.m; sourceTree = "<group>"; };
+		653446FB23D3A71F00B20D23 /* CameraViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CameraViewController.xib; sourceTree = "<group>"; };
+		653446FE23D3E82600B20D23 /* UIColor+HexString.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIColor+HexString.h"; sourceTree = "<group>"; };
+		653446FF23D3E82600B20D23 /* UIColor+HexString.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIColor+HexString.m"; sourceTree = "<group>"; };
+		6534470123D522F300B20D23 /* RKNativeJSBridge.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RKNativeJSBridge.h; sourceTree = "<group>"; };
+		6534470223D522F300B20D23 /* RKNativeJSBridge.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RKNativeJSBridge.m; sourceTree = "<group>"; };
 		65599A0421470E0000BF724E /* RKWKWebViewEngine.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RKWKWebViewEngine.h; sourceTree = "<group>"; };
 		65599A0521470E0000BF724E /* RKWKWebViewEngine.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RKWKWebViewEngine.m; sourceTree = "<group>"; };
+		65703CCB23D67BB500ABF0FB /* RKNativeJSCommand.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RKNativeJSCommand.h; sourceTree = "<group>"; };
+		65703CCC23D67BB600ABF0FB /* RKNativeJSCommand.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RKNativeJSCommand.m; sourceTree = "<group>"; };
 		65996183215AAEFC0065A094 /* SettingsViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SettingsViewController.h; sourceTree = "<group>"; };
 		65996184215AAEFC0065A094 /* SettingsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SettingsViewController.m; sourceTree = "<group>"; };
 		65996185215AAEFC0065A094 /* SettingsViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SettingsViewController.xib; sourceTree = "<group>"; };
@@ -249,6 +263,15 @@
 				65996185215AAEFC0065A094 /* SettingsViewController.xib */,
 				659973FD225569A40059174E /* FastSocket.h */,
 				659973FE225569A40059174E /* FastSocket.m */,
+				653446F923D3A71F00B20D23 /* CameraViewController.h */,
+				653446FA23D3A71F00B20D23 /* CameraViewController.m */,
+				653446FB23D3A71F00B20D23 /* CameraViewController.xib */,
+				653446FE23D3E82600B20D23 /* UIColor+HexString.h */,
+				653446FF23D3E82600B20D23 /* UIColor+HexString.m */,
+				6534470123D522F300B20D23 /* RKNativeJSBridge.h */,
+				6534470223D522F300B20D23 /* RKNativeJSBridge.m */,
+				65703CCB23D67BB500ABF0FB /* RKNativeJSCommand.h */,
+				65703CCC23D67BB600ABF0FB /* RKNativeJSCommand.m */,
 			);
 			name = Classes;
 			path = RockCheckin/Classes;
@@ -555,6 +578,7 @@
 				9E8C40341975F10A00DC66C4 /* app-notes.txt in Resources */,
 				9E55AE5B16D88D6200C2CBB1 /* Readme.rtf in Resources */,
 				9EE5B81E16E457CB00D0D311 /* Settings.bundle in Resources */,
+				653446FD23D3A71F00B20D23 /* CameraViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -597,8 +621,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				1D60589B0D05DD56006BFB54 /* main.m in Sources */,
+				653446FC23D3A71F00B20D23 /* CameraViewController.m in Sources */,
 				1D3623260D0F684500981E51 /* AppDelegate.m in Sources */,
 				302D95F114D2391D003F00A1 /* MainViewController.m in Sources */,
+				6534470323D522F300B20D23 /* RKNativeJSBridge.m in Sources */,
 				659973FF225569A40059174E /* FastSocket.m in Sources */,
 				65996186215AAEFC0065A094 /* SettingsViewController.m in Sources */,
 				9E55AE1716D73EB500C2CBB1 /* ZebraPrint.m in Sources */,
@@ -606,7 +632,9 @@
 				9E55AE4116D88BD700C2CBB1 /* NSObject+SBJson.m in Sources */,
 				65D9EDBC2142E75700F43C5E /* CDVWKProcessPoolFactory.m in Sources */,
 				650EFB5E1E4FE6510053F3DE /* CDVDevice.m in Sources */,
+				65703CCD23D67BB600ABF0FB /* RKNativeJSCommand.m in Sources */,
 				650EFB5F1E4FE6510053F3DE /* CDVConnection.m in Sources */,
+				6534470023D3E82600B20D23 /* UIColor+HexString.m in Sources */,
 				650EFB611E4FE6510053F3DE /* CDVStatusBar.m in Sources */,
 				65CFBD141E60CD58001AFF79 /* CDVNotification.m in Sources */,
 				9E55AE4216D88BD700C2CBB1 /* SBJsonParser.m in Sources */,

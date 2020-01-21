@@ -100,6 +100,70 @@
 			<key>DefaultValue</key>
 			<string>2</string>
 		</dict>
+		<dict>
+			<key>Type</key>
+			<string>PSTextFieldSpecifier</string>
+			<key>Title</key>
+			<string>UI Background Color</string>
+			<key>Key</key>
+			<string>ui_background_color</string>
+			<key>DefaultValue</key>
+			<string>#636363</string>
+		</dict>
+		<dict>
+			<key>Type</key>
+			<string>PSTextFieldSpecifier</string>
+			<key>Title</key>
+			<string>UI Foreground Color</string>
+			<key>Key</key>
+			<string>ui_foreground_color</string>
+			<key>DefaultValue</key>
+			<string>#ffffff</string>
+		</dict>
+		<dict>
+			<key>Type</key>
+			<string>PSGroupSpecifier</string>
+			<key>Title</key>
+			<string>Barcode Scanning</string>
+		</dict>
+		<dict>
+			<key>Type</key>
+			<string>PSMultiValueSpecifier</string>
+			<key>Title</key>
+			<string>Camera</string>
+			<key>Key</key>
+			<string>camera_position</string>
+			<key>Titles</key>
+			<array>
+				<string>Front</string>
+				<string>Rear</string>
+			</array>
+			<key>Values</key>
+			<array>
+				<string>front</string>
+				<string>rear</string>
+			</array>
+			<key>DefaultValue</key>
+			<string>Front</string>
+		</dict>
+		<dict>
+			<key>Type</key>
+			<string>PSGroupSpecifier</string>
+			<key>Title</key>
+			<string>Camera Exposure</string>
+		</dict>
+		<dict>
+			<key>Type</key>
+			<string>PSSliderSpecifier</string>
+			<key>Key</key>
+			<string>camera_exposure</string>
+			<key>MinimumValue</key>
+			<integer>0</integer>
+			<key>MaximumValue</key>
+			<integer>1</integer>
+			<key>DefaultValue</key>
+			<real>0.5</real>
+		</dict>
 	</array>
 	<key>StringsTable</key>
 	<string>Root</string>

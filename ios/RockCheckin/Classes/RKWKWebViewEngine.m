@@ -51,6 +51,18 @@
         }];
     }
     
+    [webView.configuration.userContentController addScriptMessageHandler:(id < WKScriptMessageHandler >)self.viewController name:@"RockCheckinNative"];
+
+    //
+    // Inject our native bridge code.
+    //
+    NSString *jsPath = [[NSBundle mainBundle] pathForResource:@"www/RockCheckinNative" ofType:@"js"];
+    NSString *tJs = [NSString stringWithContentsOfFile:jsPath encoding:NSUTF8StringEncoding error:NULL];
+    WKUserScript *nativeBridgeScript = [[WKUserScript alloc] initWithSource:tJs
+                                                              injectionTime:WKUserScriptInjectionTimeAtDocumentStart
+                                                           forMainFrameOnly:YES];
+    [webView.configuration.userContentController addUserScript:nativeBridgeScript];
+
     //
     // Wait for the completion handler to run.
     //

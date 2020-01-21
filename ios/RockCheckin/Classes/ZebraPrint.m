@@ -18,20 +18,23 @@
 
 @implementation ZebraPrint
 
-- (void)printTags:(CDVInvokedUrlCommand *)command
+/**
+Process a Javascript request to print the label tags.
+
+@param jsonString The JSON string that containts the label data.
+*/
+- (NSString *)printJsonTags:(NSString *)jsonString
 {
     BOOL labelErrorOccurred = NO;
+    NSString *errorMessage = nil;
     
     // TODO consider putting this on a separate tread (see Cordova docs)
     NSLog(@"[LOG] ZebraPrint Plugin Called");
     
-    CDVPluginResult* pluginResult = nil;
-    NSString* jsonString = [command.arguments objectAtIndex:0];
-    
     // if no json data sent return error
     if (jsonString == nil || [jsonString length] == 0) {
         NSLog(@"[ERROR] No label data sent to print");
-        pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsArray:[NSArray arrayWithObjects:@"No label data sent to print", @"false", nil]];
+        errorMessage = @"No label data sent to print";
     } else {
         // we have something, let's parse the json
         SBJsonParser *parser = [[SBJsonParser alloc] init];
@@ -41,7 +44,7 @@
         if (labels == nil || [labels count] == 0) {
             // json was not able to be parsed
             NSLog(@"[ERROR] JSON was not able to be parsed: %@", parser.error);
-            pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsArray:[NSArray arrayWithObjects:[NSString stringWithFormat:@"An error occurred: %@", parser.error], @"false", nil]];
+            errorMessage = [NSString stringWithFormat:@"An error occurred: %@", parser.error];
             
         } else {
             // we have parsed successfully
@@ -107,7 +110,7 @@
                         RKBLEZebraPrint *printer = ((AppDelegate *)UIApplication.sharedApplication.delegate).blePrinter;
                         BOOL success = [printer print:mergedLabel];
                         if (!success) {
-                            pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsArray:[NSArray arrayWithObjects:@"Unable to print to printer.", @"false", nil]];
+                            errorMessage = @"Unable to print to printer.";
                             NSLog(@"[ERROR] Unable to print to bluetooth printer.");
                         }
                     }
@@ -122,7 +125,7 @@
                         success = success && [printerConn sendBytes:bytes count:len] == len;
                         
                         if (success != YES) {
-                            pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsArray:[NSArray arrayWithObjects:@"Unable to print to printer.", @"false", nil]];
+                            errorMessage = @"Unable to print to printer.";
                             NSLog(@"[ERROR] Unable to print to printer: %@", printerIP);
                             [failedPrinters addObject:printerAddress];
                         }
@@ -140,17 +143,43 @@
         parser = nil;
     }
 
-    if (pluginResult == nil) {
-        if (labelErrorOccurred) {
-            pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsArray:[NSArray arrayWithObjects:[NSString stringWithFormat:@"Unable to retrieve labels from server."], @"false", nil]];
-        } else {
-            pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
-        }
+    if (errorMessage == nil && labelErrorOccurred) {
+        errorMessage = @"Unable to retrieve labels from server.";
+    }
+
+    return errorMessage;
+}
+
+
+/**
+Process a Javascript request to print the label tags.
+
+@param command The object that contains all the parameters about the command
+*/
+- (void)printTags:(CDVInvokedUrlCommand *)command
+{
+    NSString* jsonString = [command.arguments objectAtIndex:0];
+    CDVPluginResult *pluginResult;
+
+    NSString *errorMessage = [self printJsonTags:jsonString];
+    
+    if (errorMessage == nil) {
+        pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
+    }
+    else {
+        pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsArray:[NSArray arrayWithObjects:errorMessage, @"false", nil]];
     }
 
     [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
 }
 
+
+/**
+ Get the label contents from either cache or the remote server.
+ 
+ @param labelKey The key to use for caching purposes.
+ @param labelFile The URL that the contents should be downloaded from.
+ */
 - (NSString*)getLabelContents:(NSString*)labelKey labelLocation:(NSString*)labelFile
 {
     // determine cache preference
@@ -212,6 +241,13 @@
     return nil;
 }
 
+
+/**
+ Merge the label contents and the dynamic fields that were provided by the server.
+ 
+ @param labelContents The contents of the unmerged label.
+ @param mergeFields The fields that should be merged in.
+ */
 - (NSString*)mergeLabelFields:(NSString*)labelContents mergeFields:(NSDictionary*)mergeFields {
     
     NSMutableString *mergedLabel = [NSMutableString stringWithCapacity:0];
