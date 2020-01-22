@@ -156,6 +156,12 @@
 }
 
 
+/**
+ The trait collection for our view is about to change. This contains things like if we are in Dark Mode or not.
+ 
+ @param newCollection The new traits that will be applied.
+ @param coordinator The animation coordinator for this change.
+ */
 - (void)willTransitionToTraitCollection:(UITraitCollection *)newCollection withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator
 {
     if (@available(iOS 12.0, *)) {
