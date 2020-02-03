@@ -144,7 +144,7 @@
 				<string>rear</string>
 			</array>
 			<key>DefaultValue</key>
-			<string>Front</string>
+			<string>front</string>
 		</dict>
 		<dict>
 			<key>Type</key>
