@@ -23,40 +23,25 @@
 		301BF5C3109A6A2B0062928A /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 301BF5C2109A6A2B0062928A /* QuartzCore.framework */; };
 		301BF5C5109A6A2B0062928A /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 301BF5C4109A6A2B0062928A /* SystemConfiguration.framework */; };
 		302D95F114D2391D003F00A1 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 302D95EF14D2391D003F00A1 /* MainViewController.m */; };
-		302D95F214D2391D003F00A1 /* MainViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 302D95F014D2391D003F00A1 /* MainViewController.xib */; };
 		305D5FD1115AB8F900A74A75 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 305D5FD0115AB8F900A74A75 /* MobileCoreServices.framework */; };
 		30E5649213A7FCAF007403D8 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30E5649113A7FCAF007403D8 /* CoreMedia.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
-		650EFB461E4FDEBE0053F3DE /* libCordova.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 650EFB451E4FD3860053F3DE /* libCordova.a */; };
 		650EFB481E4FDEE30053F3DE /* ExternalAccessory.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 650EFB471E4FDEE30053F3DE /* ExternalAccessory.framework */; };
-		650EFB501E4FE3050053F3DE /* CDVAssetLibraryFilesystem.m in Sources */ = {isa = PBXBuildFile; fileRef = 650EFB4B1E4FE3050053F3DE /* CDVAssetLibraryFilesystem.m */; };
-		650EFB511E4FE3050053F3DE /* CDVFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 650EFB4D1E4FE3050053F3DE /* CDVFile.m */; };
-		650EFB521E4FE3050053F3DE /* CDVLocalFilesystem.m in Sources */ = {isa = PBXBuildFile; fileRef = 650EFB4F1E4FE3050053F3DE /* CDVLocalFilesystem.m */; };
-		650EFB5E1E4FE6510053F3DE /* CDVDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 650EFB551E4FE6510053F3DE /* CDVDevice.m */; };
-		650EFB5F1E4FE6510053F3DE /* CDVConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 650EFB581E4FE6510053F3DE /* CDVConnection.m */; };
-		650EFB601E4FE6510053F3DE /* CDVReachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 650EFB5A1E4FE6510053F3DE /* CDVReachability.m */; };
-		650EFB611E4FE6510053F3DE /* CDVStatusBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 650EFB5D1E4FE6510053F3DE /* CDVStatusBar.m */; };
 		650EFB631E4FE6A00053F3DE /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 650EFB621E4FE6A00053F3DE /* CoreTelephony.framework */; };
-		650EFB691E4FE75A0053F3DE /* CDVSplashScreen.m in Sources */ = {isa = PBXBuildFile; fileRef = 650EFB661E4FE75A0053F3DE /* CDVSplashScreen.m */; };
-		650EFB6A1E4FE75A0053F3DE /* CDVViewController+SplashScreen.m in Sources */ = {isa = PBXBuildFile; fileRef = 650EFB681E4FE75A0053F3DE /* CDVViewController+SplashScreen.m */; };
 		650EFB6C1E52606E0053F3DE /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 650EFB6B1E52606E0053F3DE /* Images.xcassets */; };
-		650EFB701E52710B0053F3DE /* CDVLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 650EFB6F1E52710B0053F3DE /* CDVLogger.m */; };
 		653446FC23D3A71F00B20D23 /* CameraViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 653446FA23D3A71F00B20D23 /* CameraViewController.m */; };
 		653446FD23D3A71F00B20D23 /* CameraViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 653446FB23D3A71F00B20D23 /* CameraViewController.xib */; };
 		6534470023D3E82600B20D23 /* UIColor+HexString.m in Sources */ = {isa = PBXBuildFile; fileRef = 653446FF23D3E82600B20D23 /* UIColor+HexString.m */; };
 		6534470323D522F300B20D23 /* RKNativeJSBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 6534470223D522F300B20D23 /* RKNativeJSBridge.m */; };
-		65599A0621470E0000BF724E /* RKWKWebViewEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = 65599A0521470E0000BF724E /* RKWKWebViewEngine.m */; };
 		65703CCD23D67BB600ABF0FB /* RKNativeJSCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 65703CCC23D67BB600ABF0FB /* RKNativeJSCommand.m */; };
+		6591E2A423E61501006B38F0 /* MainViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6591E2A323E61501006B38F0 /* MainViewController.xib */; };
+		6591E2A823E61A3A006B38F0 /* InitialSetupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6591E2A623E61A3A006B38F0 /* InitialSetupViewController.m */; };
+		6591E2A923E61A3A006B38F0 /* InitialSetupViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6591E2A723E61A3A006B38F0 /* InitialSetupViewController.xib */; };
 		65996186215AAEFC0065A094 /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 65996184215AAEFC0065A094 /* SettingsViewController.m */; };
 		65996187215AAEFC0065A094 /* SettingsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 65996185215AAEFC0065A094 /* SettingsViewController.xib */; };
 		659973FF225569A40059174E /* FastSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 659973FE225569A40059174E /* FastSocket.m */; };
 		65A1577321594DFB009DC910 /* RKBLEZebraPrint.m in Sources */ = {isa = PBXBuildFile; fileRef = 65A1577221594DFB009DC910 /* RKBLEZebraPrint.m */; };
 		65A1577621594EDC009DC910 /* CoreBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65A1577521594EDC009DC910 /* CoreBluetooth.framework */; };
-		65CFBD131E60CD58001AFF79 /* CDVNotification.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 65CFBD101E60CD58001AFF79 /* CDVNotification.bundle */; };
-		65CFBD141E60CD58001AFF79 /* CDVNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = 65CFBD121E60CD58001AFF79 /* CDVNotification.m */; };
-		65CFBD191E60D4C3001AFF79 /* BlockOldRockRequests.m in Sources */ = {isa = PBXBuildFile; fileRef = 65CFBD181E60D4C3001AFF79 /* BlockOldRockRequests.m */; };
-		65D9EDBA2142E75700F43C5E /* CDVWKWebViewEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = 65D9EDB52142E75700F43C5E /* CDVWKWebViewEngine.m */; };
-		65D9EDBB2142E75700F43C5E /* CDVWKWebViewUIDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 65D9EDB72142E75700F43C5E /* CDVWKWebViewUIDelegate.m */; };
-		65D9EDBC2142E75700F43C5E /* CDVWKProcessPoolFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 65D9EDB92142E75700F43C5E /* CDVWKProcessPoolFactory.m */; };
+		65C56F4323E7918E004C265F /* WKWebViewUIDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 65C56F4223E7918E004C265F /* WKWebViewUIDelegate.m */; };
 		65D9EDBE2142E8A800F43C5E /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65D9EDBD2142E8A800F43C5E /* WebKit.framework */; };
 		9E4B9AA216E5D49200538D9E /* EGOCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E4B9AA116E5D49200538D9E /* EGOCache.m */; };
 		9E55AE1716D73EB500C2CBB1 /* ZebraPrint.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E55AE1616D73EB500C2CBB1 /* ZebraPrint.m */; };
@@ -74,20 +59,8 @@
 		9E55AE4C16D88BD700C2CBB1 /* SBJsonWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E55AE4016D88BD700C2CBB1 /* SBJsonWriter.m */; };
 		9E55AE5B16D88D6200C2CBB1 /* Readme.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 9E55AE5A16D88D6200C2CBB1 /* Readme.rtf */; };
 		9E8C40341975F10A00DC66C4 /* app-notes.txt in Resources */ = {isa = PBXBuildFile; fileRef = 9E8C40331975F10A00DC66C4 /* app-notes.txt */; };
-		9EE5B81316E44DA300D0D311 /* ApplicationPreferences.m in Sources */ = {isa = PBXBuildFile; fileRef = 9EE5B81216E44DA300D0D311 /* ApplicationPreferences.m */; };
 		9EE5B81E16E457CB00D0D311 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 9EE5B81D16E457CB00D0D311 /* Settings.bundle */; };
-		F840E1F1165FE0F500CFE078 /* config.xml in Resources */ = {isa = PBXBuildFile; fileRef = F840E1F0165FE0F500CFE078 /* config.xml */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXContainerItemProxy section */
-		650EFB441E4FD3860053F3DE /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 650EFB401E4FD3860053F3DE /* CordovaLib.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 68A32D7114102E1C006B237C;
-			remoteInfo = CordovaLib;
-		};
-/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -109,34 +82,12 @@
 		301BF5C4109A6A2B0062928A /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		302D95EE14D2391D003F00A1 /* MainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainViewController.h; sourceTree = "<group>"; };
 		302D95EF14D2391D003F00A1 /* MainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
-		302D95F014D2391D003F00A1 /* MainViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainViewController.xib; sourceTree = "<group>"; };
 		305D5FD0115AB8F900A74A75 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		30E5649113A7FCAF007403D8 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
 		32CA4F630368D1EE00C91783 /* RockCheckin-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "RockCheckin-Prefix.pch"; sourceTree = "<group>"; };
-		650EFB401E4FD3860053F3DE /* CordovaLib.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = CordovaLib.xcodeproj; path = CordovaLib/CordovaLib.xcodeproj; sourceTree = "<group>"; };
 		650EFB471E4FDEE30053F3DE /* ExternalAccessory.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ExternalAccessory.framework; path = System/Library/Frameworks/ExternalAccessory.framework; sourceTree = SDKROOT; };
-		650EFB4A1E4FE3050053F3DE /* CDVAssetLibraryFilesystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDVAssetLibraryFilesystem.h; sourceTree = "<group>"; };
-		650EFB4B1E4FE3050053F3DE /* CDVAssetLibraryFilesystem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDVAssetLibraryFilesystem.m; sourceTree = "<group>"; };
-		650EFB4C1E4FE3050053F3DE /* CDVFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDVFile.h; sourceTree = "<group>"; };
-		650EFB4D1E4FE3050053F3DE /* CDVFile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDVFile.m; sourceTree = "<group>"; };
-		650EFB4E1E4FE3050053F3DE /* CDVLocalFilesystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDVLocalFilesystem.h; sourceTree = "<group>"; };
-		650EFB4F1E4FE3050053F3DE /* CDVLocalFilesystem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDVLocalFilesystem.m; sourceTree = "<group>"; };
-		650EFB541E4FE6510053F3DE /* CDVDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDVDevice.h; sourceTree = "<group>"; };
-		650EFB551E4FE6510053F3DE /* CDVDevice.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDVDevice.m; sourceTree = "<group>"; };
-		650EFB571E4FE6510053F3DE /* CDVConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDVConnection.h; sourceTree = "<group>"; };
-		650EFB581E4FE6510053F3DE /* CDVConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDVConnection.m; sourceTree = "<group>"; };
-		650EFB591E4FE6510053F3DE /* CDVReachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDVReachability.h; sourceTree = "<group>"; };
-		650EFB5A1E4FE6510053F3DE /* CDVReachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDVReachability.m; sourceTree = "<group>"; };
-		650EFB5C1E4FE6510053F3DE /* CDVStatusBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDVStatusBar.h; sourceTree = "<group>"; };
-		650EFB5D1E4FE6510053F3DE /* CDVStatusBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDVStatusBar.m; sourceTree = "<group>"; };
 		650EFB621E4FE6A00053F3DE /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
-		650EFB651E4FE75A0053F3DE /* CDVSplashScreen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDVSplashScreen.h; sourceTree = "<group>"; };
-		650EFB661E4FE75A0053F3DE /* CDVSplashScreen.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDVSplashScreen.m; sourceTree = "<group>"; };
-		650EFB671E4FE75A0053F3DE /* CDVViewController+SplashScreen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CDVViewController+SplashScreen.h"; sourceTree = "<group>"; };
-		650EFB681E4FE75A0053F3DE /* CDVViewController+SplashScreen.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CDVViewController+SplashScreen.m"; sourceTree = "<group>"; };
 		650EFB6B1E52606E0053F3DE /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = RockCheckin/Images.xcassets; sourceTree = SOURCE_ROOT; };
-		650EFB6E1E52710B0053F3DE /* CDVLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDVLogger.h; sourceTree = "<group>"; };
-		650EFB6F1E52710B0053F3DE /* CDVLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDVLogger.m; sourceTree = "<group>"; };
 		653446F923D3A71F00B20D23 /* CameraViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CameraViewController.h; sourceTree = "<group>"; };
 		653446FA23D3A71F00B20D23 /* CameraViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CameraViewController.m; sourceTree = "<group>"; };
 		653446FB23D3A71F00B20D23 /* CameraViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CameraViewController.xib; sourceTree = "<group>"; };
@@ -144,10 +95,12 @@
 		653446FF23D3E82600B20D23 /* UIColor+HexString.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIColor+HexString.m"; sourceTree = "<group>"; };
 		6534470123D522F300B20D23 /* RKNativeJSBridge.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RKNativeJSBridge.h; sourceTree = "<group>"; };
 		6534470223D522F300B20D23 /* RKNativeJSBridge.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RKNativeJSBridge.m; sourceTree = "<group>"; };
-		65599A0421470E0000BF724E /* RKWKWebViewEngine.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RKWKWebViewEngine.h; sourceTree = "<group>"; };
-		65599A0521470E0000BF724E /* RKWKWebViewEngine.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RKWKWebViewEngine.m; sourceTree = "<group>"; };
 		65703CCB23D67BB500ABF0FB /* RKNativeJSCommand.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RKNativeJSCommand.h; sourceTree = "<group>"; };
 		65703CCC23D67BB600ABF0FB /* RKNativeJSCommand.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RKNativeJSCommand.m; sourceTree = "<group>"; };
+		6591E2A323E61501006B38F0 /* MainViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MainViewController.xib; sourceTree = "<group>"; };
+		6591E2A523E61A3A006B38F0 /* InitialSetupViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = InitialSetupViewController.h; sourceTree = "<group>"; };
+		6591E2A623E61A3A006B38F0 /* InitialSetupViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = InitialSetupViewController.m; sourceTree = "<group>"; };
+		6591E2A723E61A3A006B38F0 /* InitialSetupViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = InitialSetupViewController.xib; sourceTree = "<group>"; };
 		65996183215AAEFC0065A094 /* SettingsViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SettingsViewController.h; sourceTree = "<group>"; };
 		65996184215AAEFC0065A094 /* SettingsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SettingsViewController.m; sourceTree = "<group>"; };
 		65996185215AAEFC0065A094 /* SettingsViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SettingsViewController.xib; sourceTree = "<group>"; };
@@ -157,17 +110,8 @@
 		65A1577221594DFB009DC910 /* RKBLEZebraPrint.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RKBLEZebraPrint.m; sourceTree = "<group>"; };
 		65A1577521594EDC009DC910 /* CoreBluetooth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreBluetooth.framework; path = System/Library/Frameworks/CoreBluetooth.framework; sourceTree = SDKROOT; };
 		65AADE291E89EB2D00587E37 /* app-review-notes.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = "app-review-notes.txt"; sourceTree = "<group>"; };
-		65CFBD101E60CD58001AFF79 /* CDVNotification.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = CDVNotification.bundle; sourceTree = "<group>"; };
-		65CFBD111E60CD58001AFF79 /* CDVNotification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDVNotification.h; sourceTree = "<group>"; };
-		65CFBD121E60CD58001AFF79 /* CDVNotification.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDVNotification.m; sourceTree = "<group>"; };
-		65CFBD171E60D4C3001AFF79 /* BlockOldRockRequests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BlockOldRockRequests.h; sourceTree = "<group>"; };
-		65CFBD181E60D4C3001AFF79 /* BlockOldRockRequests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BlockOldRockRequests.m; sourceTree = "<group>"; };
-		65D9EDB42142E75700F43C5E /* CDVWKWebViewUIDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDVWKWebViewUIDelegate.h; sourceTree = "<group>"; };
-		65D9EDB52142E75700F43C5E /* CDVWKWebViewEngine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDVWKWebViewEngine.m; sourceTree = "<group>"; };
-		65D9EDB62142E75700F43C5E /* CDVWKProcessPoolFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDVWKProcessPoolFactory.h; sourceTree = "<group>"; };
-		65D9EDB72142E75700F43C5E /* CDVWKWebViewUIDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDVWKWebViewUIDelegate.m; sourceTree = "<group>"; };
-		65D9EDB82142E75700F43C5E /* CDVWKWebViewEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDVWKWebViewEngine.h; sourceTree = "<group>"; };
-		65D9EDB92142E75700F43C5E /* CDVWKProcessPoolFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDVWKProcessPoolFactory.m; sourceTree = "<group>"; };
+		65C56F4123E7918E004C265F /* WKWebViewUIDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WKWebViewUIDelegate.h; sourceTree = "<group>"; };
+		65C56F4223E7918E004C265F /* WKWebViewUIDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WKWebViewUIDelegate.m; sourceTree = "<group>"; };
 		65D9EDBD2142E8A800F43C5E /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
 		8D1107310486CEB800E47090 /* RockCheckin-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "RockCheckin-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
 		9E4B9AA016E5D49200538D9E /* EGOCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EGOCache.h; sourceTree = "<group>"; };
@@ -201,10 +145,7 @@
 		9E55AE4016D88BD700C2CBB1 /* SBJsonWriter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SBJsonWriter.m; path = ../../SBJsonWriter.m; sourceTree = "<group>"; };
 		9E55AE5A16D88D6200C2CBB1 /* Readme.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = Readme.rtf; sourceTree = "<group>"; };
 		9E8C40331975F10A00DC66C4 /* app-notes.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "app-notes.txt"; sourceTree = "<group>"; };
-		9EE5B81116E44DA300D0D311 /* ApplicationPreferences.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ApplicationPreferences.h; sourceTree = "<group>"; };
-		9EE5B81216E44DA300D0D311 /* ApplicationPreferences.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ApplicationPreferences.m; sourceTree = "<group>"; };
 		9EE5B81D16E457CB00D0D311 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
-		F840E1F0165FE0F500CFE078 /* config.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = config.xml; path = RockCheckin/config.xml; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -216,7 +157,6 @@
 				65D9EDBE2142E8A800F43C5E /* WebKit.framework in Frameworks */,
 				650EFB631E4FE6A00053F3DE /* CoreTelephony.framework in Frameworks */,
 				650EFB481E4FDEE30053F3DE /* ExternalAccessory.framework in Frameworks */,
-				650EFB461E4FDEBE0053F3DE /* libCordova.a in Frameworks */,
 				1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */,
 				1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */,
 				288765FD0DF74451002DB57D /* CoreGraphics.framework in Frameworks */,
@@ -242,20 +182,14 @@
 			children = (
 				9E4B9AA016E5D49200538D9E /* EGOCache.h */,
 				9E4B9AA116E5D49200538D9E /* EGOCache.m */,
-				9EE5B81116E44DA300D0D311 /* ApplicationPreferences.h */,
-				9EE5B81216E44DA300D0D311 /* ApplicationPreferences.m */,
 				9E55AE5916D88C2400C2CBB1 /* SBJson */,
 				302D95EE14D2391D003F00A1 /* MainViewController.h */,
 				302D95EF14D2391D003F00A1 /* MainViewController.m */,
-				302D95F014D2391D003F00A1 /* MainViewController.xib */,
+				6591E2A323E61501006B38F0 /* MainViewController.xib */,
 				1D3623240D0F684500981E51 /* AppDelegate.h */,
 				1D3623250D0F684500981E51 /* AppDelegate.m */,
 				9E55AE1516D73EB500C2CBB1 /* ZebraPrint.h */,
 				9E55AE1616D73EB500C2CBB1 /* ZebraPrint.m */,
-				65CFBD171E60D4C3001AFF79 /* BlockOldRockRequests.h */,
-				65CFBD181E60D4C3001AFF79 /* BlockOldRockRequests.m */,
-				65599A0421470E0000BF724E /* RKWKWebViewEngine.h */,
-				65599A0521470E0000BF724E /* RKWKWebViewEngine.m */,
 				65A1577121594DFB009DC910 /* RKBLEZebraPrint.h */,
 				65A1577221594DFB009DC910 /* RKBLEZebraPrint.m */,
 				65996183215AAEFC0065A094 /* SettingsViewController.h */,
@@ -272,6 +206,11 @@
 				6534470223D522F300B20D23 /* RKNativeJSBridge.m */,
 				65703CCB23D67BB500ABF0FB /* RKNativeJSCommand.h */,
 				65703CCC23D67BB600ABF0FB /* RKNativeJSCommand.m */,
+				6591E2A523E61A3A006B38F0 /* InitialSetupViewController.h */,
+				6591E2A623E61A3A006B38F0 /* InitialSetupViewController.m */,
+				6591E2A723E61A3A006B38F0 /* InitialSetupViewController.xib */,
+				65C56F4123E7918E004C265F /* WKWebViewUIDelegate.h */,
+				65C56F4223E7918E004C265F /* WKWebViewUIDelegate.m */,
 			);
 			name = Classes;
 			path = RockCheckin/Classes;
@@ -292,10 +231,8 @@
 				9E8C40331975F10A00DC66C4 /* app-notes.txt */,
 				9EE5B81D16E457CB00D0D311 /* Settings.bundle */,
 				9E55AE5A16D88D6200C2CBB1 /* Readme.rtf */,
-				F840E1F0165FE0F500CFE078 /* config.xml */,
 				301BF56E109A69640062928A /* www */,
 				080E96DDFE201D6D7F000001 /* Classes */,
-				307C750510C5A3420062BCA9 /* Plugins */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
 				29B97317FDCFA39411CA2CEA /* Resources */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
@@ -331,7 +268,6 @@
 				65D9EDBD2142E8A800F43C5E /* WebKit.framework */,
 				650EFB621E4FE6A00053F3DE /* CoreTelephony.framework */,
 				650EFB471E4FDEE30053F3DE /* ExternalAccessory.framework */,
-				650EFB401E4FD3860053F3DE /* CordovaLib.xcodeproj */,
 				1DF5F4DF0D08C38300B7A737 /* UIKit.framework */,
 				1D30AB110D05D00D00671497 /* Foundation.framework */,
 				288765FC0DF74451002DB57D /* CoreGraphics.framework */,
@@ -348,115 +284,6 @@
 				30E5649113A7FCAF007403D8 /* CoreMedia.framework */,
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		307C750510C5A3420062BCA9 /* Plugins */ = {
-			isa = PBXGroup;
-			children = (
-				65D9EDB32142E75700F43C5E /* cordova-plugin-wkwebview-engine */,
-				65CFBD0F1E60CD58001AFF79 /* Notification */,
-				650EFB6D1E52710B0053F3DE /* Console */,
-				650EFB641E4FE75A0053F3DE /* SplashScreen */,
-				650EFB531E4FE6510053F3DE /* Device */,
-				650EFB561E4FE6510053F3DE /* NetworkInformation */,
-				650EFB5B1E4FE6510053F3DE /* StatusBar */,
-				650EFB491E4FE3050053F3DE /* File */,
-			);
-			name = Plugins;
-			path = RockCheckin/Plugins;
-			sourceTree = SOURCE_ROOT;
-		};
-		650EFB411E4FD3860053F3DE /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				650EFB451E4FD3860053F3DE /* libCordova.a */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		650EFB491E4FE3050053F3DE /* File */ = {
-			isa = PBXGroup;
-			children = (
-				650EFB4A1E4FE3050053F3DE /* CDVAssetLibraryFilesystem.h */,
-				650EFB4B1E4FE3050053F3DE /* CDVAssetLibraryFilesystem.m */,
-				650EFB4C1E4FE3050053F3DE /* CDVFile.h */,
-				650EFB4D1E4FE3050053F3DE /* CDVFile.m */,
-				650EFB4E1E4FE3050053F3DE /* CDVLocalFilesystem.h */,
-				650EFB4F1E4FE3050053F3DE /* CDVLocalFilesystem.m */,
-			);
-			path = File;
-			sourceTree = "<group>";
-		};
-		650EFB531E4FE6510053F3DE /* Device */ = {
-			isa = PBXGroup;
-			children = (
-				650EFB541E4FE6510053F3DE /* CDVDevice.h */,
-				650EFB551E4FE6510053F3DE /* CDVDevice.m */,
-			);
-			path = Device;
-			sourceTree = "<group>";
-		};
-		650EFB561E4FE6510053F3DE /* NetworkInformation */ = {
-			isa = PBXGroup;
-			children = (
-				650EFB571E4FE6510053F3DE /* CDVConnection.h */,
-				650EFB581E4FE6510053F3DE /* CDVConnection.m */,
-				650EFB591E4FE6510053F3DE /* CDVReachability.h */,
-				650EFB5A1E4FE6510053F3DE /* CDVReachability.m */,
-			);
-			path = NetworkInformation;
-			sourceTree = "<group>";
-		};
-		650EFB5B1E4FE6510053F3DE /* StatusBar */ = {
-			isa = PBXGroup;
-			children = (
-				650EFB5C1E4FE6510053F3DE /* CDVStatusBar.h */,
-				650EFB5D1E4FE6510053F3DE /* CDVStatusBar.m */,
-			);
-			path = StatusBar;
-			sourceTree = "<group>";
-		};
-		650EFB641E4FE75A0053F3DE /* SplashScreen */ = {
-			isa = PBXGroup;
-			children = (
-				650EFB651E4FE75A0053F3DE /* CDVSplashScreen.h */,
-				650EFB661E4FE75A0053F3DE /* CDVSplashScreen.m */,
-				650EFB671E4FE75A0053F3DE /* CDVViewController+SplashScreen.h */,
-				650EFB681E4FE75A0053F3DE /* CDVViewController+SplashScreen.m */,
-			);
-			path = SplashScreen;
-			sourceTree = "<group>";
-		};
-		650EFB6D1E52710B0053F3DE /* Console */ = {
-			isa = PBXGroup;
-			children = (
-				650EFB6E1E52710B0053F3DE /* CDVLogger.h */,
-				650EFB6F1E52710B0053F3DE /* CDVLogger.m */,
-			);
-			path = Console;
-			sourceTree = "<group>";
-		};
-		65CFBD0F1E60CD58001AFF79 /* Notification */ = {
-			isa = PBXGroup;
-			children = (
-				65CFBD101E60CD58001AFF79 /* CDVNotification.bundle */,
-				65CFBD111E60CD58001AFF79 /* CDVNotification.h */,
-				65CFBD121E60CD58001AFF79 /* CDVNotification.m */,
-			);
-			path = Notification;
-			sourceTree = "<group>";
-		};
-		65D9EDB32142E75700F43C5E /* cordova-plugin-wkwebview-engine */ = {
-			isa = PBXGroup;
-			children = (
-				65D9EDB42142E75700F43C5E /* CDVWKWebViewUIDelegate.h */,
-				65D9EDB52142E75700F43C5E /* CDVWKWebViewEngine.m */,
-				65D9EDB62142E75700F43C5E /* CDVWKProcessPoolFactory.h */,
-				65D9EDB72142E75700F43C5E /* CDVWKWebViewUIDelegate.m */,
-				65D9EDB82142E75700F43C5E /* CDVWKWebViewEngine.h */,
-				65D9EDB92142E75700F43C5E /* CDVWKProcessPoolFactory.m */,
-			);
-			path = "cordova-plugin-wkwebview-engine";
 			sourceTree = "<group>";
 		};
 		9E55AE5916D88C2400C2CBB1 /* SBJson */ = {
@@ -541,12 +368,6 @@
 			mainGroup = 29B97314FDCFA39411CA2CEA /* CustomTemplate */;
 			productRefGroup = 19C28FACFE9D520D11CA2CBB /* Products */;
 			projectDirPath = "";
-			projectReferences = (
-				{
-					ProductGroup = 650EFB411E4FD3860053F3DE /* Products */;
-					ProjectRef = 650EFB401E4FD3860053F3DE /* CordovaLib.xcodeproj */;
-				},
-			);
 			projectRoot = "";
 			targets = (
 				1D6058900D05DD3D006BFB54 /* RockCheckin */,
@@ -554,29 +375,18 @@
 		};
 /* End PBXProject section */
 
-/* Begin PBXReferenceProxy section */
-		650EFB451E4FD3860053F3DE /* libCordova.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libCordova.a;
-			remoteRef = 650EFB441E4FD3860053F3DE /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-/* End PBXReferenceProxy section */
-
 /* Begin PBXResourcesBuildPhase section */
 		1D60588D0D05DD3D006BFB54 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F840E1F1165FE0F500CFE078 /* config.xml in Resources */,
 				65996187215AAEFC0065A094 /* SettingsViewController.xib in Resources */,
 				301BF570109A69640062928A /* www in Resources */,
-				65CFBD131E60CD58001AFF79 /* CDVNotification.bundle in Resources */,
-				302D95F214D2391D003F00A1 /* MainViewController.xib in Resources */,
+				6591E2A923E61A3A006B38F0 /* InitialSetupViewController.xib in Resources */,
 				650EFB6C1E52606E0053F3DE /* Images.xcassets in Resources */,
 				9E8C40341975F10A00DC66C4 /* app-notes.txt in Resources */,
 				9E55AE5B16D88D6200C2CBB1 /* Readme.rtf in Resources */,
+				6591E2A423E61501006B38F0 /* MainViewController.xib in Resources */,
 				9EE5B81E16E457CB00D0D311 /* Settings.bundle in Resources */,
 				653446FD23D3A71F00B20D23 /* CameraViewController.xib in Resources */,
 			);
@@ -628,39 +438,24 @@
 				659973FF225569A40059174E /* FastSocket.m in Sources */,
 				65996186215AAEFC0065A094 /* SettingsViewController.m in Sources */,
 				9E55AE1716D73EB500C2CBB1 /* ZebraPrint.m in Sources */,
-				65D9EDBB2142E75700F43C5E /* CDVWKWebViewUIDelegate.m in Sources */,
 				9E55AE4116D88BD700C2CBB1 /* NSObject+SBJson.m in Sources */,
-				65D9EDBC2142E75700F43C5E /* CDVWKProcessPoolFactory.m in Sources */,
-				650EFB5E1E4FE6510053F3DE /* CDVDevice.m in Sources */,
 				65703CCD23D67BB600ABF0FB /* RKNativeJSCommand.m in Sources */,
-				650EFB5F1E4FE6510053F3DE /* CDVConnection.m in Sources */,
 				6534470023D3E82600B20D23 /* UIColor+HexString.m in Sources */,
-				650EFB611E4FE6510053F3DE /* CDVStatusBar.m in Sources */,
-				65CFBD141E60CD58001AFF79 /* CDVNotification.m in Sources */,
 				9E55AE4216D88BD700C2CBB1 /* SBJsonParser.m in Sources */,
 				65A1577321594DFB009DC910 /* RKBLEZebraPrint.m in Sources */,
-				65599A0621470E0000BF724E /* RKWKWebViewEngine.m in Sources */,
 				9E55AE4316D88BD700C2CBB1 /* SBJsonStreamParser.m in Sources */,
 				9E55AE4416D88BD700C2CBB1 /* SBJsonStreamParserAccumulator.m in Sources */,
-				650EFB521E4FE3050053F3DE /* CDVLocalFilesystem.m in Sources */,
 				9E55AE4516D88BD700C2CBB1 /* SBJsonStreamParserAdapter.m in Sources */,
-				650EFB511E4FE3050053F3DE /* CDVFile.m in Sources */,
+				65C56F4323E7918E004C265F /* WKWebViewUIDelegate.m in Sources */,
 				9E55AE4616D88BD700C2CBB1 /* SBJsonStreamParserState.m in Sources */,
 				9E55AE4716D88BD700C2CBB1 /* SBJsonStreamWriter.m in Sources */,
-				650EFB691E4FE75A0053F3DE /* CDVSplashScreen.m in Sources */,
 				9E55AE4816D88BD700C2CBB1 /* SBJsonStreamWriterAccumulator.m in Sources */,
 				9E55AE4916D88BD700C2CBB1 /* SBJsonStreamWriterState.m in Sources */,
-				65D9EDBA2142E75700F43C5E /* CDVWKWebViewEngine.m in Sources */,
-				650EFB501E4FE3050053F3DE /* CDVAssetLibraryFilesystem.m in Sources */,
-				650EFB601E4FE6510053F3DE /* CDVReachability.m in Sources */,
 				9E55AE4A16D88BD700C2CBB1 /* SBJsonTokeniser.m in Sources */,
 				9E55AE4B16D88BD700C2CBB1 /* SBJsonUTF8Stream.m in Sources */,
-				65CFBD191E60D4C3001AFF79 /* BlockOldRockRequests.m in Sources */,
 				9E55AE4C16D88BD700C2CBB1 /* SBJsonWriter.m in Sources */,
-				9EE5B81316E44DA300D0D311 /* ApplicationPreferences.m in Sources */,
-				650EFB6A1E4FE75A0053F3DE /* CDVViewController+SplashScreen.m in Sources */,
+				6591E2A823E61A3A006B38F0 /* InitialSetupViewController.m in Sources */,
 				9E4B9AA216E5D49200538D9E /* EGOCache.m in Sources */,
-				650EFB701E52710B0053F3DE /* CDVLogger.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

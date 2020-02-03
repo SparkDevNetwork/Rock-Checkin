@@ -8,7 +8,6 @@
 
 #import "ZebraPrint.h"
 #import "RKBLEZebraPrint.h"
-#import <Cordova/CDV.h>
 #import "FastSocket.h"
 
 #import "SBJson.h"
@@ -28,7 +27,6 @@ Process a Javascript request to print the label tags.
     BOOL labelErrorOccurred = NO;
     NSString *errorMessage = nil;
     
-    // TODO consider putting this on a separate tread (see Cordova docs)
     NSLog(@"[LOG] ZebraPrint Plugin Called");
     
     // if no json data sent return error
@@ -148,29 +146,6 @@ Process a Javascript request to print the label tags.
     }
 
     return errorMessage;
-}
-
-
-/**
-Process a Javascript request to print the label tags.
-
-@param command The object that contains all the parameters about the command
-*/
-- (void)printTags:(CDVInvokedUrlCommand *)command
-{
-    NSString* jsonString = [command.arguments objectAtIndex:0];
-    CDVPluginResult *pluginResult;
-
-    NSString *errorMessage = [self printJsonTags:jsonString];
-    
-    if (errorMessage == nil) {
-        pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
-    }
-    else {
-        pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsArray:[NSArray arrayWithObjects:errorMessage, @"false", nil]];
-    }
-
-    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
 }
 
 

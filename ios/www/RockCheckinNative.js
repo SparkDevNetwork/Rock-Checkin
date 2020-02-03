@@ -1,6 +1,12 @@
 (function(global) {
     var promises = {};
 
+    /* This can be removed when Rock 1.10.2 is minimum required version. */
+    document.addEventListener('DOMContentLoaded', function () {
+        console.log('simulating device ready event');
+        document.dispatchEvent(new Event('deviceready'));
+    }, false);
+ 
     //
     // Generate a UUID.
     //
@@ -61,5 +67,18 @@
             });
         }
     };
+    
+    global.Cordova = {
+        exec: function(success, fail, className, methodName, data) {
+            if (className === 'ZebraPrint' && methodName === 'printTags') {
+                global.RockCheckinNative.PrintLabels(data[0])
+                    .then(function (result) {
+                        success(result);
+                    }, function (result) {
+                        fail([result.Error, result.canReprint]);
+                    });
+            }
+        }
+    }
 })(window);
 

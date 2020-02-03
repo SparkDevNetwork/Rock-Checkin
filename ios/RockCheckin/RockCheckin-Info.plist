@@ -21,7 +21,7 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>593</string>
+	<string>709</string>
 	<key>ITSAppUsesNonExemptEncryption</key>
 	<false/>
 	<key>LSRequiresIPhoneOS</key>
@@ -39,6 +39,15 @@
 	<string>We use your camera to scan check-in barcodes.</string>
 	<key>NSMainNibFile</key>
 	<string></string>
+	<key>UIAppFonts</key>
+	<array>
+		<string>www/fonts/OpenSans-Bold-webfont.ttf</string>
+		<string>www/fonts/OpenSans-Italic-webfont.ttf</string>
+		<string>www/fonts/OpenSans-Light-webfont.ttf</string>
+		<string>www/fonts/OpenSans-Regular-webfont.ttf</string>
+		<string>www/fonts/OpenSans-Semibold-webfont.ttf</string>
+		<string>www/fonts/fontawesome-webfont.ttf</string>
+	</array>
 	<key>UILaunchImageFile</key>
 	<string>LaunchImage</string>
 	<key>UIPrerenderedIcon</key>

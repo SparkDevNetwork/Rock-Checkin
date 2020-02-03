@@ -26,17 +26,19 @@
 //
 
 #import "MainViewController.h"
-#import "BlockOldRockRequests.h"
 #import "SettingsViewController.h"
 #import "CameraViewController.h"
 #import "RKNativeJSBridge.h"
 #import "RKNativeJSCommand.h"
+#import "WKWebViewUIDelegate.h"
 #import <WebKit/WebKit.h>
 
-@interface MainViewController () <UIGestureRecognizerDelegate, CameraViewControllerDelegate>
+@interface MainViewController () <UIGestureRecognizerDelegate, WKNavigationDelegate, CameraViewControllerDelegate>
 
 @property (weak, nonatomic) IBOutlet UILongPressGestureRecognizer *settingsGestureRecognizer;
 
+@property (strong, nonatomic) WKWebView *webView;
+@property (strong, nonatomic) WKWebViewUIDelegate *uiDelegate;
 @property (strong, nonatomic) CameraViewController *cameraViewController;
 @property (strong, nonatomic) RKNativeJSBridge *nativeBridge;
 @property (assign, nonatomic) BOOL passiveMode;
@@ -54,12 +56,32 @@
 - (id)initWithNibName:(NSString*)nibNameOrNil bundle:(NSBundle*)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    
+    self.webView = [WKWebView new];
+    self.webView.navigationDelegate = self;
+    self.webView.translatesAutoresizingMaskIntoConstraints = false;
+    [self.view addSubview:self.webView];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.webView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeTop multiplier:1 constant:0]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.webView attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeLeading multiplier:1 constant:0]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.webView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeWidth multiplier:1 constant:0]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.webView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeHeight multiplier:1 constant:0]];
+
+    [self.webView.configuration.userContentController addScriptMessageHandler:self name:@"RockCheckinNative"];
+
+    //
+    // Inject our native bridge code.
+    //
+    NSString *jsPath = [[NSBundle mainBundle] pathForResource:@"www/RockCheckinNative" ofType:@"js"];
+    NSString *tJs = [NSString stringWithContentsOfFile:jsPath encoding:NSUTF8StringEncoding error:NULL];
+    WKUserScript *nativeBridgeScript = [[WKUserScript alloc] initWithSource:tJs
+                                                              injectionTime:WKUserScriptInjectionTimeAtDocumentStart
+                                                           forMainFrameOnly:YES];
+    [self.webView.configuration.userContentController addUserScript:nativeBridgeScript];
 
     self.nativeBridge = [[RKNativeJSBridge alloc] initWithMainController:self];
     
-    [BlockOldRockRequests enable];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(pageDidLoadNotification:) name:CDVPageDidLoadNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(pluginResetNotification:) name:CDVPluginResetNotification object:nil];
+    self.uiDelegate = [[WKWebViewUIDelegate alloc] initWithTitle:[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleDisplayName"]];
+    self.webView.UIDelegate = self.uiDelegate;
 
     return self;
 }
@@ -100,7 +122,7 @@
     
     NSURLRequest *request = [NSURLRequest requestWithURL:url];
     
-    [self.webViewEngine loadRequest:request];
+    [self.webView loadRequest:request];
 }
 
 
@@ -258,51 +280,6 @@
 }
 
 
-/**
- Extract the JSON object data from the cordova_plugins file.
- 
- @return Array of plugin object definitations
- */
-- (NSArray*)parseCordovaPlugins
-{
-    NSString *jsPath = [[NSBundle mainBundle] pathForResource:@"www/cordova_plugins" ofType:@"js"];
-    NSString *js = [NSString stringWithContentsOfFile:jsPath encoding:NSUTF8StringEncoding error:NULL];
-    NSScanner *scanner = [NSScanner scannerWithString:js];
-    NSString *substring = nil;
-    
-    [scanner scanUpToString:@"[" intoString:nil];
-    [scanner scanUpToString:@"];" intoString:&substring];
-    substring = [NSString stringWithFormat:@"%@]", substring];
-    
-    NSError* localError;
-    NSData* data = [substring dataUsingEncoding:NSUTF8StringEncoding];
-    NSArray* pluginObjects = [NSJSONSerialization JSONObjectWithData:data options:0 error:&localError];
-    
-    return pluginObjects;
-}
-
-
-#pragma mark Notifications
-
-/**
- UIWebView has finished loading a page. Inject the cordova scripts.
- 
- @param notification Notification that caused this invocation.
- */
-- (void)pageDidLoadNotification:(NSNotification *)notification
-{
-    UIView *webView = (UIView *)notification.object;
-    NSMutableArray *paths = [NSMutableArray arrayWithObjects:@"www/cordova", @"www/cordova_plugins", nil];
-    
-    NSArray* pluginObjects = [self parseCordovaPlugins];
-    for (NSDictionary* pluginParameters in pluginObjects) {
-        [paths addObject:[[NSString stringWithFormat:@"www/%@", pluginParameters[@"file"]] stringByDeletingPathExtension]];
-    }
-
-    [self injectJavascriptFiles:paths intoWebView:webView];
-}
-
-
 #pragma mark UIGestureRecognizerDelegate
 
 
@@ -339,6 +316,22 @@
     command.webKitView = (WKWebView *)self.webView;
     
     [command executeWithBridge:self.nativeBridge];
+}
+
+
+#pragma mark WKNavigationDelegate implementation
+
+- (void)webView:(WKWebView *)webView didCommitNavigation:(WKNavigation *)navigation
+{
+    self.passiveMode = NO;
+    [self stopCamera];
+}
+
+- (void)webView:(WKWebView *)webView didFinishNavigation:(WKNavigation *)navigation
+{
+    if (self.readyDelegate != nil) {
+        [self.readyDelegate mainViewControllerIsReady];
+    }
 }
 
 

@@ -17,40 +17,12 @@
  under the License.
  */
 
-//
-//  MainViewController.h
-//  RockCheckin
-//
-//  Created by Jon Edmiston on 2/21/13.
-//  Copyright Spark Development 2013. All rights reserved.
-//
-
 #import <WebKit/WebKit.h>
 
-@protocol MainReadyDelegate
+@interface WKWebViewUIDelegate : NSObject <WKUIDelegate>
 
-- (void)mainViewControllerIsReady;
+@property (nonatomic, copy) NSString* title;
 
-@end
-
-
-@interface MainViewController : UIViewController <WKScriptMessageHandler>
-
-@property (weak, nonatomic) id<MainReadyDelegate> readyDelegate;
-
-/**
- Reloads the web view with the URL specified in the preferences.
- */
-- (void)reloadCheckinAddress;
-
-/**
-  Shows the barcode scanning camera.
- */
-- (void)startCamera:(BOOL)hidden;
-
-/**
- Stops the camera and hides it.
- */
-- (void)stopCamera;
+- (instancetype)initWithTitle:(NSString*)title;
 
 @end

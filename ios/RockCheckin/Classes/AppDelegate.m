@@ -28,10 +28,10 @@
 #import "AppDelegate.h"
 #import "MainViewController.h"
 
-#import <Cordova/CDVPlugin.h>
 #import <WebKit/WebKit.h>
 #import "RKBLEZebraPrint.h"
 #import "SettingsViewController.h"
+#import "InitialSetupViewController.h"
 
 @implementation AppDelegate
 
@@ -128,7 +128,7 @@
     //
     self.window = [[UIWindow alloc] initWithFrame:screenBounds];
     self.window.autoresizesSubviews = YES;
-    self.viewController = [[UINavigationController alloc] initWithRootViewController:[MainViewController new]];
+    self.viewController = [[UINavigationController alloc] initWithRootViewController:[InitialSetupViewController new]];
     self.viewController.navigationBarHidden = YES;
 
     //
