@@ -41,6 +41,8 @@ under the License.
 @property (strong, nonatomic) AVCaptureSession *captureSession;
 @property (strong, nonatomic) AVCaptureVideoPreviewLayer *previewLayer;
 
+@property (assign, nonatomic) BOOL autoStartCamera;
+
 @end
 
 @implementation CameraViewController
@@ -171,6 +173,9 @@ Start the camera and begin watching for any barcodes.
     if (self.captureDevice != nil) {
         [self.captureSession startRunning];
     }
+    else {
+        self.autoStartCamera = YES;
+    }
 }
 
 
@@ -179,6 +184,7 @@ Stop the camera and cease watching for barcodes.
 */
 - (void)stop
 {
+    self.autoStartCamera = NO;
     if (self.captureDevice != nil) {
         [self.captureSession stopRunning];
     }
@@ -291,6 +297,11 @@ Stop the camera and cease watching for barcodes.
         [self setManualExposureLevel:exposure];
         
         self.previewLayer.session = self.captureSession;
+        
+        if (self.autoStartCamera) {
+            self.autoStartCamera = NO;
+            [self start];
+        }
     }];
 }
 
@@ -309,9 +320,15 @@ Stop the camera and cease watching for barcodes.
             break;
 
         case AVAuthorizationStatusNotDetermined:
+        {
             [AVCaptureDevice requestAccessForMediaType:AVMediaTypeVideo
-                                     completionHandler:callback];
+                                     completionHandler:^(BOOL success) {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    callback(success);
+                });
+            }];
             break;
+        }
             
         default:
             callback(NO);
