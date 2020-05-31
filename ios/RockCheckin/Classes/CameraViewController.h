@@ -49,12 +49,12 @@ NS_ASSUME_NONNULL_BEGIN
 @protocol CameraViewControllerDelegate
 
 /**
- Called when the camera view has detected a barcode.
+ Called when the camera view has detected a generic barcode.
 
  @param controller The camera view controller that scanned the barcode.
  @param code The code that was scanned.
 */
-- (void)cameraViewController:(CameraViewController *)controller didScanCode:(NSString *)code;
+- (void)cameraViewController:(CameraViewController *)controller didScanGenericCode:(NSString *)code;
 
 /**
  Called when the camera view wants to cancel itself.
@@ -62,6 +62,15 @@ NS_ASSUME_NONNULL_BEGIN
  @param controller The camera view controller that should be cancelled.
  */
 - (void)cameraViewControllerDidCancel:(CameraViewController *)controller;
+
+/**
+ Called when a pre-check-in code has been scanned and must be processed.
+ 
+ @param controller The camera view controller that scanned the barcode.
+ @param code The code that was scanned.
+ @param callback The completion callback that must be called when printing has finished.
+ */
+- (void)cameraViewController:(CameraViewController *)controller didScanPreCheckInCode:(NSString *)code completedCallback:(void (^)(NSString *))callback;
 
 @end
 

@@ -65,6 +65,19 @@
                     data: []
                 });
             });
+        },
+            
+        SetKioskId: function(kioskId) {
+            return new Promise(function(resolve, reject) {
+                var promiseId = uuidv4();
+                promises[promiseId] = { resolve, reject };
+                
+                global.webkit.messageHandlers.RockCheckinNative.postMessage({
+                    name: 'SetKioskId',
+                    promiseId,
+                    data: [kioskId]
+                });
+            });
         }
     };
     

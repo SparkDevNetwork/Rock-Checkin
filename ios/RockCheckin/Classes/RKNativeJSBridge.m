@@ -106,5 +106,16 @@ Handles the StopCamera command from JavaScript.
     [command sendSuccess];
 }
 
+
+/**
+ Handles the SetKioskId command from JavaScript.
+ 
+ @param command The native JavaScript command details.
+ */
+- (void)SetKioskId:(RKNativeJSCommand *)command
+{
+    self.mainViewController.kioskId = [command.arguments[0] intValue];
+}
+
 @end
 

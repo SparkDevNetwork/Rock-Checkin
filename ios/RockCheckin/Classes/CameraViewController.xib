@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="16096" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="ipad9_7" orientation="landscape" layout="fullscreen" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16086"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -13,6 +13,8 @@
                 <outlet property="cameraView" destination="hY5-yv-hQH" id="L9L-fb-NsO"/>
                 <outlet property="cancelButton" destination="uce-RQ-Bw0" id="NGV-pp-9v8"/>
                 <outlet property="headerView" destination="QVG-as-Gzn" id="Mez-5I-aFl"/>
+                <outlet property="printErrorMessageLabel" destination="mwz-0q-mWf" id="XMh-8p-Ewk"/>
+                <outlet property="printView" destination="hLS-51-TeD" id="Lok-mV-4HL"/>
                 <outlet property="targetHeightConstraint" destination="1ua-xG-qSR" id="HGk-oG-bKR"/>
                 <outlet property="targetWidthConstraint" destination="9Hp-KL-Ugl" id="j9b-ku-cCe"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
@@ -62,22 +64,55 @@
                         <constraint firstItem="8Yq-Z5-YKc" firstAttribute="centerX" secondItem="hY5-yv-hQH" secondAttribute="centerX" id="zd1-4w-7Dw"/>
                     </constraints>
                 </view>
+                <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hLS-51-TeD" userLabel="Print View">
+                    <rect key="frame" x="0.0" y="70" width="1024" height="698"/>
+                    <subviews>
+                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="printer" translatesAutoresizingMaskIntoConstraints="NO" id="xUw-5b-N2C">
+                            <rect key="frame" x="384" y="221" width="256" height="256"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="256" id="N9B-6e-Ixf"/>
+                                <constraint firstAttribute="height" constant="256" id="bF2-O4-b0j"/>
+                            </constraints>
+                        </imageView>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mwz-0q-mWf" userLabel="Error Message">
+                            <rect key="frame" x="102.5" y="497" width="819" height="181"/>
+                            <color key="backgroundColor" white="0.0" alpha="0.49560857882165604" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="24"/>
+                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" white="0.25121914808917195" alpha="0.74940286624203822" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstItem="xUw-5b-N2C" firstAttribute="centerX" secondItem="hLS-51-TeD" secondAttribute="centerX" id="3Cg-Kg-DUL"/>
+                        <constraint firstItem="mwz-0q-mWf" firstAttribute="width" secondItem="hLS-51-TeD" secondAttribute="width" multiplier="0.8" id="7vK-o2-zNs"/>
+                        <constraint firstItem="xUw-5b-N2C" firstAttribute="centerY" secondItem="hLS-51-TeD" secondAttribute="centerY" id="P0n-50-gbs"/>
+                        <constraint firstItem="mwz-0q-mWf" firstAttribute="centerX" secondItem="hLS-51-TeD" secondAttribute="centerX" id="fAz-WT-MuF"/>
+                        <constraint firstAttribute="bottom" secondItem="mwz-0q-mWf" secondAttribute="bottom" constant="20" id="g2n-YB-V6u"/>
+                        <constraint firstItem="mwz-0q-mWf" firstAttribute="top" secondItem="xUw-5b-N2C" secondAttribute="bottom" constant="20" id="lKD-h4-EOT"/>
+                    </constraints>
+                </view>
             </subviews>
             <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
                 <constraint firstItem="hY5-yv-hQH" firstAttribute="width" secondItem="i5M-Pr-FkT" secondAttribute="width" id="5dH-ma-kHK"/>
+                <constraint firstItem="hLS-51-TeD" firstAttribute="width" secondItem="i5M-Pr-FkT" secondAttribute="width" id="7jb-ap-a8O"/>
                 <constraint firstItem="hY5-yv-hQH" firstAttribute="top" secondItem="QVG-as-Gzn" secondAttribute="bottom" id="A7W-PL-ORZ"/>
                 <constraint firstItem="hY5-yv-hQH" firstAttribute="centerX" secondItem="Q5M-cg-NOt" secondAttribute="centerX" id="HOp-96-6U1"/>
+                <constraint firstItem="hLS-51-TeD" firstAttribute="centerX" secondItem="Q5M-cg-NOt" secondAttribute="centerX" id="LOs-J5-04Y"/>
                 <constraint firstItem="QVG-as-Gzn" firstAttribute="width" secondItem="i5M-Pr-FkT" secondAttribute="width" id="Vzq-fT-8yA"/>
+                <constraint firstItem="hLS-51-TeD" firstAttribute="top" secondItem="QVG-as-Gzn" secondAttribute="bottom" id="bKz-HF-pGP"/>
                 <constraint firstItem="QVG-as-Gzn" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="eB6-sA-hVi"/>
                 <constraint firstItem="Q5M-cg-NOt" firstAttribute="bottom" secondItem="hY5-yv-hQH" secondAttribute="bottom" id="nbI-yf-ljo"/>
                 <constraint firstItem="QVG-as-Gzn" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="qdD-Kb-ERw"/>
+                <constraint firstItem="Q5M-cg-NOt" firstAttribute="bottom" secondItem="hLS-51-TeD" secondAttribute="bottom" id="rhG-fD-nJc"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="Q5M-cg-NOt"/>
             <point key="canvasLocation" x="131.8359375" y="144.53125"/>
         </view>
     </objects>
     <resources>
+        <image name="printer" width="384" height="351"/>
         <image name="scan-target" width="1000" height="1000"/>
     </resources>
 </document>

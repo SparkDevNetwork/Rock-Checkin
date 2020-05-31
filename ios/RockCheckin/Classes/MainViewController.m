@@ -31,6 +31,7 @@
 #import "RKNativeJSBridge.h"
 #import "RKNativeJSCommand.h"
 #import "WKWebViewUIDelegate.h"
+#import "ZebraPrint.h"
 #import <WebKit/WebKit.h>
 
 @interface MainViewController () <UIGestureRecognizerDelegate, WKNavigationDelegate, CameraViewControllerDelegate>
@@ -42,7 +43,6 @@
 @property (strong, nonatomic) CameraViewController *cameraViewController;
 @property (strong, nonatomic) RKNativeJSBridge *nativeBridge;
 @property (assign, nonatomic) BOOL passiveMode;
-
 
 @end
 
@@ -227,34 +227,11 @@
 
 #pragma mark Javascript Injection
 
-/*
- These methods were taken from a defunct cordova plugin at
- https://github.com/fastrde/cordova-plugin-fastrde-injectview
- */
-
 /**
- Inject a javascript file directly into the webView. This bypasses cross site restrictions.
+ Execute the specified  JavaScript in the web view.
  
- @param resource The name of the resource (not including extension) to load.
- @param webView The UIWebView to load the javascript into.
+ @param  js The JavaScript text to be executed.
  */
-- (void)injectJavascriptFiles:(NSArray *)resources intoWebView:(UIView *)webView
-{
-    NSString *js = @"";
-    
-    //
-    // Build one giant JavaScript string that contains the contents of
-    // all the files.
-    //
-    for (NSString *resource in resources) {
-        NSString *jsPath = [[NSBundle mainBundle] pathForResource:resource ofType:@"js"];
-        NSString *tJs = [NSString stringWithContentsOfFile:jsPath encoding:NSUTF8StringEncoding error:NULL];
-        js = [js stringByAppendingFormat:@";%@", tJs];
-    }
-    
-    [self evaluateScript:js];
-}
-
 - (void)evaluateScript:(NSString *)js
 {
     if ([self.webView isKindOfClass:[WKWebView class]])
@@ -272,10 +249,6 @@
         while (dispatch_semaphore_wait(sema, DISPATCH_TIME_NOW)) {
             [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:[NSDate dateWithTimeIntervalSinceNow:1]];
         }
-    }
-    else if ([self.webView isKindOfClass:[UIWebView class]])
-    {
-        [(UIWebView *)self.webView stringByEvaluatingJavaScriptFromString:js];
     }
 }
 
@@ -338,11 +311,12 @@
 #pragma mark CameraViewControllerDelegate implementation
 
 /**
- Called when the camera view has detected a barcode.
+ Called when the camera view has detected a generic barcode.
+ 
  @param controller The camera view controller that scanned the barcode.
  @param code The code that was scanned.
  */
-- (void)cameraViewController:(CameraViewController *)controller didScanCode:(NSString *)code
+- (void)cameraViewController:(CameraViewController *)controller didScanGenericCode:(NSString *)code
 {
     [self evaluateScript:[NSString stringWithFormat:@"PerformScannedCodeSearch('%@');", code]];
     
@@ -352,6 +326,68 @@
     self.passiveMode = NO;
     
     [self stopCamera];
+}
+
+/**
+ Called when a pre-check-in code has been scanned and must be processed.
+ 
+ @param controller The camera view controller that scanned the barcode.
+ @param code The code that was scanned.
+ @param callback The completion callback that must be called when printing has finished.
+ */
+- (void)cameraViewController:(CameraViewController *)controller didScanPreCheckInCode:(NSString *)code completedCallback:(void (^)(NSString *))callback
+{
+    NSURLComponents *urlComponents = [NSURLComponents componentsWithString:@"http://gamingsoul:8000/checkin"];
+    urlComponents.path = @"/api/checkin/printsessionlabels";
+    NSURLQueryItem *kioskIdParam = [NSURLQueryItem  queryItemWithName:@"kioskId" value:[NSString stringWithFormat:@"%d", self.kioskId]];
+    NSURLQueryItem *sessionParam = [NSURLQueryItem queryItemWithName:@"session" value:code];
+    urlComponents.queryItems = @[kioskIdParam, sessionParam];
+
+    NSURLRequest *urlRequest = [NSURLRequest requestWithURL:urlComponents.URL];
+    NSURLSession *session = NSURLSession.sharedSession;
+    
+    NSURLSessionDataTask *requestTask = [session dataTaskWithRequest:urlRequest completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+        @try {
+            NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
+            if (httpResponse.statusCode == 200) {
+                NSDictionary *responseData = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+                
+                NSArray *labels = nil;
+                if ([responseData objectForKey:@"Labels"] != NSNull.null) {
+                    labels = (NSArray *)[responseData objectForKey:@"Labels"];
+                }
+
+                NSArray *messages = nil;
+                if ([responseData objectForKey:@"Messages"] != NSNull.null) {
+                    messages = (NSArray *)[responseData objectForKey:@"Messages"];
+                }
+
+                NSString *errorMessage = nil;
+                if (messages != nil && messages.count > 0) {
+                    errorMessage = (NSString *)messages[0];
+                }
+                
+                if (labels != nil && labels.count > 0) {
+                    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:labels options:0 error:nil];
+                    
+                    ZebraPrint *zebra = [ZebraPrint new];
+                    errorMessage = [zebra printJsonTags:[[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding]];
+                }
+
+                callback(errorMessage);
+            }
+            else
+            {
+                callback(@"Unable to contact the check-in server.");
+            }
+        } @catch (NSException *exception) {
+            NSLog(@"Error while printing: %@", exception);
+            
+            callback(@"Unable to print check-in labels.");
+        }
+    }];
+    
+    [requestTask resume];
 }
 
 /**

@@ -27,12 +27,15 @@ under the License.
 #import "CameraViewController.h"
 #import "MainViewController.h"
 #import "UIColor+HexString.h"
+#import "ZebraPrint.h"
 #import <AVFoundation/AVFoundation.h>
 
 @interface CameraViewController () <AVCaptureMetadataOutputObjectsDelegate>
 
 @property (weak, nonatomic) IBOutlet UIView *cameraView;
 @property (weak, nonatomic) IBOutlet UIView *headerView;
+@property (weak, nonatomic) IBOutlet UIView *printView;
+@property (weak, nonatomic) IBOutlet UILabel *printErrorMessageLabel;
 @property (weak, nonatomic) IBOutlet UIButton *cancelButton;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *targetWidthConstraint;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *targetHeightConstraint;
@@ -40,8 +43,10 @@ under the License.
 @property (strong, nonatomic) AVCaptureDevice *captureDevice;
 @property (strong, nonatomic) AVCaptureSession *captureSession;
 @property (strong, nonatomic) AVCaptureVideoPreviewLayer *previewLayer;
+@property (strong, nonatomic) AVAudioPlayer *shutterSound;
 
 @property (assign, nonatomic) BOOL autoStartCamera;
+@property (assign, nonatomic) BOOL handlingSpecialCode;
 
 @end
 
@@ -88,6 +93,7 @@ under the License.
     color = [UIColor colorWithHexString:colorString];
     if (color != nil) {
         self.headerView.backgroundColor = color;
+        self.view.backgroundColor =  color;
     }
 
     //
@@ -95,6 +101,10 @@ under the License.
     //
     [self initializeCapture];
     [self setupCamera];
+    
+    NSURL *cameraSoundUrl = [NSURL fileURLWithPath:[NSBundle.mainBundle pathForResource:@"Camera" ofType:@"wav"]];
+    self.shutterSound = [[AVAudioPlayer alloc] initWithContentsOfURL:cameraSoundUrl error:nil];
+    self.shutterSound.volume = 0.5;
     
     [self.view setNeedsLayout];
 }
@@ -121,6 +131,11 @@ under the License.
  */
 - (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator
 {
+    [coordinator animateAlongsideTransition:^(id<UIViewControllerTransitionCoordinatorContext>  _Nonnull context) {
+        [self syncPreviewLayer];
+    } completion:^(id<UIViewControllerTransitionCoordinatorContext>  _Nonnull context) {
+    }];
+    
     [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
 }
 
@@ -171,6 +186,7 @@ Start the camera and begin watching for any barcodes.
 - (void)start
 {
     if (self.captureDevice != nil) {
+        self.handlingSpecialCode = NO;
         [self.captureSession startRunning];
     }
     else {
@@ -388,6 +404,62 @@ Stop the camera and cease watching for barcodes.
 
 
 /**
+ @param code The special code that was scanned.
+ */
+-  (void)processSpecialCode:(NSString *)code
+{
+    if (self.handlingSpecialCode) {
+        return;
+    }
+    
+    self.handlingSpecialCode = YES;
+
+    //
+    // If the code is a PreCheckinLabel code, then display our
+    // "working" view and start printing in a background thread.
+    //
+    if ([code rangeOfString:@"PCL+"].location == 0) {
+        NSDate *waitUntil = [NSDate dateWithTimeIntervalSinceNow:3];
+
+        self.printErrorMessageLabel.hidden = YES;
+        self.printView.hidden = NO;
+            
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            [self.delegate cameraViewController:self
+                          didScanPreCheckInCode:[code substringFromIndex:4]
+                              completedCallback:^(NSString *errorMessage) {
+                                  double waitForSeconds = [waitUntil timeIntervalSinceNow];
+                                  if (waitForSeconds < 0) {
+                                      waitForSeconds = 0;
+                                  }
+                                  
+                                  //
+                                  // If we got an error message, display it and ensure we wait
+                                  // for at least 5 seconds.
+                                  //
+                                  if (errorMessage != nil) {
+                                      dispatch_async(dispatch_get_main_queue(), ^{
+                                          self.printErrorMessageLabel.text = errorMessage;
+                                          self.printErrorMessageLabel.hidden = NO;
+                                      });
+                                      waitForSeconds = MAX(waitForSeconds, 5);
+                                  }
+
+                                  dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(waitForSeconds * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                                      self.printView.hidden = YES;
+                                      self.printErrorMessageLabel.text = @"";
+                                      self.printErrorMessageLabel.hidden = YES;
+                                      self.handlingSpecialCode = NO;
+                                  });
+                              }];
+        });
+    }
+    else {
+        self.handlingSpecialCode = NO;
+    }
+}
+
+/**
  Called when the user taps the cancel button.
  
  @param sender The button that send this message.
@@ -413,12 +485,23 @@ Stop the camera and cease watching for barcodes.
         return;
     }
 
+    //
     // Get the metadata object.
+    //
     AVMetadataMachineReadableCodeObject *metadataObj = metadataObjects.firstObject;
     NSString *code = metadataObj.stringValue;
 
-    if (code != nil && self.delegate != nil) {
-        [self.delegate cameraViewController:self didScanCode:code];
+    if (code == nil) {
+        return;
+    }
+
+    [self.shutterSound play];
+    
+    if ([code rangeOfString:@"PCL+"].location == 0) {
+        [self processSpecialCode:code];
+    }
+    else if (self.delegate != nil) {
+        [self.delegate cameraViewController:self didScanGenericCode:code];
     }
 }
 

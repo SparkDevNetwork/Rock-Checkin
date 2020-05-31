@@ -37,6 +37,7 @@
 @interface MainViewController : UIViewController <WKScriptMessageHandler>
 
 @property (weak, nonatomic) id<MainReadyDelegate> readyDelegate;
+@property (assign, nonatomic) int kioskId;
 
 /**
  Reloads the web view with the URL specified in the preferences.

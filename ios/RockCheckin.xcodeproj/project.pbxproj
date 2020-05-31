@@ -25,6 +25,7 @@
 		302D95F114D2391D003F00A1 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 302D95EF14D2391D003F00A1 /* MainViewController.m */; };
 		305D5FD1115AB8F900A74A75 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 305D5FD0115AB8F900A74A75 /* MobileCoreServices.framework */; };
 		30E5649213A7FCAF007403D8 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30E5649113A7FCAF007403D8 /* CoreMedia.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		650EC57D24842884000A8E4A /* Camera.wav in Resources */ = {isa = PBXBuildFile; fileRef = 650EC57C24842884000A8E4A /* Camera.wav */; };
 		650EFB481E4FDEE30053F3DE /* ExternalAccessory.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 650EFB471E4FDEE30053F3DE /* ExternalAccessory.framework */; };
 		650EFB631E4FE6A00053F3DE /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 650EFB621E4FE6A00053F3DE /* CoreTelephony.framework */; };
 		650EFB6C1E52606E0053F3DE /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 650EFB6B1E52606E0053F3DE /* Images.xcassets */; };
@@ -85,6 +86,7 @@
 		305D5FD0115AB8F900A74A75 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		30E5649113A7FCAF007403D8 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
 		32CA4F630368D1EE00C91783 /* RockCheckin-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "RockCheckin-Prefix.pch"; sourceTree = "<group>"; };
+		650EC57C24842884000A8E4A /* Camera.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Camera.wav; sourceTree = "<group>"; };
 		650EFB471E4FDEE30053F3DE /* ExternalAccessory.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ExternalAccessory.framework; path = System/Library/Frameworks/ExternalAccessory.framework; sourceTree = SDKROOT; };
 		650EFB621E4FE6A00053F3DE /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
 		650EFB6B1E52606E0053F3DE /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = RockCheckin/Images.xcassets; sourceTree = SOURCE_ROOT; };
@@ -254,6 +256,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				650EC57C24842884000A8E4A /* Camera.wav */,
 				650EFB6B1E52606E0053F3DE /* Images.xcassets */,
 				8D1107310486CEB800E47090 /* RockCheckin-Info.plist */,
 			);
@@ -387,6 +390,7 @@
 				9E8C40341975F10A00DC66C4 /* app-notes.txt in Resources */,
 				9E55AE5B16D88D6200C2CBB1 /* Readme.rtf in Resources */,
 				6591E2A423E61501006B38F0 /* MainViewController.xib in Resources */,
+				650EC57D24842884000A8E4A /* Camera.wav in Resources */,
 				9EE5B81E16E457CB00D0D311 /* Settings.bundle in Resources */,
 				653446FD23D3A71F00B20D23 /* CameraViewController.xib in Resources */,
 			);
