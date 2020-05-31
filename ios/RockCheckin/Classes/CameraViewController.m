@@ -481,7 +481,7 @@ Stop the camera and cease watching for barcodes.
  */
 -(void)captureOutput:(AVCaptureOutput *)output didOutputMetadataObjects:(NSArray<__kindof AVMetadataObject *> *)metadataObjects fromConnection:(AVCaptureConnection *)connection
 {
-    if (metadataObjects.count == 0) {
+    if (metadataObjects.count == 0 || self.handlingSpecialCode == YES) {
         return;
     }
 
