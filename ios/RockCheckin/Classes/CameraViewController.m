@@ -102,7 +102,7 @@ under the License.
     [self initializeCapture];
     [self setupCamera];
     
-    NSURL *cameraSoundUrl = [NSURL fileURLWithPath:[NSBundle.mainBundle pathForResource:@"Camera" ofType:@"wav"]];
+    NSURL *cameraSoundUrl = [NSURL fileURLWithPath:[NSBundle.mainBundle pathForResource:@"Camera" ofType:@"m4a"]];
     self.shutterSound = [[AVAudioPlayer alloc] initWithContentsOfURL:cameraSoundUrl error:nil];
     self.shutterSound.volume = 0.5;
     
