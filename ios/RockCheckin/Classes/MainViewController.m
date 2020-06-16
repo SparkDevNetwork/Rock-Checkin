@@ -337,7 +337,7 @@
  */
 - (void)cameraViewController:(CameraViewController *)controller didScanPreCheckInCode:(NSString *)code completedCallback:(void (^)(NSString *))callback
 {
-    NSURLComponents *urlComponents = [NSURLComponents componentsWithString:@"http://gamingsoul:8000/checkin"];
+    NSURLComponents *urlComponents = [NSURLComponents componentsWithString:[NSUserDefaults.standardUserDefaults objectForKey:@"checkin_address"]];
     urlComponents.path = @"/api/checkin/printsessionlabels";
     NSURLQueryItem *kioskIdParam = [NSURLQueryItem  queryItemWithName:@"kioskId" value:[NSString stringWithFormat:@"%d", self.kioskId]];
     NSURLQueryItem *sessionParam = [NSURLQueryItem queryItemWithName:@"session" value:code];
