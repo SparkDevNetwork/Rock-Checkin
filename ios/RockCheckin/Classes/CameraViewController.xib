@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="16096" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="16097" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="ipad9_7" orientation="landscape" layout="fullscreen" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16086"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -16,6 +16,7 @@
                 <outlet property="printErrorMessageLabel" destination="mwz-0q-mWf" id="XMh-8p-Ewk"/>
                 <outlet property="printView" destination="hLS-51-TeD" id="Lok-mV-4HL"/>
                 <outlet property="targetHeightConstraint" destination="1ua-xG-qSR" id="HGk-oG-bKR"/>
+                <outlet property="targetView" destination="8Yq-Z5-YKc" id="cQt-xN-bRM"/>
                 <outlet property="targetWidthConstraint" destination="9Hp-KL-Ugl" id="j9b-ku-cCe"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
@@ -54,12 +55,15 @@
                     <rect key="frame" x="0.0" y="70" width="1024" height="698"/>
                     <subviews>
                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.25" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="scan-target" translatesAutoresizingMaskIntoConstraints="NO" id="8Yq-Z5-YKc">
-                            <rect key="frame" x="0.0" y="0.0" width="1024" height="698"/>
+                            <rect key="frame" x="163" y="0.0" width="698" height="698"/>
+                            <constraints>
+                                <constraint firstAttribute="width" secondItem="8Yq-Z5-YKc" secondAttribute="height" multiplier="1:1" id="c8K-6J-5MC"/>
+                            </constraints>
                         </imageView>
                     </subviews>
                     <constraints>
-                        <constraint firstItem="8Yq-Z5-YKc" firstAttribute="height" secondItem="hY5-yv-hQH" secondAttribute="height" id="1ua-xG-qSR"/>
-                        <constraint firstItem="8Yq-Z5-YKc" firstAttribute="width" secondItem="hY5-yv-hQH" secondAttribute="width" id="9Hp-KL-Ugl"/>
+                        <constraint firstItem="8Yq-Z5-YKc" firstAttribute="height" relation="lessThanOrEqual" secondItem="hY5-yv-hQH" secondAttribute="height" id="1ua-xG-qSR"/>
+                        <constraint firstItem="8Yq-Z5-YKc" firstAttribute="width" relation="lessThanOrEqual" secondItem="hY5-yv-hQH" secondAttribute="width" id="9Hp-KL-Ugl"/>
                         <constraint firstItem="8Yq-Z5-YKc" firstAttribute="centerY" secondItem="hY5-yv-hQH" secondAttribute="centerY" id="INb-KR-jt4"/>
                         <constraint firstItem="8Yq-Z5-YKc" firstAttribute="centerX" secondItem="hY5-yv-hQH" secondAttribute="centerX" id="zd1-4w-7Dw"/>
                     </constraints>
@@ -112,7 +116,7 @@
         </view>
     </objects>
     <resources>
-        <image name="printer" width="384" height="351"/>
+        <image name="printer" width="1024" height="1024"/>
         <image name="scan-target" width="1000" height="1000"/>
     </resources>
 </document>

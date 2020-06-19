@@ -35,6 +35,7 @@ under the License.
 @property (weak, nonatomic) IBOutlet UIView *cameraView;
 @property (weak, nonatomic) IBOutlet UIView *headerView;
 @property (weak, nonatomic) IBOutlet UIView *printView;
+@property (weak, nonatomic) IBOutlet UIView *targetView;
 @property (weak, nonatomic) IBOutlet UILabel *printErrorMessageLabel;
 @property (weak, nonatomic) IBOutlet UIButton *cancelButton;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *targetWidthConstraint;
@@ -43,6 +44,7 @@ under the License.
 @property (strong, nonatomic) AVCaptureDevice *captureDevice;
 @property (strong, nonatomic) AVCaptureSession *captureSession;
 @property (strong, nonatomic) AVCaptureVideoPreviewLayer *previewLayer;
+@property (strong, nonatomic) AVCaptureMetadataOutput *captureOutput;
 @property (strong, nonatomic) AVAudioPlayer *shutterSound;
 
 @property (assign, nonatomic) BOOL autoStartCamera;
@@ -137,6 +139,19 @@ under the License.
     }];
     
     [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
+}
+
+/**
+ Called when the controller has layed out its subviews.
+ */
+- (void)viewDidLayoutSubviews
+{
+    //
+    // Update the area of interest for the camera to be inset
+    // 10% of the visible area.
+    //
+    CGRect rc = [_previewLayer metadataOutputRectOfInterestForRect:CGRectInset(_previewLayer.bounds, _previewLayer.bounds.size.width / 10.0, _previewLayer.bounds.size.height / 10.0)];
+    self.captureOutput.rectOfInterest = rc;
 }
 
 
@@ -236,6 +251,13 @@ Stop the camera and cease watching for barcodes.
                 self.previewLayer.connection.videoOrientation = AVCaptureVideoOrientationPortrait;
         }
     }
+
+    //
+    // Update the area of interest for the camera to be inset
+    // 10% of the visible area.
+    //
+    CGRect rc = [_previewLayer metadataOutputRectOfInterestForRect:CGRectInset(_previewLayer.bounds, _previewLayer.bounds.size.width / 10.0, _previewLayer.bounds.size.height / 10.0)];
+    self.captureOutput.rectOfInterest = rc;
 }
 
 
@@ -298,17 +320,17 @@ Stop the camera and cease watching for barcodes.
         //
         // Setup the output to monitor the camera for barcodes.
         //
-        AVCaptureMetadataOutput *output = [AVCaptureMetadataOutput new];
-        [self.captureSession addOutput:output];
+        self.captureOutput = [AVCaptureMetadataOutput new];
+        [self.captureSession addOutput:self.captureOutput];
         NSMutableArray *codeTypes = [NSMutableArray new];
-        if ([output.availableMetadataObjectTypes containsObject:AVMetadataObjectTypeQRCode]) {
+        if ([self.captureOutput.availableMetadataObjectTypes containsObject:AVMetadataObjectTypeQRCode]) {
             [codeTypes addObject:AVMetadataObjectTypeQRCode];
         }
-        if ([output.availableMetadataObjectTypes containsObject:AVMetadataObjectTypeCode128Code]) {
+        if ([self.captureOutput.availableMetadataObjectTypes containsObject:AVMetadataObjectTypeCode128Code]) {
             [codeTypes addObject:AVMetadataObjectTypeCode128Code];
         }
-        [output setMetadataObjectsDelegate:self queue:dispatch_get_main_queue()];
-        output.metadataObjectTypes = codeTypes;
+        [self.captureOutput setMetadataObjectsDelegate:self queue:dispatch_get_main_queue()];
+        self.captureOutput.metadataObjectTypes = codeTypes;
         
         [self setManualExposureLevel:exposure];
         
