@@ -105,7 +105,7 @@ Process a Javascript request to print the label tags.
 
                     if ([NSUserDefaults.standardUserDefaults boolForKey:@"bluetooth_printing"])
                     {
-                        RKBLEZebraPrint *printer = ((AppDelegate *)UIApplication.sharedApplication.delegate).blePrinter;
+                        RKBLEZebraPrint *printer = AppDelegate.sharedDelegate.blePrinter;
                         BOOL success = [printer print:mergedLabel];
                         if (!success) {
                             errorMessage = @"Unable to print to printer.";

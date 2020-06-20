@@ -35,4 +35,6 @@
 @property (nonatomic, strong) UINavigationController* viewController;
 @property (nonatomic, strong) RKBLEZebraPrint *blePrinter;
 
++ (AppDelegate *)sharedDelegate;
+
 @end

@@ -33,9 +33,22 @@
 #import "SettingsViewController.h"
 #import "InitialSetupViewController.h"
 
+static AppDelegate *_sharedDelegate = nil;
+
 @implementation AppDelegate
 
 @synthesize window, viewController;
+
+
+/**
+ Gets the shared application delegate for this run instance.
+ 
+ @return The AppDelegate object.
+ */
++ (AppDelegate *)sharedDelegate
+{
+    return _sharedDelegate;
+}
 
 
 /**
@@ -53,6 +66,7 @@
     [cookieStorage setCookieAcceptPolicy:NSHTTPCookieAcceptPolicyAlways];
 
     self = [super init];
+    _sharedDelegate = self;
     
     return self;
 }

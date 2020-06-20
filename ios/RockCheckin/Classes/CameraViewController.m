@@ -113,19 +113,6 @@ under the License.
 
 
 /**
- Called when the view is about to appear on screen.
- 
- @param animated Indicates if the view is going to be animated onto the screen.
- */
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    
-    [self syncPreviewLayer];
-}
-
-
-/**
  Called when the view will transition to a new size, usually in response to a screen rotation.
  
  @param size The new size of the view.
@@ -146,12 +133,9 @@ under the License.
  */
 - (void)viewDidLayoutSubviews
 {
-    //
-    // Update the area of interest for the camera to be inset
-    // 10% of the visible area.
-    //
-    CGRect rc = [_previewLayer metadataOutputRectOfInterestForRect:CGRectInset(_previewLayer.bounds, _previewLayer.bounds.size.width / 10.0, _previewLayer.bounds.size.height / 10.0)];
-    self.captureOutput.rectOfInterest = rc;
+    [super viewDidLayoutSubviews];
+    
+    [self syncPreviewLayer];
 }
 
 
