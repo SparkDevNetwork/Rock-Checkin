@@ -24,7 +24,9 @@ Process a Javascript request to print the label tags.
 */
 - (NSString *)printJsonTags:(NSString *)jsonString
 {
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     BOOL labelErrorOccurred = NO;
+    BOOL enableLabelCutting = [defaults boolForKey:@"enable_label_cutting"];
     NSString *errorMessage = nil;
     
     NSLog(@"[LOG] ZebraPrint Plugin Called");
@@ -49,91 +51,121 @@ Process a Javascript request to print the label tags.
             NSLog(@"[LOG] ZebraPrint plugin has parsed %lu labels", (unsigned long)[labels count]);
             
             NSMutableArray *failedPrinters = [[NSMutableArray alloc] init];
+            NSDictionary *groupedLabels = [self groupLabelsByPrinter:labels];
             
-            // iterate through labels
-            for (id label in labels) {
+            for (NSString *key in groupedLabels.allKeys) {
+                // iterate through labels
+                NSArray *printerLabels = [groupedLabels objectForKey:key];
+                int labelIndex = 0;
                 
-                NSString *printerAddress = [label objectForKey:@"PrinterAddress"];
-                int printerTimeout = 2;
-                NSString *labelFile = [label objectForKey:@"LabelFile"];
-                NSString *labelKey = [label objectForKey:@"LabelKey"];
-                
-                NSDictionary *mergeFields = [label objectForKey:@"MergeFields"];
-                
-                // change printer ip if printer overide setting is present
-                NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-                NSString *overridePrinter = [defaults stringForKey:@"printer_override"];
-                
-                if (overridePrinter != nil && overridePrinter.length > 0) {
-                    printerAddress = overridePrinter;
-                }
-
-                // Set printer timeout value
-                NSString *printerTimeoutString = [defaults stringForKey:@"printer_timeout"];
-                
-                if (printerTimeoutString != nil && printerTimeoutString.intValue > 0) {
-                    printerTimeout = printerTimeoutString.intValue;
-                }
-
-                // If we already failed to connect to this printer, don't waste time.
-                if ([failedPrinters containsObject:printerAddress]) {
-                    continue;
-                }
-
-                NSString *printerIP, *printerPort;
-                
-                // If the user specified in 0.0.0.0:1234 syntax then pull out the IP and port numbers.
-                if ([printerAddress containsString:@":"])
-                {
-                    NSArray *segments = [printerAddress componentsSeparatedByString:@":"];
+                for (id label in printerLabels) {
+                    NSString *printerAddress = key;
+                    int printerTimeout = 2;
+                    NSString *labelFile = [label objectForKey:@"LabelFile"];
+                    NSString *labelKey = [label objectForKey:@"LabelKey"];
+                    NSDictionary *mergeFields = [label objectForKey:@"MergeFields"];
                     
-                    printerIP = segments[0];
-                    printerPort = segments[1];
-                }
-                else
-                {
-                    printerIP = printerAddress;
-                    printerPort = @"9100";
-                }
-                
-                // get label contents
-                NSString *labelContents = [self getLabelContents:labelKey labelLocation:labelFile];
-                
-                if (labelContents != nil) {
-                    // merge label
-                    NSString *mergedLabel = [self mergeLabelFields:labelContents mergeFields:mergeFields];
-
-                    if ([NSUserDefaults.standardUserDefaults boolForKey:@"bluetooth_printing"])
+                    labelIndex += 1;
+                    
+                    // change printer ip if printer overide setting is present
+                    NSString *overridePrinter = [defaults stringForKey:@"printer_override"];
+                    
+                    if (overridePrinter != nil && overridePrinter.length > 0) {
+                        printerAddress = overridePrinter;
+                    }
+                    
+                    // Set printer timeout value
+                    NSString *printerTimeoutString = [defaults stringForKey:@"printer_timeout"];
+                    
+                    if (printerTimeoutString != nil && printerTimeoutString.intValue > 0) {
+                        printerTimeout = printerTimeoutString.intValue;
+                    }
+                    
+                    // If we already failed to connect to this printer, don't waste time.
+                    if ([failedPrinters containsObject:printerAddress]) {
+                        continue;
+                    }
+                    
+                    NSString *printerIP, *printerPort;
+                    
+                    // If the user specified in 0.0.0.0:1234 syntax then pull out the IP and port numbers.
+                    if ([printerAddress containsString:@":"])
                     {
-                        RKBLEZebraPrint *printer = AppDelegate.sharedDelegate.blePrinter;
-                        BOOL success = [printer print:mergedLabel];
-                        if (!success) {
-                            errorMessage = @"Unable to print to printer.";
-                            NSLog(@"[ERROR] Unable to print to bluetooth printer.");
-                        }
+                        NSArray *segments = [printerAddress componentsSeparatedByString:@":"];
+                        
+                        printerIP = segments[0];
+                        printerPort = segments[1];
                     }
                     else
                     {
-                        FastSocket *printerConn = [[FastSocket alloc] initWithHost:printerIP andPort:printerPort];
+                        printerIP = printerAddress;
+                        printerPort = @"9100";
+                    }
+                    
+                    // get label contents
+                    NSString *labelContents = [self getLabelContents:labelKey labelLocation:labelFile];
+                    
+                    if (labelContents != nil) {
+                        // merge label
+                        NSString *mergedLabel = [self mergeLabelFields:labelContents mergeFields:mergeFields];
                         
-                        BOOL success = [printerConn connect:printerTimeout];
-                        const char *bytes = [mergedLabel UTF8String];
-                        long len = strlen(bytes);
-
-                        success = success && [printerConn sendBytes:bytes count:len] == len;
+                        mergedLabel = [self trimTrailing:mergedLabel];
                         
-                        if (success != YES) {
-                            errorMessage = @"Unable to print to printer.";
-                            NSLog(@"[ERROR] Unable to print to printer: %@", printerIP);
-                            [failedPrinters addObject:printerAddress];
+                        //
+                        // Is cutter attached, and is this the last label or a
+                        // "Rock Cut" command?
+                        //
+                        if (enableLabelCutting && (labelIndex == printerLabels.count || [mergedLabel rangeOfString:@"ROCK_CUT"].location != NSNotFound)) {
+                            //
+                            // Override any tear mode commandd (^MMT) by injecting
+                            // the  cut mode (^MMC) command.
+                            //
+                            mergedLabel = [self replaceIn:mergedLabel
+                                               ifEndsWith:@"^XZ"
+                                               withString:@"^MMC^XZ"];
+                        }
+                        else {
+                            //
+                            // Inject the supress back-feed (^XB).
+                            //
+                            mergedLabel = [self replaceIn:mergedLabel
+                                               ifEndsWith:@"^XZ"
+                                               withString:@"^XB^XZ"];
                         }
                         
-                        // Close the connection to release resources.
-                        [printerConn close];
+                        NSLog(@"Printing label: %@", mergedLabel);
+                        if ([NSUserDefaults.standardUserDefaults boolForKey:@"bluetooth_printing"])
+                        {
+                            RKBLEZebraPrint *printer = AppDelegate.sharedDelegate.blePrinter;
+                            BOOL success = [printer print:mergedLabel];
+                            if (!success) {
+                                errorMessage = @"Unable to print to printer.";
+                                NSLog(@"[ERROR] Unable to print to bluetooth printer.");
+                            }
+                        }
+                        else
+                        {
+                            FastSocket *printerConn = [[FastSocket alloc] initWithHost:printerIP andPort:printerPort];
+                            
+                            BOOL success = [printerConn connect:printerTimeout];
+                            const char *bytes = [mergedLabel UTF8String];
+                            long len = strlen(bytes);
+                            
+                            success = success && [printerConn sendBytes:bytes count:len] == len;
+                            
+                            if (success != YES) {
+                                errorMessage = @"Unable to print to printer.";
+                                NSLog(@"[ERROR] Unable to print to printer: %@", printerIP);
+                                [failedPrinters addObject:printerAddress];
+                            }
+                            
+                            // Close the connection to release resources.
+                            [printerConn close];
+                        }
                     }
-
-                } else {
-                    labelErrorOccurred = YES;
+                    else {
+                        labelErrorOccurred = YES;
+                    }
                 }
             }
         }
@@ -146,6 +178,68 @@ Process a Javascript request to print the label tags.
     }
 
     return errorMessage;
+}
+
+
+/**
+ Groups the labels by the printer address.
+ 
+ @param labels The collection of labels to be grouped.
+ */
+- (NSDictionary *)groupLabelsByPrinter:(NSArray *)labels
+{
+    NSMutableDictionary *groupedLabels = [NSMutableDictionary new];
+    
+    for (id label in labels) {
+        NSString *printerAddress = [label objectForKey:@"PrinterAddress"];
+
+        if ([groupedLabels objectForKey:printerAddress] == nil) {
+            [groupedLabels setObject:[NSMutableArray new] forKey:printerAddress];
+        }
+        
+        [[groupedLabels objectForKey:printerAddress] addObject:label];
+    }
+    
+    return groupedLabels;
+}
+
+
+/**
+ Removes any trailing whitespace characters from the string.
+ 
+ @param string The string to be trimmed.
+ */
+- (NSString *)trimTrailing:(NSString *)string
+{
+    NSCharacterSet *characterSet = NSCharacterSet.whitespaceAndNewlineCharacterSet;
+    NSRange rangeOfLastWantedCharacter = [string rangeOfCharacterFromSet:[characterSet invertedSet]
+                                                                 options:NSBackwardsSearch];
+    
+    if (rangeOfLastWantedCharacter.location == NSNotFound) {
+        return @"";
+    }
+    
+    return [string substringToIndex:rangeOfLastWantedCharacter.location + 1];
+}
+
+
+/**
+ Replace the tail end of the string with a new value if it matches the
+ specified tail string.
+ 
+ @param string  The string to be searched.
+ @param endsWith The needle to search for in the haystack.
+ @param replacement The string to replace the needle with if it was found.
+ */
+- (NSString *)replaceIn:(NSString *)string ifEndsWith:(NSString *)endsWith withString:(NSString *)replacement
+{
+    if ([string hasSuffix:endsWith]) {
+        NSString *tmp = [string substringToIndex:string.length - endsWith.length];
+        
+        return [tmp stringByAppendingString:replacement];
+    }
+    
+    return string;
 }
 
 

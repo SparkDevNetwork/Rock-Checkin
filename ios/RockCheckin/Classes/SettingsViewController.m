@@ -17,6 +17,7 @@
 @property (weak, nonatomic) IBOutlet UITextField *checkinAddress;
 @property (weak, nonatomic) IBOutlet UISwitch *enableLabelCaching;
 @property (weak, nonatomic) IBOutlet UITextField *cacheDuration;
+@property (weak, nonatomic) IBOutlet UISwitch *enableLabelCutting;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *cameraPosition;
 @property (weak, nonatomic) IBOutlet UISlider *cameraExposure;
 @property (weak, nonatomic) IBOutlet UITextField *uiBackgroundColor;
@@ -113,6 +114,7 @@
     self.checkinAddress.enabled = ![defaults objectIsForcedForKey:@"checkin_address"];
     self.enableLabelCaching.enabled = ![defaults objectIsForcedForKey:@"enable_caching"];
     self.cacheDuration.enabled = ![defaults objectIsForcedForKey:@"cache_duration"];
+    self.enableLabelCutting.enabled = ![defaults objectIsForcedForKey:@"enable_label_cutting"];
     self.cameraPosition.enabled = ![defaults objectIsForcedForKey:@"camera_position"];
     self.cameraExposure.enabled = ![defaults objectIsForcedForKey:@"camera_exposure"];
     self.uiBackgroundColor.enabled = ![defaults objectIsForcedForKey:@"ui_background_color"];
@@ -198,6 +200,7 @@
     self.checkinAddress.text = [defaults objectForKey:@"checkin_address"];
     self.enableLabelCaching.on = [defaults boolForKey:@"enable_caching"];
     self.cacheDuration.text = [defaults objectForKey:@"cache_duration"];
+    self.enableLabelCutting.on = [defaults boolForKey:@"enable_label_cutting"];
     self.cameraPosition.selectedSegmentIndex = [[defaults stringForKey:@"camera_position"] isEqualToString:@"front"] ? 0 : 1;
     self.cameraExposure.value = [defaults floatForKey:@"camera_exposure"];
     self.uiBackgroundColor.text = [defaults objectForKey:@"ui_background_color"];
@@ -226,6 +229,9 @@
     }
     else if (sender == self.enableLabelCaching) {
         [NSUserDefaults.standardUserDefaults setBool:self.enableLabelCaching.on forKey:@"enable_caching"];
+    }
+    else if (sender ==  self.enableLabelCutting) {
+        [NSUserDefaults.standardUserDefaults setBool:self.enableLabelCutting.on forKey:@"enable_label_cutting"];
     }
 }
 
@@ -389,8 +395,8 @@
     CGRect keyboardEndFrame = ((NSValue *)userInfo[UIKeyboardFrameEndUserInfoKey]).CGRectValue;
     CGRect convertedKeyboardEndFrame = [self.view convertRect:keyboardEndFrame fromView:self.view.window];
     unsigned int rawAnimationCurve = ((NSNumber *)userInfo[UIKeyboardAnimationCurveUserInfoKey]).unsignedIntValue << 16;
-    self.bottomLayoutSpacing.constant = -(CGRectGetMaxY(self.view.bounds) - CGRectGetMinY(convertedKeyboardEndFrame));
     [UIView animateWithDuration:animationDuration delay:0.0 options:UIViewAnimationOptionBeginFromCurrentState | rawAnimationCurve animations:^{
+        self.bottomLayoutSpacing.constant = (CGRectGetMaxY(self.view.bounds) - CGRectGetMinY(convertedKeyboardEndFrame));
         [self.scrollView layoutIfNeeded];
     } completion:nil];
 }
