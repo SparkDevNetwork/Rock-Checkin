@@ -124,7 +124,7 @@ Process a Javascript request to print the label tags.
                                                ifEndsWith:@"^XZ"
                                                withString:@"^MMC^XZ"];
                         }
-                        else {
+                        else if ([mergedLabel rangeOfString:@"^MMC"].location == NSNotFound) {
                             //
                             // Inject the supress back-feed (^XB).
                             //
