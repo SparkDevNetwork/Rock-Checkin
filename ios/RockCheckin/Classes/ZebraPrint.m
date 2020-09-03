@@ -112,25 +112,34 @@ Process a Javascript request to print the label tags.
                         mergedLabel = [self trimTrailing:mergedLabel];
                         
                         //
-                        // Is cutter attached, and is this the last label or a
-                        // "Rock Cut" command?
+                        // If the "enable label cutting" feature is enabled, then we are going to
+                        // control which mode the printer is in. In this case, we will remove any
+                        // tear-mode (^MMT) commands from the content and add the cut-mode (^MMC).
                         //
-                        if (enableLabelCutting && (labelIndex == printerLabels.count || [mergedLabel rangeOfString:@"ROCK_CUT"].location != NSNotFound)) {
+                        if (enableLabelCutting)
+                        {
+                            mergedLabel = [mergedLabel stringByReplacingOccurrencesOfString:@"^MMT"
+                                                                                 withString:@""];
+                            
                             //
-                            // Override any tear mode commandd (^MMT) by injecting
-                            // the  cut mode (^MMC) command.
+                            // Here we are forcing the printer into cut mode (because
+                            // we don't know if it has been put into cut-mode already) even
+                            // though we might be suppressing the cut below. This is correct.
                             //
                             mergedLabel = [self replaceIn:mergedLabel
                                                ifEndsWith:@"^XZ"
                                                withString:@"^MMC^XZ"];
-                        }
-                        else if (enableLabelCutting) {
+                            
                             //
-                            // Inject the supress back-feed (^XB).
+                            // If it's not the last label or a "ROCK_CUT" label, then
+                            // we inject a supress back-feed (^XB) command which will supress the cut.
                             //
-                            mergedLabel = [self replaceIn:mergedLabel
-                                               ifEndsWith:@"^XZ"
-                                               withString:@"^XB^XZ"];
+                            if (!(labelIndex == printerLabels.count || [mergedLabel rangeOfString:@"ROCK_CUT"].location != NSNotFound))
+                            {
+                                mergedLabel = [self replaceIn:mergedLabel
+                                                   ifEndsWith:@"^XZ"
+                                                   withString:@"^XB^XZ"];
+                            }
                         }
                         
                         NSLog(@"Printing label: %@", mergedLabel);
