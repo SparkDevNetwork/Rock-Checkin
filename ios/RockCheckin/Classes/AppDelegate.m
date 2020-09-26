@@ -118,6 +118,15 @@ static AppDelegate *_sharedDelegate = nil;
     }
     
     [NSUserDefaults.standardUserDefaults registerDefaults:defaultValues];
+
+    // Set any settings pushed from MDM
+    NSDictionary *serverConfig = [NSUserDefaults.standardUserDefaults dictionaryForKey:@"com.apple.configuration.managed"];
+    if(serverConfig == nil) {
+        serverConfig = @{};
+    }
+    for(id key in serverConfig) {
+        [NSUserDefaults.standardUserDefaults setObject:[serverConfig objectForKey:key] forKey:key];
+    }
 }
 
 
