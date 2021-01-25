@@ -9,6 +9,7 @@
 #import "MainViewController.h"
 #import "UIColor+HexString.h"
 #import <CoreBluetooth/CoreBluetooth.h>
+#import "SettingsHelper.h"
 
 @interface SettingsViewController () <UITableViewDataSource, UITableViewDelegate, CBCentralManagerDelegate>
 
@@ -65,7 +66,7 @@
     // devices so that the user-specified printer is always at the top of
     // the browser list.
     //
-    NSString *printer = [NSUserDefaults.standardUserDefaults objectForKey:@"printer_override"];
+    NSString *printer = [SettingsHelper objectForKey:@"printer_override"];
     if (printer != nil && ![printer isEqualToString:@""]) {
         [self.discoveredPrinters addObject:printer];
         [self.bluetoothPrinter selectRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] animated:NO scrollPosition:UITableViewScrollPositionNone];
@@ -98,7 +99,8 @@
     
     //
     // Monitor for any preference changes, this would indicate the user
-    // switched to the Settings app and made changes.
+    // switched to the Settings app and made changes, or pushed an updated
+    // config from the MDM server.
     //
     [NSNotificationCenter.defaultCenter addObserver:self
                                            selector:@selector(defaultsChangedNotification:)
@@ -106,59 +108,6 @@
                                              object:nil];
 
     [self setInitialValues];
-
-    //
-    // Handle any MDM forced settings so the user can't change them.
-    //
-    NSUserDefaults *defaults = NSUserDefaults.standardUserDefaults;
-    NSDictionary *serverConfig = [NSUserDefaults.standardUserDefaults dictionaryForKey:@"com.apple.configuration.managed"];
-    if(serverConfig == nil) {
-        serverConfig = @{};
-    }
-    if([serverConfig objectForKey:@"checkin_address"] || [defaults objectIsForcedForKey:@"checkin_address"]) {
-        self.checkinAddress.enabled = NO;
-        self.checkinAddress.alpha = 0.4;
-    }
-    if([serverConfig objectForKey:@"enable_caching"] || [defaults objectIsForcedForKey:@"enable_caching"]) {
-        self.enableLabelCaching.enabled = NO;
-        self.enableLabelCaching.alpha = 0.4;
-    }
-    if([serverConfig objectForKey:@"cache_duration"] || [defaults objectIsForcedForKey:@"cache_duration"]) {
-        self.cacheDuration.enabled = NO;
-        self.cacheDuration.alpha = 0.4;
-    }
-    if([serverConfig objectForKey:@"enable_label_cutting"] || [defaults objectIsForcedForKey:@"enable_label_cutting"]) {
-        self.enableLabelCutting.enabled = NO;
-        self.enableLabelCutting.alpha = 0.4;
-    }
-    if([serverConfig objectForKey:@"camera_position"] || [defaults objectIsForcedForKey:@"camera_position"]) {
-        self.cameraPosition.enabled = NO;
-        self.cameraPosition.alpha = 0.4;
-    }
-    if([serverConfig objectForKey:@"camera_exposure"] || [defaults objectIsForcedForKey:@"camera_exposure"]) {
-        self.cameraExposure.enabled = NO;
-        self.cameraExposure.alpha = 0.4;
-    }
-    if([serverConfig objectForKey:@"ui_background_color"] || [defaults objectIsForcedForKey:@"ui_background_color"]) {
-        self.uiBackgroundColor.enabled = NO;
-        self.uiBackgroundColor.alpha = 0.4;
-    }
-    if([serverConfig objectForKey:@"ui_foreground_color"] || [defaults objectIsForcedForKey:@"ui_foreground_color"]) {
-        self.uiForegroundColor.enabled = NO;
-        self.uiForegroundColor.alpha = 0.4;
-    }
-    if([serverConfig objectForKey:@"printer_override"] || [defaults objectIsForcedForKey:@"printer_override"]) {
-        self.printerOverride.enabled = NO;
-        self.printerOverride.alpha = 0.4;
-    }
-    if([serverConfig objectForKey:@"printer_timeout"] || [defaults objectIsForcedForKey:@"printer_timeout"]) {
-        self.printerTimeout.enabled = NO;
-        self.printerTimeout.alpha = 0.4;
-    }
-    if([serverConfig objectForKey:@"bluetooth_printing"] || [defaults objectIsForcedForKey:@"bluetooth_printing"]) {
-        self.bluetoothPrinting.enabled = NO;
-        self.bluetoothPrinting.alpha = 0.4;
-    }
 
     if (self.bluetoothPrinting.on) {
         self.centralManager = [[CBCentralManager alloc] initWithDelegate:self queue:nil];
@@ -232,21 +181,113 @@
  */
 - (void)setInitialValues
 {
-    NSUserDefaults *defaults = NSUserDefaults.standardUserDefaults;
-    
-    self.checkinAddress.text = [defaults objectForKey:@"checkin_address"];
-    self.enableLabelCaching.on = [defaults boolForKey:@"enable_caching"];
-    self.cacheDuration.text = [defaults objectForKey:@"cache_duration"];
-    self.enableLabelCutting.on = [defaults boolForKey:@"enable_label_cutting"];
-    self.cameraPosition.selectedSegmentIndex = [[defaults stringForKey:@"camera_position"] isEqualToString:@"front"] ? 0 : 1;
-    self.cameraExposure.value = [defaults floatForKey:@"camera_exposure"];
-    self.uiBackgroundColor.text = [defaults objectForKey:@"ui_background_color"];
-    self.uiForegroundColor.text = [defaults objectForKey:@"ui_foreground_color"];
-    self.printerOverride.text = [defaults objectForKey:@"printer_override"];
-    self.printerTimeout.text = [defaults objectForKey:@"printer_timeout"];
-    self.bluetoothPrinting.on = [defaults boolForKey:@"bluetooth_printing"];
+    self.checkinAddress.text = [SettingsHelper objectForKey:@"checkin_address"];
+    self.enableLabelCaching.on = [SettingsHelper boolForKey:@"enable_caching"];
+    self.cacheDuration.text = [SettingsHelper objectForKey:@"cache_duration"];
+    self.enableLabelCutting.on = [SettingsHelper boolForKey:@"enable_label_cutting"];
+    self.cameraPosition.selectedSegmentIndex = [[SettingsHelper stringForKey:@"camera_position"] isEqualToString:@"front"] ? 0 : 1;
+    self.cameraExposure.value = [SettingsHelper floatForKey:@"camera_exposure"];
+    self.uiBackgroundColor.text = [SettingsHelper objectForKey:@"ui_background_color"];
+    self.uiForegroundColor.text = [SettingsHelper objectForKey:@"ui_foreground_color"];
+    self.printerOverride.text = [SettingsHelper objectForKey:@"printer_override"];
+    self.printerTimeout.text = [SettingsHelper objectForKey:@"printer_timeout"];
+    self.bluetoothPrinting.on = [SettingsHelper boolForKey:@"bluetooth_printing"];
     
     self.bluetoothPrinter.hidden = !self.bluetoothPrinting.on;
+    
+    
+    //
+    // Disable any MDM forced settings so the user can't change them.
+    //
+    if([SettingsHelper objectIsForcedForKey:@"checkin_address"]) {
+        self.checkinAddress.enabled = NO;
+        self.checkinAddress.alpha = 0.4;
+    }
+    else {
+        self.checkinAddress.enabled = YES;
+        self.checkinAddress.alpha = 1.0;
+    }
+    if([SettingsHelper objectIsForcedForKey:@"enable_caching"]) {
+        self.enableLabelCaching.enabled = NO;
+        self.enableLabelCaching.alpha = 0.4;
+    }
+    else {
+        self.enableLabelCaching.enabled = YES;
+        self.enableLabelCaching.alpha = 1.0;
+    }
+    if([SettingsHelper objectIsForcedForKey:@"cache_duration"]) {
+        self.cacheDuration.enabled = NO;
+        self.cacheDuration.alpha = 0.4;
+    }
+    else {
+        self.cacheDuration.enabled = YES;
+        self.cacheDuration.alpha = 1.0;
+    }
+    if([SettingsHelper objectIsForcedForKey:@"enable_label_cutting"]) {
+        self.enableLabelCutting.enabled = NO;
+        self.enableLabelCutting.alpha = 0.4;
+    }
+    else {
+        self.enableLabelCutting.enabled = YES;
+        self.enableLabelCutting.alpha = 1.0;
+    }
+    if([SettingsHelper objectIsForcedForKey:@"camera_position"]) {
+        self.cameraPosition.enabled = NO;
+        self.cameraPosition.alpha = 0.4;
+    }
+    else {
+        self.cameraPosition.enabled = YES;
+        self.cameraPosition.alpha = 1.0;
+    }
+    if([SettingsHelper objectIsForcedForKey:@"camera_exposure"]) {
+        self.cameraExposure.enabled = NO;
+        self.cameraExposure.alpha = 0.4;
+    }
+    else {
+        self.cameraExposure.enabled = YES;
+        self.cameraExposure.alpha = 1.0;
+    }
+    if([SettingsHelper objectIsForcedForKey:@"ui_background_color"]) {
+        self.uiBackgroundColor.enabled = NO;
+        self.uiBackgroundColor.alpha = 0.4;
+    }
+    else {
+        self.uiBackgroundColor.enabled = YES;
+        self.uiBackgroundColor.alpha = 1.0;
+    }
+    if([SettingsHelper objectIsForcedForKey:@"ui_foreground_color"]) {
+        self.uiForegroundColor.enabled = NO;
+        self.uiForegroundColor.alpha = 0.4;
+    }
+    else {
+        self.uiForegroundColor.enabled = YES;
+        self.uiForegroundColor.alpha = 1.0;
+    }
+    if([SettingsHelper objectIsForcedForKey:@"printer_override"]) {
+        self.printerOverride.enabled = NO;
+        self.printerOverride.alpha = 0.4;
+    }
+    else {
+        self.printerOverride.enabled = YES;
+        self.printerOverride.alpha = 1.0;
+    }
+    if([SettingsHelper objectIsForcedForKey:@"printer_timeout"]) {
+        self.printerTimeout.enabled = NO;
+        self.printerTimeout.alpha = 0.4;
+    }
+    else {
+        self.printerTimeout.enabled = YES;
+        self.printerTimeout.alpha = 1.0;
+    }
+    if([SettingsHelper objectIsForcedForKey:@"bluetooth_printing"]) {
+        self.bluetoothPrinting.enabled = NO;
+        self.bluetoothPrinting.alpha = 0.4;
+    }
+    else {
+        self.bluetoothPrinting.enabled = YES;
+        self.bluetoothPrinting.alpha = 1.0;
+    }
+
 }
 
 
@@ -449,7 +490,7 @@
  */
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (![NSUserDefaults.standardUserDefaults objectIsForcedForKey:@"printer_override"]) {
+    if (![SettingsHelper objectIsForcedForKey:@"printer_override"]) {
         self.printerOverride.text = self.discoveredPrinters[indexPath.row];
         [self textFieldChanged:self.printerOverride];
     }

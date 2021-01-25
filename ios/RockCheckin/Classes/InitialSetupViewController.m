@@ -7,6 +7,7 @@
 
 #import "InitialSetupViewController.h"
 #import "MainViewController.h"
+#import "SettingsHelper.h"
 
 @interface InitialSetupViewController () <MainReadyDelegate>
 
@@ -60,7 +61,7 @@
     if (self.isFirstDisplay) {
         self.isFirstDisplay = NO;
 
-        NSString *url = [NSUserDefaults.standardUserDefaults stringForKey:@"checkin_address"];
+        NSString *url = [SettingsHelper stringForKey:@"checkin_address"];
         if (url != nil && url.length > 0) {
             [self showLoadingView];
         }
@@ -106,7 +107,7 @@
 
 - (void)showConfigView
 {
-    NSString *url = [NSUserDefaults.standardUserDefaults stringForKey:@"checkin_address"];
+    NSString *url = [SettingsHelper stringForKey:@"checkin_address"];
     self.urlField.text = url;
     
     self.loadingView.hidden = YES;
@@ -117,7 +118,7 @@
 
 - (void)showLoadingView
 {
-    NSString *url = [NSUserDefaults.standardUserDefaults stringForKey:@"checkin_address"];
+    NSString *url = [SettingsHelper stringForKey:@"checkin_address"];
     __auto_type text = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"Loading check-in from\n%@", url]];
     [text addAttribute:NSFontAttributeName
                  value:[UIFont fontWithName:@"OpenSans-Semibold" size:self.loadingFromUrl.font.pointSize]
@@ -151,7 +152,7 @@
  */
 - (void)showLoadingError
 {
-    NSString *url = [NSUserDefaults.standardUserDefaults stringForKey:@"checkin_address"];
+    NSString *url = [SettingsHelper stringForKey:@"checkin_address"];
     __auto_type text = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"Could not load check-in from\n%@", url]];
     [text addAttribute:NSFontAttributeName
                  value:[UIFont fontWithName:@"OpenSans-Semibold" size:self.loadErrorUrl.font.pointSize]
