@@ -32,6 +32,7 @@
 #import "RKBLEZebraPrint.h"
 #import "SettingsViewController.h"
 #import "InitialSetupViewController.h"
+#import "SettingsHelper.h"
 
 static AppDelegate *_sharedDelegate = nil;
 
@@ -79,9 +80,9 @@ static AppDelegate *_sharedDelegate = nil;
  */
 - (void)defaultsChangedNotification:(NSNotification *)notification
 {
-    NSString *printerName = [[NSUserDefaults standardUserDefaults] stringForKey:@"printer_override"];
+    NSString *printerName = [SettingsHelper stringForKey:@"printer_override"];
     
-    if (printerName != nil && printerName.length > 0 && [NSUserDefaults.standardUserDefaults boolForKey:@"bluetooth_printing"]) {
+    if (printerName != nil && printerName.length > 0 && [SettingsHelper boolForKey:@"bluetooth_printing"]) {
         if (![printerName isEqualToString:self.blePrinter.printerName]) {
             [self.blePrinter setPrinterName:printerName];
         }
@@ -156,8 +157,8 @@ static AppDelegate *_sharedDelegate = nil;
     // Bluetooth Printing is enabled.
     //
     self.blePrinter = [[RKBLEZebraPrint alloc] init];
-    NSString *printerName = [[NSUserDefaults standardUserDefaults] stringForKey:@"printer_override"];
-    if (printerName != nil && printerName.length > 0 && [NSUserDefaults.standardUserDefaults boolForKey:@"bluetooth_printing"])
+    NSString *printerName = [SettingsHelper stringForKey:@"printer_override"];
+    if (printerName != nil && printerName.length > 0 && [SettingsHelper boolForKey:@"bluetooth_printing"])
     {
         [self.blePrinter setPrinterName:printerName];
     }

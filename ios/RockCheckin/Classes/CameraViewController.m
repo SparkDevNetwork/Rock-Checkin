@@ -29,6 +29,7 @@ under the License.
 #import "UIColor+HexString.h"
 #import "ZebraPrint.h"
 #import <AVFoundation/AVFoundation.h>
+#import "SettingsHelper.h"
 
 @interface CameraViewController () <AVCaptureMetadataOutputObjectsDelegate>
 
@@ -80,8 +81,7 @@ under the License.
     //
     // Set the color of the button text and border.
     //
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    NSString *colorString = [defaults stringForKey:@"ui_foreground_color"];
+    NSString *colorString = [SettingsHelper stringForKey:@"ui_foreground_color"];
     UIColor *color = [UIColor colorWithHexString:colorString];
     if (color != nil) {
         [self.cancelButton setTitleColor:color forState:UIControlStateNormal];
@@ -91,7 +91,7 @@ under the License.
     //
     // Set the color of the header background.
     //
-    colorString = [defaults stringForKey:@"ui_background_color"];
+    colorString = [SettingsHelper stringForKey:@"ui_background_color"];
     color = [UIColor colorWithHexString:colorString];
     if (color != nil) {
         self.headerView.backgroundColor = color;
@@ -266,9 +266,8 @@ Stop the camera and cease watching for barcodes.
 {
     [self verifyCameraPermission:^(BOOL success) {
         AVCaptureDevice *device = nil;
-        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-        NSString *position = [defaults stringForKey:@"camera_position"];
-        float exposure = [defaults floatForKey:@"camera_exposure"];
+        NSString *position = [SettingsHelper stringForKey:@"camera_position"];
+        float exposure = [SettingsHelper floatForKey:@"camera_exposure"];
 
         //
         // Open either the front or rear camera. Later we may want to add

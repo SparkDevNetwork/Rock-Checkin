@@ -33,6 +33,7 @@
 #import "WKWebViewUIDelegate.h"
 #import "ZebraPrint.h"
 #import <WebKit/WebKit.h>
+#import "SettingsHelper.h"
 
 @interface MainViewController () <UIGestureRecognizerDelegate, WKNavigationDelegate, CameraViewControllerDelegate>
 
@@ -94,8 +95,8 @@
 {
     [super viewDidLoad];
     
-    self.settingsGestureRecognizer.enabled = [NSUserDefaults.standardUserDefaults boolForKey:@"in_app_settings"];
-    self.settingsGestureRecognizer.minimumPressDuration = [NSUserDefaults.standardUserDefaults integerForKey:@"in_app_settings_delay"];
+    self.settingsGestureRecognizer.enabled = [SettingsHelper boolForKey:@"in_app_settings"];
+    self.settingsGestureRecognizer.minimumPressDuration = [SettingsHelper integerForKey:@"in_app_settings_delay"];
 
     [NSNotificationCenter.defaultCenter addObserver:self
                                            selector:@selector(defaultsChangedNotification:)
@@ -118,7 +119,7 @@
  */
 - (void)reloadCheckinAddress
 {
-    NSURL *url = [NSURL URLWithString:[NSUserDefaults.standardUserDefaults objectForKey:@"checkin_address"]];
+    NSURL *url = [NSURL URLWithString:[SettingsHelper objectForKey:@"checkin_address"]];
     
     NSURLRequest *request = [NSURLRequest requestWithURL:url];
     
@@ -193,8 +194,8 @@
  */
 - (void)defaultsChangedNotification:(NSNotification *)notification
 {
-    self.settingsGestureRecognizer.enabled = [NSUserDefaults.standardUserDefaults boolForKey:@"in_app_settings"];
-    self.settingsGestureRecognizer.minimumPressDuration = [NSUserDefaults.standardUserDefaults integerForKey:@"in_app_settings_delay"];
+    self.settingsGestureRecognizer.enabled = [SettingsHelper boolForKey:@"in_app_settings"];
+    self.settingsGestureRecognizer.minimumPressDuration = [SettingsHelper integerForKey:@"in_app_settings_delay"];
 }
 
 /**
@@ -337,7 +338,7 @@
  */
 - (void)cameraViewController:(CameraViewController *)controller didScanPreCheckInCode:(NSString *)code completedCallback:(void (^)(NSString *))callback
 {
-    NSURLComponents *urlComponents = [NSURLComponents componentsWithString:[NSUserDefaults.standardUserDefaults objectForKey:@"checkin_address"]];
+    NSURLComponents *urlComponents = [NSURLComponents componentsWithString:[SettingsHelper objectForKey:@"checkin_address"]];
     urlComponents.path = @"/api/checkin/printsessionlabels";
     NSURLQueryItem *kioskIdParam = [NSURLQueryItem  queryItemWithName:@"kioskId" value:[NSString stringWithFormat:@"%d", self.kioskId]];
     NSURLQueryItem *sessionParam = [NSURLQueryItem queryItemWithName:@"session" value:code];

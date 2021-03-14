@@ -13,6 +13,7 @@
 #import "SBJson.h"
 #import "EGOCache.h"
 #import "AppDelegate.h"
+#import "SettingsHelper.h"
 
 
 @implementation ZebraPrint
@@ -24,9 +25,8 @@ Process a Javascript request to print the label tags.
 */
 - (NSString *)printJsonTags:(NSString *)jsonString
 {
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     BOOL labelErrorOccurred = NO;
-    BOOL enableLabelCutting = [defaults boolForKey:@"enable_label_cutting"];
+    BOOL enableLabelCutting = [SettingsHelper boolForKey:@"enable_label_cutting"];
     NSString *errorMessage = nil;
     
     NSLog(@"[LOG] ZebraPrint Plugin Called");
@@ -68,14 +68,14 @@ Process a Javascript request to print the label tags.
                     labelIndex += 1;
                     
                     // change printer ip if printer overide setting is present
-                    NSString *overridePrinter = [defaults stringForKey:@"printer_override"];
+                    NSString *overridePrinter = [SettingsHelper stringForKey:@"printer_override"];
                     
                     if (overridePrinter != nil && overridePrinter.length > 0) {
                         printerAddress = overridePrinter;
                     }
                     
                     // Set printer timeout value
-                    NSString *printerTimeoutString = [defaults stringForKey:@"printer_timeout"];
+                    NSString *printerTimeoutString = [SettingsHelper stringForKey:@"printer_timeout"];
                     
                     if (printerTimeoutString != nil && printerTimeoutString.intValue > 0) {
                         printerTimeout = printerTimeoutString.intValue;
@@ -143,7 +143,7 @@ Process a Javascript request to print the label tags.
                         }
                         
                         NSLog(@"Printing label: %@", mergedLabel);
-                        if ([NSUserDefaults.standardUserDefaults boolForKey:@"bluetooth_printing"])
+                        if ([SettingsHelper boolForKey:@"bluetooth_printing"])
                         {
                             RKBLEZebraPrint *printer = AppDelegate.sharedDelegate.blePrinter;
                             BOOL success = [printer print:mergedLabel];
@@ -261,8 +261,7 @@ Process a Javascript request to print the label tags.
 - (NSString*)getLabelContents:(NSString*)labelKey labelLocation:(NSString*)labelFile
 {
     // determine cache preference
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    BOOL usecache = [defaults boolForKey:@"enable_caching"];
+    BOOL usecache = [SettingsHelper boolForKey:@"enable_caching"];
     
     NSString *labelContents = nil;
     
@@ -295,7 +294,7 @@ Process a Javascript request to print the label tags.
             // store label file in cache
             if (usecache) {
             
-                NSString *cacheDuration = [defaults stringForKey:@"cache_duration"];
+                NSString *cacheDuration = [SettingsHelper stringForKey:@"cache_duration"];
                 NSScanner *scanner = [NSScanner scannerWithString:cacheDuration ];
                 
                 double doubleCacheDuration;
