@@ -28,6 +28,9 @@
 		650EFB481E4FDEE30053F3DE /* ExternalAccessory.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 650EFB471E4FDEE30053F3DE /* ExternalAccessory.framework */; };
 		650EFB631E4FE6A00053F3DE /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 650EFB621E4FE6A00053F3DE /* CoreTelephony.framework */; };
 		650EFB6C1E52606E0053F3DE /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 650EFB6B1E52606E0053F3DE /* Images.xcassets */; };
+		65293E4E25FD8FDF00F34837 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 65293E4D25FD8FDF00F34837 /* Launch Screen.storyboard */; };
+		65293E5225FD981400F34837 /* launch-image.png in Resources */ = {isa = PBXBuildFile; fileRef = 65293E5125FD981400F34837 /* launch-image.png */; };
+		65293E5525FD987500F34837 /* launch-logo-circle.png in Resources */ = {isa = PBXBuildFile; fileRef = 65293E5425FD987500F34837 /* launch-logo-circle.png */; };
 		653446FC23D3A71F00B20D23 /* CameraViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 653446FA23D3A71F00B20D23 /* CameraViewController.m */; };
 		653446FD23D3A71F00B20D23 /* CameraViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 653446FB23D3A71F00B20D23 /* CameraViewController.xib */; };
 		6534470023D3E82600B20D23 /* UIColor+HexString.m in Sources */ = {isa = PBXBuildFile; fileRef = 653446FF23D3E82600B20D23 /* UIColor+HexString.m */; };
@@ -90,6 +93,9 @@
 		650EFB471E4FDEE30053F3DE /* ExternalAccessory.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ExternalAccessory.framework; path = System/Library/Frameworks/ExternalAccessory.framework; sourceTree = SDKROOT; };
 		650EFB621E4FE6A00053F3DE /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
 		650EFB6B1E52606E0053F3DE /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = RockCheckin/Images.xcassets; sourceTree = SOURCE_ROOT; };
+		65293E4D25FD8FDF00F34837 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
+		65293E5125FD981400F34837 /* launch-image.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "launch-image.png"; sourceTree = "<group>"; };
+		65293E5425FD987500F34837 /* launch-logo-circle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "launch-logo-circle.png"; sourceTree = "<group>"; };
 		653446F923D3A71F00B20D23 /* CameraViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CameraViewController.h; sourceTree = "<group>"; };
 		653446FA23D3A71F00B20D23 /* CameraViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CameraViewController.m; sourceTree = "<group>"; };
 		653446FB23D3A71F00B20D23 /* CameraViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CameraViewController.xib; sourceTree = "<group>"; };
@@ -261,9 +267,12 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				65293E5425FD987500F34837 /* launch-logo-circle.png */,
+				65293E5125FD981400F34837 /* launch-image.png */,
 				654F458B24859AB2009944EB /* Camera.m4a */,
 				650EFB6B1E52606E0053F3DE /* Images.xcassets */,
 				8D1107310486CEB800E47090 /* RockCheckin-Info.plist */,
+				65293E4D25FD8FDF00F34837 /* Launch Screen.storyboard */,
 			);
 			name = Resources;
 			path = RockCheckin;
@@ -394,7 +403,10 @@
 				650EFB6C1E52606E0053F3DE /* Images.xcassets in Resources */,
 				9E8C40341975F10A00DC66C4 /* app-notes.txt in Resources */,
 				9E55AE5B16D88D6200C2CBB1 /* Readme.rtf in Resources */,
+				65293E5225FD981400F34837 /* launch-image.png in Resources */,
+				65293E4E25FD8FDF00F34837 /* Launch Screen.storyboard in Resources */,
 				6591E2A423E61501006B38F0 /* MainViewController.xib in Resources */,
+				65293E5525FD987500F34837 /* launch-logo-circle.png in Resources */,
 				654F458C24859AB2009944EB /* Camera.m4a in Resources */,
 				9EE5B81E16E457CB00D0D311 /* Settings.bundle in Resources */,
 				653446FD23D3A71F00B20D23 /* CameraViewController.xib in Resources */,
