@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="16097.2" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="ipad9_7" orientation="landscape" layout="fullscreen" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -19,6 +20,7 @@
                 <outlet property="checkinAddress" destination="Jqf-De-mhx" id="9md-aO-wXE"/>
                 <outlet property="enableLabelCaching" destination="aRJ-L6-9u2" id="fRZ-Ox-YJB"/>
                 <outlet property="enableLabelCutting" destination="NQ9-mA-zeJ" id="AQ8-7G-PXd"/>
+                <outlet property="printTestLabel" destination="xIr-eZ-kuh" id="HR5-4H-aeN"/>
                 <outlet property="printerOverride" destination="Wlr-F5-shH" id="846-A1-05b"/>
                 <outlet property="printerTimeout" destination="cbN-D3-Jls" id="NdH-rF-FBu"/>
                 <outlet property="scrollView" destination="fny-FZ-Yda" id="2wN-wB-jis"/>
@@ -199,16 +201,6 @@
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="UI Background Color" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nhR-JC-WOM">
-                                                    <rect key="frame" x="8" y="243" width="170" height="21"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="width" constant="170" id="Tsf-IG-bYJ"/>
-                                                        <constraint firstAttribute="height" constant="21" id="pVe-vI-2BA"/>
-                                                    </constraints>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <nil key="textColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="UI Foreground Color" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5zi-ND-8Th">
                                                     <rect key="frame" x="8" y="281" width="170" height="21"/>
                                                     <constraints>
@@ -284,6 +276,16 @@
                                                         <action selector="toggleStateChanged:" destination="-1" eventType="valueChanged" id="7bx-IH-5x5"/>
                                                     </connections>
                                                 </switch>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="UI Background Color" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nhR-JC-WOM">
+                                                    <rect key="frame" x="8" y="243" width="170" height="21"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="170" id="Tsf-IG-bYJ"/>
+                                                        <constraint firstAttribute="height" constant="21" id="pVe-vI-2BA"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <constraints>
@@ -362,21 +364,21 @@
                                 <constraint firstItem="t8F-xs-F0l" firstAttribute="top" secondItem="fny-FZ-Yda" secondAttribute="top" id="qix-bh-scA"/>
                             </constraints>
                         </scrollView>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ivi-KG-liG">
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ivi-KG-liG">
                             <rect key="frame" x="20" y="698" width="165" height="50"/>
-                            <color key="backgroundColor" systemColor="opaqueSeparatorColor" red="0.77647058820000003" green="0.77647058820000003" blue="0.7843137255" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <color key="backgroundColor" systemColor="opaqueSeparatorColor"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="165" id="HTW-l1-ZJs"/>
                                 <constraint firstAttribute="height" constant="50" id="gDd-u7-win"/>
                             </constraints>
                             <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
-                            <color key="tintColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
+                            <color key="tintColor" systemColor="labelColor"/>
                             <state key="normal" title="Reload Check-in"/>
                             <connections>
                                 <action selector="btnReloadCheckin:" destination="-1" eventType="touchUpInside" id="1tc-F5-ekg"/>
                             </connections>
                         </button>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7nn-CP-pr4">
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7nn-CP-pr4">
                             <rect key="frame" x="839" y="698" width="165" height="50"/>
                             <color key="backgroundColor" red="0.93333333333333335" green="0.46666666666666667" blue="0.14509803921568626" alpha="1" colorSpace="calibratedRGB"/>
                             <constraints>
@@ -422,10 +424,26 @@
                                 <constraint firstItem="vJj-K8-vG9" firstAttribute="leading" secondItem="k19-QC-rUw" secondAttribute="leading" id="qu1-yJ-il5"/>
                             </constraints>
                         </view>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xIr-eZ-kuh">
+                            <rect key="frame" x="193" y="698" width="165" height="50"/>
+                            <color key="backgroundColor" systemColor="opaqueSeparatorColor"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="165" id="Amb-qh-edV"/>
+                                <constraint firstAttribute="height" constant="50" id="PEB-Dn-PHL"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
+                            <color key="tintColor" systemColor="labelColor"/>
+                            <state key="normal" title="Print Test Label"/>
+                            <connections>
+                                <action selector="btnPrintTestLabel:" destination="-1" eventType="touchUpInside" id="uBh-NK-kNy"/>
+                            </connections>
+                        </button>
                     </subviews>
                     <constraints>
                         <constraint firstItem="fny-FZ-Yda" firstAttribute="leading" secondItem="Ahj-N9-iIG" secondAttribute="leadingMargin" constant="-8" id="7rP-Qe-trR"/>
+                        <constraint firstItem="xIr-eZ-kuh" firstAttribute="leading" secondItem="Ivi-KG-liG" secondAttribute="trailing" constant="8" symbolic="YES" id="DcC-gi-Qbw"/>
                         <constraint firstAttribute="bottom" secondItem="7nn-CP-pr4" secondAttribute="bottom" constant="20" id="KVb-cB-wbt"/>
+                        <constraint firstItem="xIr-eZ-kuh" firstAttribute="top" secondItem="Ivi-KG-liG" secondAttribute="top" id="OnD-v4-z2D"/>
                         <constraint firstItem="Ivi-KG-liG" firstAttribute="leading" secondItem="Ahj-N9-iIG" secondAttribute="leading" constant="20" id="aSV-bF-NSr"/>
                         <constraint firstAttribute="bottom" secondItem="Ivi-KG-liG" secondAttribute="bottom" constant="20" id="g7Q-MF-F0q"/>
                         <constraint firstAttribute="trailingMargin" secondItem="fny-FZ-Yda" secondAttribute="trailing" constant="-8" id="gSx-tK-IQq"/>
@@ -438,6 +456,7 @@
                     </constraints>
                 </view>
             </subviews>
+            <viewLayoutGuide key="safeArea" id="Q5M-cg-NOt"/>
             <color key="backgroundColor" red="0.98039215686274506" green="0.98039215686274506" blue="0.98039215686274506" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
                 <constraint firstItem="Ahj-N9-iIG" firstAttribute="leading" secondItem="Q5M-cg-NOt" secondAttribute="leading" id="LaP-dR-6bz"/>
@@ -445,11 +464,16 @@
                 <constraint firstItem="Ahj-N9-iIG" firstAttribute="top" secondItem="Q5M-cg-NOt" secondAttribute="top" id="V6j-Tn-Lz1"/>
                 <constraint firstItem="Q5M-cg-NOt" firstAttribute="trailing" secondItem="Ahj-N9-iIG" secondAttribute="trailing" id="bYz-br-XBq"/>
             </constraints>
-            <viewLayoutGuide key="safeArea" id="Q5M-cg-NOt"/>
             <point key="canvasLocation" x="33.984375" y="233.59375"/>
         </view>
     </objects>
     <resources>
         <image name="rock-logo-circle-white" width="84" height="84"/>
+        <systemColor name="labelColor">
+            <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="opaqueSeparatorColor">
+            <color red="0.77647058823529413" green="0.77647058823529413" blue="0.78431372549019607" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
     </resources>
 </document>

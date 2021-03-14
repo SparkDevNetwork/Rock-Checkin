@@ -10,6 +10,7 @@
 #import "UIColor+HexString.h"
 #import <CoreBluetooth/CoreBluetooth.h>
 #import "SettingsHelper.h"
+#import "ZebraPrint.h"
 
 @interface SettingsViewController () <UITableViewDataSource, UITableViewDelegate, CBCentralManagerDelegate>
 
@@ -27,6 +28,7 @@
 @property (weak, nonatomic) IBOutlet UITextField *printerOverride;
 @property (weak, nonatomic) IBOutlet UITextField *printerTimeout;
 @property (weak, nonatomic) IBOutlet UITableView *bluetoothPrinter;
+@property (weak, nonatomic) IBOutlet UIButton *printTestLabel;
 
 @property (strong, nonatomic) CBCentralManager  *centralManager;
 @property (strong, nonatomic) NSMutableArray *discoveredPrinters;
@@ -194,7 +196,7 @@
     self.bluetoothPrinting.on = [SettingsHelper boolForKey:@"bluetooth_printing"];
     
     self.bluetoothPrinter.hidden = !self.bluetoothPrinting.on;
-    
+    self.printTestLabel.enabled = self.printerOverride.text != nil && self.printerOverride.text.length > 0;
     
     //
     // Disable any MDM forced settings so the user can't change them.
@@ -362,6 +364,7 @@
     }
     else if (sender == self.printerOverride) {
         [NSUserDefaults.standardUserDefaults setObject:self.printerOverride.text forKey:@"printer_override"];
+        self.printTestLabel.enabled = self.printerOverride.text != nil && self.printerOverride.text.length > 0;
     }
     else if (sender == self.printerTimeout) {
         [NSUserDefaults.standardUserDefaults setObject:self.printerTimeout.text forKey:@"printer_timeout"];
@@ -394,6 +397,54 @@
     [self.navigationController popToRootViewControllerAnimated:YES];
 }
 
+
+/**
+ User tapped the Print Test Label button. Generate a simple test label to send to the
+ printer so they can verify that the printer connection works.
+ */
+- (IBAction)btnPrintTestLabel:(id)sender
+{
+    [self.view endEditing:YES];
+
+    NSString *testLabel = @"^XA\
+\
+^CI28\
+^CF0,60\
+^FO20,20^FDTest Label^FS\
+^CF0,30\
+^FO20,95^FDFrom: #DEVICE#^FS\
+\
+^FO20,150^GFA,1300,1300,13,P01IF8,O03KFC,N01MF8,N0OF,M07OFE,M0QF,L03QFC,L0SF,K03SFC,K07JFE3MFE,K0KF80NF,J03JFE003MFC,J07JFE003MFE,J0KFC001NF,I01KF8I0NF8,I03KFJ07MFC,I07JFEJ03MFE,I0KFCJ01NF,001KF8K0NF8,:003KFL07MFC,007JFEL03MFE,00KFCL01NF,00KF8M0NF,01KFN07MF8,01JFEN03MF8,03JFEN03MFC,03JFCJ08I01MFC,07JF8I01CJ0MFE,0KFJ03EJ07MF,0JFEJ07FJ03MF,0JFCJ0FF8I01MF,1JF8J0FF8J0MF8,1JF8I01FFCJ0MF8,1JFJ03FFEJ07LF8,3IFEJ07IFJ03LFC,3IFCJ0JF8I01LFC,3IF8I01JFCJ0LFC,7IFJ01JFEJ07KFE,7IFJ03JFEJ03KFE,7FFEJ07KFJ03KFE,7FFCJ0LF8I01KFE,7FF8I01LFCJ0KFE,IFJ03LFEJ07KF,FFEJ07MFJ03KF,FFCJ07MF8I01KF,FFCJ0NF8I01KF,PFEO0KF,PFCO07JF,PF8O03JF,PFP01JF,::OFEP01JF,PFP01JF,::7OF8O03IFE,7OF8O07IFE,7OFCO0JFE,7OFEN07JFE,7PFJ03NFE,3PF8I01NFC,3PFCJ0NFC,3PFEJ07MFC,1PFEJ03MF8,1QFJ03MF8,1QF8I01MF8,0QFCJ0MF,0QFEJ07LF,0RFJ03LF,07QFJ01KFE,03QF8I01KFC,03QFCJ0KFC,01QFEJ07JF8,01RFJ03JF8,00RF8I01JF,00RFCJ0JF,007QFCJ07FFE,003QFEJ07FFC,001RFJ03FF8,001RF8I01FF8,I0RFCJ0FF,I07QFEJ07E,I03RFJ07C,I01WF8,J0WF,J07UFE,J03UFC,K0UF,K07SFE,K03SFC,L0SF,L03QFC,M0QF,M07OFE,N0OF,N01MF8,O03KFC,P01IF8,^FS\
+\
+    ^MMC^XZ";
+    
+    testLabel = [testLabel stringByReplacingOccurrencesOfString:@"#DEVICE#" withString:UIDevice.currentDevice.name];
+    
+    if (![SettingsHelper boolForKey:@"enable_label_cutting"])
+    {
+        testLabel = [testLabel stringByReplacingOccurrencesOfString:@"^MMC" withString:@""];
+    }
+    
+    ZebraPrint *printer = [ZebraPrint new];
+    NSString *printerAddress = [SettingsHelper stringForKey:@"printer_override"];
+    NSString *errorMessage = nil;
+    
+    BOOL success = [printer printLabelContent:testLabel toPrinter:printerAddress error:&errorMessage];
+
+    //
+    // Display an alert telling the user if it worked or not.
+    //
+    UIAlertController *alert = nil;
+    if (success) {
+        alert = [UIAlertController alertControllerWithTitle:@"Label Printed" message:@"The test label was printed." preferredStyle:UIAlertControllerStyleAlert];
+    }
+    else {
+        alert = [UIAlertController alertControllerWithTitle:@"Print Failed" message:errorMessage preferredStyle:UIAlertControllerStyleAlert];
+    }
+    
+    [alert addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil]];
+    [self presentViewController:alert animated:YES completion:nil];
+}
 
 
 #pragma mark -- Notification methods

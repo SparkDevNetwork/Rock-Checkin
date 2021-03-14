@@ -60,7 +60,6 @@ Process a Javascript request to print the label tags.
                 
                 for (id label in printerLabels) {
                     NSString *printerAddress = key;
-                    int printerTimeout = 2;
                     NSString *labelFile = [label objectForKey:@"LabelFile"];
                     NSString *labelKey = [label objectForKey:@"LabelKey"];
                     NSDictionary *mergeFields = [label objectForKey:@"MergeFields"];
@@ -74,32 +73,9 @@ Process a Javascript request to print the label tags.
                         printerAddress = overridePrinter;
                     }
                     
-                    // Set printer timeout value
-                    NSString *printerTimeoutString = [SettingsHelper stringForKey:@"printer_timeout"];
-                    
-                    if (printerTimeoutString != nil && printerTimeoutString.intValue > 0) {
-                        printerTimeout = printerTimeoutString.intValue;
-                    }
-                    
                     // If we already failed to connect to this printer, don't waste time.
                     if ([failedPrinters containsObject:printerAddress]) {
                         continue;
-                    }
-                    
-                    NSString *printerIP, *printerPort;
-                    
-                    // If the user specified in 0.0.0.0:1234 syntax then pull out the IP and port numbers.
-                    if ([printerAddress containsString:@":"])
-                    {
-                        NSArray *segments = [printerAddress componentsSeparatedByString:@":"];
-                        
-                        printerIP = segments[0];
-                        printerPort = segments[1];
-                    }
-                    else
-                    {
-                        printerIP = printerAddress;
-                        printerPort = @"9100";
                     }
                     
                     // get label contents
@@ -142,34 +118,11 @@ Process a Javascript request to print the label tags.
                             }
                         }
                         
-                        NSLog(@"Printing label: %@", mergedLabel);
-                        if ([SettingsHelper boolForKey:@"bluetooth_printing"])
+                        NSString *printError = nil;
+                        if (![self printLabelContent:mergedLabel toPrinter:printerAddress error:&printError])
                         {
-                            RKBLEZebraPrint *printer = AppDelegate.sharedDelegate.blePrinter;
-                            BOOL success = [printer print:mergedLabel];
-                            if (!success) {
-                                errorMessage = @"Unable to print to printer.";
-                                NSLog(@"[ERROR] Unable to print to bluetooth printer.");
-                            }
-                        }
-                        else
-                        {
-                            FastSocket *printerConn = [[FastSocket alloc] initWithHost:printerIP andPort:printerPort];
-                            
-                            BOOL success = [printerConn connect:printerTimeout];
-                            const char *bytes = [mergedLabel UTF8String];
-                            long len = strlen(bytes);
-                            
-                            success = success && [printerConn sendBytes:bytes count:len] == len;
-                            
-                            if (success != YES) {
-                                errorMessage = @"Unable to print to printer.";
-                                NSLog(@"[ERROR] Unable to print to printer: %@", printerIP);
-                                [failedPrinters addObject:printerAddress];
-                            }
-                            
-                            // Close the connection to release resources.
-                            [printerConn close];
+                            errorMessage = printError;
+                            labelErrorOccurred = YES;
                         }
                     }
                     else {
@@ -189,6 +142,84 @@ Process a Javascript request to print the label tags.
     return errorMessage;
 }
 
+
+/**
+ Prints a single label to the printer.
+ 
+ @param labelContent The text contents to be sent to the printer.
+ @param printerAddress The printer address or name to connect to.
+ @param errorMessage Contains any error message on return if method returns NO.
+ @returns YES if the label was printed or NO if an error occurred.
+ */
+- (BOOL)printLabelContent:(NSString *)labelContent toPrinter:(NSString *)printerAddress error:(NSString **)errorMessage
+{
+    NSString *printerIP, *printerPort;
+    
+    // Set printer timeout value
+    int printerTimeout = 2;
+    NSString *printerTimeoutString = [SettingsHelper stringForKey:@"printer_timeout"];
+    
+    if (printerTimeoutString != nil && printerTimeoutString.intValue > 0) {
+        printerTimeout = printerTimeoutString.intValue;
+    }
+    
+    // If the user specified in 0.0.0.0:1234 syntax then pull out the IP and port numbers.
+    if ([printerAddress containsString:@":"])
+    {
+        NSArray *segments = [printerAddress componentsSeparatedByString:@":"];
+        
+        printerIP = segments[0];
+        printerPort = segments[1];
+    }
+    else
+    {
+        printerIP = printerAddress;
+        printerPort = @"9100";
+    }
+    
+    NSLog(@"Printing label to %@: %@", printerAddress, labelContent);
+    if ([SettingsHelper boolForKey:@"bluetooth_printing"])
+    {
+        RKBLEZebraPrint *printer = AppDelegate.sharedDelegate.blePrinter;
+        BOOL success = [printer print:labelContent];
+        if (!success) {
+            if (errorMessage != nil) {
+                *errorMessage = @"Unable to print to printer.";
+            }
+            NSLog(@"[ERROR] Unable to print to bluetooth printer.");
+            
+            return false;
+        }
+    }
+    else
+    {
+        FastSocket *printerConn = [[FastSocket alloc] initWithHost:printerIP andPort:printerPort];
+            
+        BOOL success = [printerConn connect:printerTimeout];
+        const char *bytes = [labelContent UTF8String];
+        long len = strlen(bytes);
+            
+        success = success && [printerConn sendBytes:bytes count:len] == len;
+            
+        if (success != YES) {
+            if (errorMessage != nil) {
+                *errorMessage = @"Unable to print to printer.";
+            }
+            NSLog(@"[ERROR] Unable to print to printer: %@", printerIP);
+            
+            return false;
+        }
+            
+        // Close the connection to release resources.
+        [printerConn close];
+    }
+    
+    if (errorMessage != nil) {
+        *errorMessage = nil;
+    }
+    
+    return true;
+}
 
 /**
  Groups the labels by the printer address.
