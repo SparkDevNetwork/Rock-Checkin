@@ -309,6 +309,9 @@ Stop the camera and cease watching for barcodes.
         if ([self.captureOutput.availableMetadataObjectTypes containsObject:AVMetadataObjectTypeQRCode]) {
             [codeTypes addObject:AVMetadataObjectTypeQRCode];
         }
+        if ([self.captureOutput.availableMetadataObjectTypes containsObject:AVMetadataObjectTypeCode39Code]) {
+            [codeTypes addObject:AVMetadataObjectTypeCode39Code];
+        }
         if ([self.captureOutput.availableMetadataObjectTypes containsObject:AVMetadataObjectTypeCode128Code]) {
             [codeTypes addObject:AVMetadataObjectTypeCode128Code];
         }
