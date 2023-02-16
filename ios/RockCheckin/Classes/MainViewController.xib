@@ -23,7 +23,7 @@
             </connections>
             <point key="canvasLocation" x="453.51562499999994" y="251.5625"/>
         </view>
-        <pongPressGestureRecognizer allowableMovement="10" minimumPressDuration="1" numberOfTouchesRequired="5" id="Iki-YV-Akd">
+        <pongPressGestureRecognizer allowableMovement="100" minimumPressDuration="1" numberOfTouchesRequired="5" id="Iki-YV-Akd">
             <connections>
                 <action selector="showSettingsViewController:" destination="-1" id="6XL-n4-MHB"/>
             </connections>
