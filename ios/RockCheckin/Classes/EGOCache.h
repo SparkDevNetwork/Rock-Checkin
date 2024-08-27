@@ -53,6 +53,7 @@
 - (void)setString:(NSString*)aString forKey:(NSString*)key;
 - (void)setString:(NSString*)aString forKey:(NSString*)key withTimeoutInterval:(NSTimeInterval)timeoutInterval;
 
+#if false
 #if TARGET_OS_IPHONE
 - (UIImage*)imageForKey:(NSString*)key;
 - (void)setImage:(UIImage*)anImage forKey:(NSString*)key;
@@ -62,6 +63,7 @@
 - (void)setImage:(NSImage*)anImage forKey:(NSString*)key;
 - (void)setImage:(NSImage*)anImage forKey:(NSString*)key withTimeoutInterval:(NSTimeInterval)timeoutInterval;
 #endif
+#endif
 
 - (NSData*)plistForKey:(NSString*)key;
 - (void)setPlist:(id)plistObject forKey:(NSString*)key;
@@ -70,9 +72,11 @@
 - (void)copyFilePath:(NSString*)filePath asKey:(NSString*)key;
 - (void)copyFilePath:(NSString*)filePath asKey:(NSString*)key withTimeoutInterval:(NSTimeInterval)timeoutInterval;	
 
+#if false
 - (id<NSCoding>)objectForKey:(NSString*)key;
 - (void)setObject:(id<NSCoding>)anObject forKey:(NSString*)key;
 - (void)setObject:(id<NSCoding>)anObject forKey:(NSString*)key withTimeoutInterval:(NSTimeInterval)timeoutInterval;
+#endif
 
 @property(nonatomic,assign) NSTimeInterval defaultTimeoutInterval; // Default is 1 day
 @end

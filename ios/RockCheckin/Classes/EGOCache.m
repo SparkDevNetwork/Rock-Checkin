@@ -272,6 +272,7 @@ static inline NSString* cachePathForKey(NSString* directory, NSString* key) {
 #pragma mark -
 #pragma mark Image methds
 
+#if false
 #if TARGET_OS_IPHONE
 
 - (UIImage*)imageForKey:(NSString*)key {
@@ -316,6 +317,7 @@ static inline NSString* cachePathForKey(NSString* directory, NSString* key) {
 }
 
 #endif
+#endif
 
 #pragma mark -
 #pragma mark Property List methods
@@ -343,6 +345,8 @@ static inline NSString* cachePathForKey(NSString* directory, NSString* key) {
 #pragma mark -
 #pragma mark Object methods
 
+#if false
+
 - (id<NSCoding>)objectForKey:(NSString*)key {
 	if([self hasCacheForKey:key]) {
 		return [NSKeyedUnarchiver unarchiveObjectWithData:[self dataForKey:key]];
@@ -358,6 +362,8 @@ static inline NSString* cachePathForKey(NSString* directory, NSString* key) {
 - (void)setObject:(id<NSCoding>)anObject forKey:(NSString*)key withTimeoutInterval:(NSTimeInterval)timeoutInterval {
 	[self setData:[NSKeyedArchiver archivedDataWithRootObject:anObject] forKey:key withTimeoutInterval:timeoutInterval];
 }
+
+#endif
 
 #pragma mark -
 
