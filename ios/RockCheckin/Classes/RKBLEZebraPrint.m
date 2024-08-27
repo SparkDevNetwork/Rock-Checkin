@@ -77,12 +77,12 @@
 /**
  Send the ZPL data to the printer in chunks that are smaller than the MTU
 
- @param zpl The full ZPL data to be sent
+ @param data The full ZPL data to be sent
  */
-- (void)sendZPLToPrinter:(NSString *)zpl
+- (void)sendZPLToPrinter:(NSData *)data
 {
-    const char *bytes = [zpl UTF8String];
-    size_t length = strlen(bytes);
+    const char *bytes = data.bytes;
+    size_t length = data.length;
     NSUInteger maxLength = [self.printer maximumWriteValueLengthForType:CBCharacteristicWriteWithResponse];
 
     for (NSUInteger i = 0; i < length;) {
@@ -99,16 +99,16 @@
 /**
  Print the specified ZPL code to the connected printer
  
- @param zpl The ZPL data to be sent to the printer
+ @param data The ZPL data to be sent to the printer
  @return YES if the label was printed or NO if an error occurred
  */
-- (BOOL)print:(NSString *)zpl
+- (BOOL)print:(NSData *)data
 {
     if (self.writePrinterCharacteristic == nil) {
         return NO;
     }
     
-    [self sendZPLToPrinter:zpl];
+    [self sendZPLToPrinter:data];
     
     return YES;
 }

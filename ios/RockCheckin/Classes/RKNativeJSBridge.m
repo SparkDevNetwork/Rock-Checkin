@@ -75,6 +75,21 @@ Initialize a new RKNativeJSBridge object that will be owned by the main view con
 
 
 /**
+ Handles the PrintV2Labels command from JavaScript.
+ 
+ @param command The native JavaScript command details.
+ */
+- (void)PrintV2Labels:(RKNativeJSCommand *)command
+{
+    ZebraPrint *zebra = [ZebraPrint new];
+    
+    NSArray *errorMessages = [zebra printLabels:(NSString *)command.arguments.firstObject];
+    
+    [command sendSuccessObject:errorMessages];
+}
+
+
+/**
 Handles the StartCamera command from JavaScript.
 
 @param command The native JavaScript command details.

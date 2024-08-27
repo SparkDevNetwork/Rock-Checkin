@@ -41,6 +41,19 @@
             });
         },
         
+        PrintV2Labels: function(tagJson) {
+            return new Promise(function(resolve, reject) {
+                var promiseId = uuidv4();
+                promises[promiseId] = { resolve, reject };
+                
+                global.webkit.messageHandlers.RockCheckinNative.postMessage({
+                    name: 'PrintV2Labels',
+                    promiseId,
+                    data: [tagJson]
+                });
+            });
+        },
+        
         StartCamera: function(passive) {
             return new Promise(function(resolve, reject) {
                 var promiseId = uuidv4();

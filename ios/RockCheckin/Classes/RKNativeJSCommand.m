@@ -122,7 +122,7 @@ Send back a success result with the specified dictionary as the first JavaScript
 
 @param response The dictionary to be conerted into JSON notation and sent back as the first JavaScript parameter.
 */
-- (void)sendSuccessObject:(NSDictionary *)response
+- (void)sendSuccessObject:(id)response
 {
     NSString *json;
     

@@ -428,8 +428,9 @@
     ZebraPrint *printer = [ZebraPrint new];
     NSString *printerAddress = [SettingsHelper stringForKey:@"printer_override"];
     NSString *errorMessage = nil;
+    NSData *labelData = [testLabel dataUsingEncoding:NSUTF8StringEncoding];
     
-    BOOL success = [printer printLabelContent:testLabel toPrinter:printerAddress error:&errorMessage];
+    BOOL success = [printer printLabelContent:labelData toPrinter:printerAddress error:&errorMessage];
 
     //
     // Display an alert telling the user if it worked or not.

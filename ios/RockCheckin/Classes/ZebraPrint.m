@@ -119,7 +119,8 @@ Process a Javascript request to print the label tags.
                         }
                         
                         NSString *printError = nil;
-                        if (![self printLabelContent:mergedLabel toPrinter:printerAddress error:&printError])
+                        NSData *labelData = [mergedLabel dataUsingEncoding:NSUTF8StringEncoding];
+                        if (![self printLabelContent:labelData toPrinter:printerAddress error:&printError])
                         {
                             errorMessage = printError;
                             labelErrorOccurred = YES;
@@ -143,15 +144,82 @@ Process a Javascript request to print the label tags.
 }
 
 
+- (NSArray *)printLabels:(NSString *)jsonString
+{
+    NSLog(@"[LOG] ZebraPrint Plugin Called");
+    
+    // if no json data sent return error
+    if (jsonString == nil || [jsonString length] == 0) {
+        NSLog(@"[ERROR] No label data sent to print");
+        return @[@"No label data sent to print"];
+    }
+
+    // we have something, let's parse the json
+    SBJsonParser *parser = [[SBJsonParser alloc] init];
+    NSArray *labels = [parser objectWithString:jsonString];
+    parser = nil;
+
+    if (labels == nil || [labels count] == 0) {
+        // json was not able to be parsed
+        NSLog(@"[ERROR] JSON was not able to be parsed: %@", parser.error);
+        return @[[NSString stringWithFormat:@"An error occurred: %@", parser.error]];
+    }
+
+    // we have parsed successfully
+    NSLog(@"[LOG] ZebraPrint plugin has parsed %lu labels", (unsigned long)[labels count]);
+    
+    NSMutableArray *failedPrinters = [[NSMutableArray alloc] init];
+    NSMutableArray *errorMessages = [[NSMutableArray alloc] init];
+    
+    for (id label in labels) {
+        NSString *printerAddress = [SettingsHelper stringForKey:@"printer_override"];
+        
+        if (printerAddress == nil || printerAddress.length == 0) {
+            printerAddress = [label objectForKey:@"PrinterAddress"];
+            
+            if (printerAddress == nil) {
+                printerAddress = [label objectForKey:@"printerAddress"];
+            }
+        }
+        
+        NSString *labelContent = [label objectForKey:@"Data"];
+        NSData *labelData = NSData.data;
+        
+        if (labelContent == nil) {
+            labelContent = [label objectForKey:@"data"];
+        }
+        
+        if (labelContent != nil && labelContent.length != 0) {
+            labelData = [[NSData alloc] initWithBase64EncodedString:labelContent options:0];
+        }
+        
+        // If we already failed to connect to this printer, don't waste time.
+        if ([failedPrinters containsObject:printerAddress]) {
+            continue;
+        }
+        
+        // get label contents
+        NSString *printError = nil;
+        if (![self printLabelContent:labelData toPrinter:printerAddress error:&printError])
+        {
+            [failedPrinters addObject:printerAddress];
+            [errorMessages addObject:printError];
+        }
+    }
+    
+    return errorMessages;
+}
+
+
 /**
  Prints a single label to the printer.
  
- @param labelContent The text contents to be sent to the printer.
+ @param labelContent The data contents to be sent to the printer.
  @param printerAddress The printer address or name to connect to.
  @param errorMessage Contains any error message on return if method returns NO.
  @returns YES if the label was printed or NO if an error occurred.
  */
-- (BOOL)printLabelContent:(NSString *)labelContent toPrinter:(NSString *)printerAddress error:(NSString **)errorMessage
+- (BOOL)printLabelContent:(NSData *)labelContent toPrinter:(NSString *)printerAddress error:(NSString **)errorMessage
 {
     NSString *printerIP, *printerPort;
     
@@ -177,7 +245,6 @@ Process a Javascript request to print the label tags.
         printerPort = @"9100";
     }
     
-    NSLog(@"Printing label to %@: %@", printerAddress, labelContent);
     if ([SettingsHelper boolForKey:@"bluetooth_printing"])
     {
         RKBLEZebraPrint *printer = AppDelegate.sharedDelegate.blePrinter;
@@ -196,8 +263,8 @@ Process a Javascript request to print the label tags.
         FastSocket *printerConn = [[FastSocket alloc] initWithHost:printerIP andPort:printerPort];
             
         BOOL success = [printerConn connect:printerTimeout];
-        const char *bytes = [labelContent UTF8String];
-        long len = strlen(bytes);
+        const void *bytes = labelContent.bytes;
+        long len = labelContent.length;
             
         success = success && [printerConn sendBytes:bytes count:len] == len;
             

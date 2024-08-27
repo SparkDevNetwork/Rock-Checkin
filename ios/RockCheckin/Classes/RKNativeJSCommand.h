@@ -92,7 +92,7 @@ NS_ASSUME_NONNULL_BEGIN
  
  @param response The dictionary to be conerted into JSON notation and sent back as the first JavaScript parameter.
  */
-- (void)sendSuccessObject:(NSDictionary *)response;
+- (void)sendSuccessObject:(id)response;
 
 
 /**

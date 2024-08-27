@@ -21,9 +21,9 @@
 /**
  Print the specified ZPL code to the connected printer
 
- @param zpl The ZPL data to be sent to the printer
+ @param data The ZPL data to be sent to the printer
  @return YES if the label was printed or NO if an error occurred
  */
-- (BOOL)print:(NSString *)zpl;
+- (BOOL)print:(NSData *)data;
 
 @end
