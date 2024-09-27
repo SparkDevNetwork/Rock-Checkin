@@ -62,7 +62,6 @@ jobs:
             -destination generic/platform=iOS \
             clean archive \
             CODE_SIGN_STYLE=Manual \
-            DEVELOPMENT_TEAM=QG6N59LRU9 \
             CODE_SIGN_IDENTITY="iPhone Distribution" \
             PROVISIONING_PROFILE_SPECIFIER="Rock Mobile GitHub Build"
 
