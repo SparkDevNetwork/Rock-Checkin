@@ -38,19 +38,21 @@ jobs:
           # apply provisioning profile
           mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
           cp $PP_PATH ~/Library/MobileDevice/Provisioning\ Profiles
-          ls -l ~/Library/MobileDevice/Provisioning\ Profiles
+          #ls -l ~/Library/MobileDevice/Provisioning\ Profiles
 
-          echo "Certificate Identity:"
-          security find-identity -v -p codesigning $KEYCHAIN_PATH | grep -o '".*"' | tr -d '"'
+          #echo "Certificate Identity:"
+          #security find-identity -v -p codesigning $KEYCHAIN_PATH | grep -o '".*"' | tr -d '"'
 
-          echo "Provisioning Proviles:"
+          #echo "Provisioning Proviles:"
           for profile in ~/Library/MobileDevice/Provisioning\ Profiles/*.mobileprovision; do
               # Extracting and displaying some key information from the provisioning profile
-              echo "Profile:"
-              security cms -D -i "$profile" | plutil -extract Name xml1 -o - - | xmllint --xpath 'string(//string)' -
-              security cms -D -i "$profile" | plutil -extract TeamName xml1 -o - - | xmllint --format -
-              security cms -D -i "$profile" | plutil -extract UUID xml1 -o - - | xmllint --format -
-          done          
+              #echo "Profile:"
+              PROFILE_NAME=$(security cms -D -i "$profile" | plutil -extract Name xml1 -o - - | xmllint --xpath 'string(//string)' -)
+              #security cms -D -i "$profile" | plutil -extract TeamName xml1 -o - - | xmllint --format -
+              #security cms -D -i "$profile" | plutil -extract UUID xml1 -o - - | xmllint --format -
+          done
+
+          echo "PROFILE_NAME=$PROFILE_NAME" >> $GITHUB_ENV
 
       - name: build archive
         run: |
@@ -62,7 +64,8 @@ jobs:
             -destination generic/platform=iOS \
             clean archive \
             CODE_SIGN_STYLE=Manual \
-            CODE_SIGN_IDENTITY="iPhone Distribution"
+            CODE_SIGN_IDENTITY="iPhone Distribution" \
+            PROVISIONING_PROFILE_SPECIFIER="${{ env.PROFILE_NAME }}"
 
       - name: export ipa
         env:
