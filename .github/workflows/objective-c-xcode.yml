@@ -37,7 +37,20 @@ jobs:
 
           # apply provisioning profile
           mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
-          cp $PP_PATH ~/Library/MobileDevice/Provisioning\ Profiles          
+          cp $PP_PATH ~/Library/MobileDevice/Provisioning\ Profiles
+          ls -l ~/Library/MobileDevice/Provisioning\ Profiles
+
+          echo "Certificate Identity:"
+          security find-identity -v -p codesigning $KEYCHAIN_PATH | grep -o '".*"' | tr -d '"'
+
+          echo "Provisioning Proviles:"
+          for profile in ~/Library/MobileDevice/Provisioning\ Profiles/*.mobileprovision; do
+              # Extracting and displaying some key information from the provisioning profile
+              echo "Profile:"
+              security cms -D -i "$profile" | plutil -extract Name xml1 -o - - | xmllint --xpath 'string(//string)' -
+              security cms -D -i "$profile" | plutil -extract TeamName xml1 -o - - | xmllint --format -
+              security cms -D -i "$profile" | plutil -extract UUID xml1 -o - - | xmllint --format -
+          done          
 
       - name: build archive
         run: |
