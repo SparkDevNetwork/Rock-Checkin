@@ -8,7 +8,7 @@ jobs:
     runs-on: macos-latest
     steps:
       - name: checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4.2.0
 
       - name: Install the Apple certificate and provisioning profile
         env:
@@ -78,8 +78,9 @@ jobs:
           ls -l $RUNNER_TEMP/build
 
       - name: Upload application
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: app
-          path: ${{ runner.temp }}/build/RockCheckin.ipa
+          if-no-files-found: error
+          path: "${{ runner.temp }}/build/Rock Check-in.ipa"
           retention-days: 3
