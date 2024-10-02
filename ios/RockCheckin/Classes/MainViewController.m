@@ -60,6 +60,9 @@
     
     self.webView = [WKWebView new];
     self.webView.navigationDelegate = self;
+    if (@available(iOS 16.4, *)) {
+        self.webView.inspectable = YES;
+    }
     self.webView.translatesAutoresizingMaskIntoConstraints = false;
     [self.view addSubview:self.webView];
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.webView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeTop multiplier:1 constant:0]];
