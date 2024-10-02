@@ -265,6 +265,10 @@ Stop the camera and cease watching for barcodes.
 - (void)setupCamera
 {
     [self verifyCameraPermission:^(BOOL success) {
+        if (!success) {
+            return;
+        }
+
         AVCaptureDevice *device = nil;
         NSString *position = [SettingsHelper stringForKey:@"camera_position"];
         float exposure = [SettingsHelper floatForKey:@"camera_exposure"];
