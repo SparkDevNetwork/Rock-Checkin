@@ -56,13 +56,14 @@ jobs:
 
       - name: Get Timestamp
         id: timestamp
-        uses: release-kit/unix-timestamp@v1
+        shell: bash
+        run: echo TIMESTAMP=`date +%s` >> $GITHUB_ENV
 
       - name: Update Build Number
         uses: damienaicheh/update-ios-version-info-plist-action@v1.2.0
         with:
           info-plist-path: "./ios/RockCheckin/RockCheckin-Info.plist"
-          bundle-version: "${{ steps.timestamp.outputs.timestamp }}"
+          bundle-version: "${{ env.TIMESTAMP }}"
           print-file: true
 
       - name: Build Archive
