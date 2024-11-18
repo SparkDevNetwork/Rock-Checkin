@@ -94,28 +94,8 @@ Process a Javascript request to print the label tags.
                         //
                         if (enableLabelCutting)
                         {
-                            mergedLabel = [mergedLabel stringByReplacingOccurrencesOfString:@"^MMT"
-                                                                                 withString:@""];
-                            
-                            //
-                            // Here we are forcing the printer into cut mode (because
-                            // we don't know if it has been put into cut-mode already) even
-                            // though we might be suppressing the cut below. This is correct.
-                            //
-                            mergedLabel = [self replaceIn:mergedLabel
-                                               ifEndsWith:@"^XZ"
-                                               withString:@"^MMC^XZ"];
-                            
-                            //
-                            // If it's not the last label or a "ROCK_CUT" label, then
-                            // we inject a supress back-feed (^XB) command which will supress the cut.
-                            //
-                            if (!(labelIndex == printerLabels.count || [mergedLabel rangeOfString:@"ROCK_CUT"].location != NSNotFound))
-                            {
-                                mergedLabel = [self replaceIn:mergedLabel
-                                                   ifEndsWith:@"^XZ"
-                                                   withString:@"^XB^XZ"];
-                            }
+                            mergedLabel = [self amendLabelDataWithCutCommands:mergedLabel
+                                                                    lastLabel:labelIndex == printerLabels.count];
                         }
                         
                         NSString *printError = nil;
@@ -143,9 +123,52 @@ Process a Javascript request to print the label tags.
     return errorMessage;
 }
 
+/**
+ Modifies the labelData string and returns a new string after any cut commands have
+ been set.
+ 
+ @param labelData The UTF-8 string that contains the ZPL data to print.
+ @param lastLabel Should be true to indicate that this is the last label in the set.
+ */
+- (NSString *)amendLabelDataWithCutCommands:(NSString *)labelData lastLabel:(BOOL)lastLabel
+{
+    labelData = [labelData stringByReplacingOccurrencesOfString:@"^MMT"
+                                                     withString:@""];
+    
+    //
+    // Here we are forcing the printer into cut mode (because
+    // we don't know if it has been put into cut-mode already) even
+    // though we might be suppressing the cut below. This is correct.
+    //
+    labelData = [self replaceIn:labelData
+                     ifEndsWith:@"^XZ"
+                     withString:@"^MMC^XZ"];
+    
+    //
+    // If it's not the last label or a "ROCK_CUT" label, then
+    // we inject a supress back-feed (^XB) command which will supress the cut.
+    //
+    if (!(lastLabel || [labelData rangeOfString:@"ROCK_CUT"].location != NSNotFound))
+    {
+        labelData = [self replaceIn:labelData
+                         ifEndsWith:@"^XZ"
+                         withString:@"^XB^XZ"];
+    }
 
+    return labelData;
+}
+
+
+/**
+ Prints a set of labels from v2 check-in.
+ 
+ @param jsonString The JSON string that was received from the v2 kiosk JavaScript.
+ */
 - (NSArray *)printLabels:(NSString *)jsonString
 {
+    BOOL enableLabelCutting = [SettingsHelper boolForKey:@"enable_label_cutting"];
+    int labelIndex = 0;
+
     NSLog(@"[LOG] ZebraPrint Plugin Called");
     
     // if no json data sent return error
@@ -172,6 +195,8 @@ Process a Javascript request to print the label tags.
     NSMutableArray *errorMessages = [[NSMutableArray alloc] init];
     
     for (id label in labels) {
+        labelIndex++;
+        
         NSString *printerAddress = [SettingsHelper stringForKey:@"printer_override"];
         
         if (printerAddress == nil || printerAddress.length == 0) {
@@ -198,7 +223,16 @@ Process a Javascript request to print the label tags.
             continue;
         }
         
-        // get label contents
+        if (enableLabelCutting) {
+            NSString *labelText = [[NSString alloc] initWithData:labelData encoding:NSUTF8StringEncoding];
+            
+            labelText = [self trimTrailing:labelText];
+            labelText = [self amendLabelDataWithCutCommands:labelText
+                                                  lastLabel:labelIndex == labels.count];
+            
+            labelData = [labelText dataUsingEncoding:NSUTF8StringEncoding];
+        }
+        
         NSString *printError = nil;
         if (![self printLabelContent:labelData toPrinter:printerAddress error:&printError])
         {
