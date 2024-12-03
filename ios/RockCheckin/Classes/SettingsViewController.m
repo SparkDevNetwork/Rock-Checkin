@@ -29,6 +29,7 @@
 @property (weak, nonatomic) IBOutlet UITextField *printerTimeout;
 @property (weak, nonatomic) IBOutlet UITableView *bluetoothPrinter;
 @property (weak, nonatomic) IBOutlet UIButton *printTestLabel;
+@property (weak, nonatomic) IBOutlet UILabel *versionLabel;
 
 @property (strong, nonatomic) CBCentralManager  *centralManager;
 @property (strong, nonatomic) NSMutableArray *discoveredPrinters;
@@ -183,6 +184,11 @@
  */
 - (void)setInitialValues
 {
+    NSString *version = [NSBundle.mainBundle objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
+    NSString *build = [NSBundle.mainBundle objectForInfoDictionaryKey:(NSString *)kCFBundleVersionKey];
+    
+    self.versionLabel.text = [NSString stringWithFormat: @"Version %@\n(%@)", version, build];
+    
     self.checkinAddress.text = [SettingsHelper objectForKey:@"checkin_address"];
     self.enableLabelCaching.on = [SettingsHelper boolForKey:@"enable_caching"];
     self.cacheDuration.text = [SettingsHelper objectForKey:@"cache_duration"];
