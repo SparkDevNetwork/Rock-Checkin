@@ -202,11 +202,23 @@ Process a Javascript request to print the label tags.
         if (printerAddress == nil || printerAddress.length == 0) {
             printerAddress = [label objectForKey:@"PrinterAddress"];
             
+            if ([printerAddress isKindOfClass:NSNull.class]) {
+                printerAddress = nil;
+            }
+            
             if (printerAddress == nil) {
                 printerAddress = [label objectForKey:@"printerAddress"];
+
+                if ([printerAddress isKindOfClass:NSNull.class]) {
+                    printerAddress = nil;
+                }
             }
         }
         
+        if (printerAddress == nil || printerAddress.length == 0) {
+            continue;
+        }
+
         NSString *labelContent = [label objectForKey:@"Data"];
         NSData *labelData = NSData.data;
         
