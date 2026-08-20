@@ -438,7 +438,7 @@ Stop the camera and cease watching for barcodes.
             
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
             [self.delegate cameraViewController:self
-                          didScanPreCheckInCode:[code substringFromIndex:4]
+                          didScanPreCheckInCode:code
                               completedCallback:^(NSString *errorMessage) {
                                   double waitForSeconds = [waitUntil timeIntervalSinceNow];
                                   if (waitForSeconds < 0) {

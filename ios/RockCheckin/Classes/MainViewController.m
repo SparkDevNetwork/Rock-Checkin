@@ -344,7 +344,12 @@
     NSURLComponents *urlComponents = [NSURLComponents componentsWithString:[SettingsHelper objectForKey:@"checkin_address"]];
     urlComponents.path = @"/api/checkin/printsessionlabels";
     NSURLQueryItem *kioskIdParam = [NSURLQueryItem  queryItemWithName:@"kioskId" value:[NSString stringWithFormat:@"%d", self.kioskId]];
-    NSURLQueryItem *sessionParam = [NSURLQueryItem queryItemWithName:@"session" value:code];
+
+    //
+    // The endpoint expects the session identifiers on their own, without the
+    // prefix that marks the code as a pre-check-in label code.
+    //
+    NSURLQueryItem *sessionParam = [NSURLQueryItem queryItemWithName:@"session" value:[code substringFromIndex:4]];
     urlComponents.queryItems = @[kioskIdParam, sessionParam];
 
     NSURLRequest *urlRequest = [NSURLRequest requestWithURL:urlComponents.URL];
@@ -376,9 +381,22 @@
                     
                     ZebraPrint *zebra = [ZebraPrint new];
                     errorMessage = [zebra printJsonTags:[[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding]];
-                }
 
-                callback(errorMessage);
+                    callback(errorMessage);
+                }
+                else {
+                    //
+                    // Label data is only stored on the attendance records when the
+                    // check-in was recorded by the legacy check-in system. Anything
+                    // else is handed to the check-in page, which knows how to print
+                    // it, rather than reported as a failure here.
+                    //
+                    callback(nil);
+
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [self cameraViewController:controller didScanGenericCode:code];
+                    });
+                }
             }
             else
             {
