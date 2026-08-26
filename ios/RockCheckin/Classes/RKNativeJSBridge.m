@@ -31,6 +31,8 @@ under the License.
 @interface RKNativeJSBridge ()
 
 @property (weak, nonatomic) MainViewController *mainViewController;
+@property (strong, nonatomic) NSMutableArray *promiseWaiters;
+@property (strong, nonatomic) NSLock *promiseWaitersLock;
 
 @end
 
@@ -49,6 +51,8 @@ Initialize a new RKNativeJSBridge object that will be owned by the main view con
     }
     
     self.mainViewController = controller;
+    self.promiseWaiters = [[NSMutableArray alloc] init];
+    self.promiseWaitersLock = [[NSLock alloc] init];
     
     return self;
 }
@@ -132,5 +136,107 @@ Handles the StopCamera command from JavaScript.
     self.mainViewController.kioskId = [command.arguments[0] intValue];
 }
 
+- (void)ResolvePromise:(RKNativeJSCommand *)command
+{
+    if (command.arguments.count == 0) {
+        return;
+    }
+
+    RKPromiseWaiter *foundWaiter = nil;
+    NSString *promiseId = command.arguments[0];
+    id result = command.arguments[1];
+    id errorMessage = command.arguments[2];
+    
+    if (result == NSNull.null) {
+        result = nil;
+    }
+    
+    if (errorMessage == NSNull.null) {
+        errorMessage = nil;
+    }
+    
+    [self.promiseWaitersLock lock];
+    @try {
+        for (int i = 0; i < self.promiseWaiters.count; i++) {
+            RKPromiseWaiter *waiter = self.promiseWaiters[i];
+
+            if ([waiter.promiseId isEqualToString:promiseId]) {
+                foundWaiter = waiter;
+                [self.promiseWaiters removeObjectAtIndex:i];
+                break;
+            }
+        }
+    }
+    @finally {
+        [self.promiseWaitersLock unlock];
+    }
+    
+    if (foundWaiter != nil) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            foundWaiter.callback(result, errorMessage);
+        });
+    }
+}
+
+- (RKPromiseWaiter *)createPromiseWaiterWithCompletionHandler:(WaiterCompletionBlock)callback
+{
+    NSTimeInterval now = NSDate.timeIntervalSinceReferenceDate;
+    
+    [self.promiseWaitersLock lock];
+    @try {
+        // Look for any expired waiters.
+        for (int i = 0; i < self.promiseWaiters.count; i++) {
+            RKPromiseWaiter *existingWaiter = self.promiseWaiters[i];
+            if (existingWaiter.expireAt < now) {
+                [self.promiseWaiters removeObjectAtIndex:i];
+                i--;
+            }
+        }
+
+        RKPromiseWaiter *waiter = [[RKPromiseWaiter alloc] init];
+        waiter.callback = callback;
+        [self.promiseWaiters addObject:waiter];
+        
+        return waiter;
+    }
+    @finally {
+        [self.promiseWaitersLock unlock];
+    }
+}
+
+- (void)destroyPromiseWaiter:(RKPromiseWaiter *)waiter
+{
+    [self.promiseWaitersLock lock];
+    @try {
+        for (int i = 0; i < self.promiseWaiters.count; i++) {
+            RKPromiseWaiter *waiter = self.promiseWaiters[i];
+
+            if ([waiter.promiseId isEqualToString:waiter.promiseId]) {
+                [self.promiseWaiters removeObjectAtIndex:i];
+                return;
+            }
+        }
+    }
+    @finally {
+        [self.promiseWaitersLock unlock];
+    }
+}
+
 @end
 
+@implementation RKPromiseWaiter
+
+- (RKPromiseWaiter *)init
+{
+    if ((self = [super init]) == nil)
+    {
+        return nil;
+    }
+    
+    self.promiseId = [[NSUUID UUID] UUIDString];
+    self.expireAt = NSDate.timeIntervalSinceReferenceDate + 300;
+
+    return self;
+}
+
+@end

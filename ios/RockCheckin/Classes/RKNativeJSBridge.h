@@ -30,6 +30,16 @@ under the License.
 
 NS_ASSUME_NONNULL_BEGIN
 
+typedef void (^WaiterCompletionBlock)(id result, NSString *errorMessage);
+
+@interface RKPromiseWaiter : NSObject
+
+@property (strong, nonatomic) NSString *promiseId;
+@property (copy, nonatomic) WaiterCompletionBlock callback;
+@property (assign, nonatomic) NSTimeInterval expireAt;
+
+@end
+
 @interface RKNativeJSBridge : NSObject
 
 /**
@@ -38,6 +48,9 @@ NS_ASSUME_NONNULL_BEGIN
  @param controller The MainViewController to pass messages along to.
  */
 - (id)initWithMainController:(MainViewController *)controller;
+
+- (RKPromiseWaiter *)createPromiseWaiterWithCompletionHandler:(WaiterCompletionBlock)callback;
+- (void)destroyPromiseWaiter:(RKPromiseWaiter *)waiter;
 
 @end
 

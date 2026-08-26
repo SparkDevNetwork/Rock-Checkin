@@ -436,7 +436,7 @@ Stop the camera and cease watching for barcodes.
         self.printErrorMessageLabel.hidden = YES;
         self.printView.hidden = NO;
             
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        dispatch_async(dispatch_get_main_queue(), ^{
             [self.delegate cameraViewController:self
                           didScanPreCheckInCode:[code substringFromIndex:4]
                               completedCallback:^(NSString *errorMessage) {

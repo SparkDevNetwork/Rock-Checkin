@@ -149,7 +149,8 @@
     else {
         // Force the view to load.
         [self.cameraViewController view];
-        [self.navigationController pushViewController:self.cameraViewController animated:YES];
+        self.cameraViewController.modalPresentationStyle = UIModalPresentationOverFullScreen;
+        [self presentViewController:self.cameraViewController animated:YES completion:nil];
     }
 
     self.passiveMode = passive;
@@ -175,8 +176,8 @@
         self.cameraViewController.view.hidden = NO;
         [self.cameraViewController removeFromParentViewController];
     }
-    else if (self.navigationController.topViewController == self.cameraViewController) {
-        [self.navigationController popViewControllerAnimated:YES];
+    else if (self.presentedViewController == self.cameraViewController) {
+        [self dismissViewControllerAnimated:YES completion:nil];
     }
     
     self.cameraViewController = nil;
@@ -229,6 +230,33 @@
 }
 
 
+- (void)printNativePreCheckInLabelsForCode:(NSString *)code completedCallback:(void (^)(NSString *))callback
+{
+    RKPromiseWaiter *waiter = [self.nativeBridge createPromiseWaiterWithCompletionHandler:^(id result, NSString *errorMessage) {
+        if (errorMessage == nil && result != nil && [result isKindOfClass:[NSString class]]) {
+            errorMessage = result;
+        }
+
+        callback(errorMessage);
+    }];
+
+    NSString *js = [NSString stringWithFormat:
+                    @"(function() {"
+                    "  PrintPreCheckInLabels('%@')"
+                    "  .then(function(result) { window.webkit.messageHandlers.RockCheckinNative.postMessage({ promiseId: '', name: 'ResolvePromise', data: ['%@', result, null] })})"
+                    "  .catch(function(error) { window.webkit.messageHandlers.RockCheckinNative.postMessage({ promiseId: '', name: 'ResolvePromise', data: ['%@', null, String(error)] })});"
+                    "})()",
+                    code,
+                    waiter.promiseId,
+                    waiter.promiseId];
+    
+    [self.webView evaluateJavaScript:js completionHandler:^(id result, NSError *error) {
+        if (error != nil) {
+            callback(error.description);
+        }
+    }];
+}
+
 #pragma mark Javascript Injection
 
 /**
@@ -254,6 +282,47 @@
             [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:[NSDate dateWithTimeIntervalSinceNow:1]];
         }
     }
+}
+
+/**
+ Execute the specified  JavaScript in the web view.
+ 
+ @param  js The JavaScript text to be executed.
+ */
+- (NSString *)evaluateScriptReturningString:(NSString *)js
+{
+    if ([self.webView isKindOfClass:[WKWebView class]])
+    {
+        //
+        // WKWebView processes JavaScript asynchronously, so we need to do
+        // some special work to pause processing until it has completed.
+        //
+        dispatch_semaphore_t sema = dispatch_semaphore_create(0);
+        NSString __block *scriptResult = nil;
+        
+        [(WKWebView *)self.webView evaluateJavaScript:js completionHandler:^(id _Nullable result, NSError * _Nullable error) {
+            if (result != nil && [result isKindOfClass:[NSString class]]) {
+                scriptResult = result;
+            }
+
+            dispatch_semaphore_signal(sema);
+        }];
+        
+        while (dispatch_semaphore_wait(sema, DISPATCH_TIME_NOW)) {
+            [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:[NSDate dateWithTimeIntervalSinceNow:1]];
+        }
+        
+        return scriptResult;
+    }
+
+    return nil;
+}
+
+- (bool)isPrintPreCheckInLabelsSupported
+{
+    NSString *result = [self evaluateScriptReturningString:@"String(window[\"PrintPreCheckInLabels\"] !== undefined)"];
+    
+    return result != nil && [result isEqualToString:@"true"];
 }
 
 
@@ -341,6 +410,11 @@
  */
 - (void)cameraViewController:(CameraViewController *)controller didScanPreCheckInCode:(NSString *)code completedCallback:(void (^)(NSString *))callback
 {
+    if ([self isPrintPreCheckInLabelsSupported]) {
+        [self printNativePreCheckInLabelsForCode:code completedCallback:callback];
+        return;
+    }
+
     NSURLComponents *urlComponents = [NSURLComponents componentsWithString:[SettingsHelper objectForKey:@"checkin_address"]];
     urlComponents.path = @"/api/checkin/printsessionlabels";
     NSURLQueryItem *kioskIdParam = [NSURLQueryItem  queryItemWithName:@"kioskId" value:[NSString stringWithFormat:@"%d", self.kioskId]];
